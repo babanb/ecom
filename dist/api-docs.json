@@ -1,0 +1,292 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Sample spec",
+    "description": "Sample spec for Swagger",
+    "termsOfService": "http://swagger.io/terms/"
+  },
+  "basePath": "/",
+  "tags" : [
+    {"name": "things", 
+    "description": "API for something"
+    },
+    {"name": "itemMaster", 
+    "description": "API for itemMaster"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/things": {
+       "get": {
+          "tags": ["things"],
+          "description": "what this API does",
+          "operationId": "get",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+              "schema": {
+                "$ref": "#/definitions/get"
+                }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create response",
+              "schema": {
+                 "$ref": "#/definitions/response"
+              }
+            }
+          }
+        }
+    },
+  "/api/products": {
+        "post":{
+          "tags":["products"],
+          "description":"add products",
+          "operationId":"post",
+          "type": "object",
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+            {
+                "name":"body",
+                "paramType": "body",
+                "description": "add products",
+                "required": true,
+                "type": "itemMaster"
+              }
+            ],
+          "responses": {
+            "200": {
+              "description": "create response",
+              "schema":{
+                "$ref":"#/definitions/create"
+              }
+            }
+          }
+        },
+         "get": {
+          "tags": ["products"],
+          "description": "what this API does",
+          "operationId": "get",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+              "schema": {
+                "$ref": "#/definitions/get"
+                }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create response",
+              "schema": {
+                 "$ref": "#/definitions/response"
+              }
+            }
+          }
+        }
+  },
+
+    "/api/products/ID": {
+        "delete":{
+          "tags":["products"],
+          "description":"Deletes a something",
+          "operationId":"delete",
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+              {
+                "name": "someVariable",
+                "in": "path",
+                "description": "ID to delete",
+                "required": true,
+                "type": "string"
+              }
+            ],
+          "responses": {
+            "200": {
+              "description": "delete response",
+              "schema":{
+                "$ref":"#/definitions/deleteRes"
+              }
+            }
+          }
+        },
+      "get":{
+          "tags": [ "products"],
+          "description": "Returns the status of something",
+          "operationId": "findById",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "ID",
+                "in": "path",
+                "description": "ID to fetch",
+                "required": true,
+                "type": "string"
+              }
+            ],
+        "responses": {
+            "200": {
+              "description": "response",
+              "schema": {
+                "$ref": "#/definitions/response1"
+              }
+            }
+          }
+        }
+      }
+  },
+
+  "definitions": {
+    "create": {
+      "properties": {
+        "eventId": {
+          "required":true,
+          "type": "products",
+          "example": {
+                  "active": "boolean",
+                  "newOld": "string",
+                  "description": "string",
+                  "externalProductId": "string",
+                  "model": "string",
+                  "make": "string",
+                  "productSiteLaunchDate": "date",
+                  "merchantReleaseDate": "date",
+                  "restockDate": "date",
+                  "quantity": "Number",
+                  "saleFromDate": "date",
+                  "saleEndDate": "date",
+                  "maxShipQty": "Number",
+                  "itemPackageQty": "Number",
+                  "numberOfItems": "Number",
+                  "isGiftwrapped": "boolean",
+                  "isDiscontinuedByManufacturer": "boolean",
+                  "isGiftMessaged": "string",
+                  "shippingWeight": "string",
+                  "shippingWeightUnitOfMeasure": "string",
+                  "weightUnitOfMeasure": "string",
+                  "length": "string",
+                  "width": "string",
+                  "height": "string",
+                  "point1": "string",
+                  "point2": "string",
+                  "point3": "string",
+                  "point4": "string",
+                  "point5": "string",
+                  "s3": "string",
+                  "s4": "string",
+                  "s5": "string",
+                  "p3": "string",
+                  "p4": "string",
+                  "s6": "string",
+                  "otherImageUrl": "string",
+                  "otherImageUrl1": "string",
+                  "otherImageUrl2": "string",
+                  "otherImageUrl3": "string",
+                  "otherImageUrl4": "string",
+                  "otherImageUrl5": "string",
+                  "otherImageUrl6": "string",
+                  "otherImageUrl7": "string",
+                  "otherImageUrl8": "string",
+                  "color": "string",
+                  "size": "string",
+                  "sizeMap": "string",
+                  "colorMap": "string",
+                  "discount": "string",
+                  "finalDiscount": "string",
+                  "spcialOffer": "string",
+                  "offer1": "string",
+                  "offer4": "string",
+                  "offerAmt": "string",
+                  "offerPrice": "string",
+                  "discountOnDiscount": "string",
+                  "brand": "string",
+                  "listPrice": "string",
+                  "mainImageUrl": "string",
+                  "name": "string",
+                  "p1": "string",
+                  "s1": "string",
+                  "s2": "string",
+                  "p2": "string",
+                  "salePrice": "Number",
+                  "sku": "string",
+                  "dept": "string",
+                  "cat": "string",
+                  "vendorID": "string",
+                  "instock": "string",
+                  "subCat": "string",
+                  "itemID": "Number",
+                  "FeatureID": "Number"
+                }
+        } 
+      }
+    },
+    "response1": {
+        "properties": {
+          "jobID": {
+            "required":true,
+            "type": "string",
+            "example": "23423456543"
+          },
+          "request": {
+            "required":true,
+            "type": "schema",
+            "example": {
+              "eventId":"mathmaticial",
+              "numberRequired": 500
+            }
+          }
+      }
+    },
+    "response": {
+        "properties": {
+            "jobID": {
+              "required": true,
+              "type" : "string",
+              "example" : "12321432423"
+            }
+        }
+    },
+    "delete": {
+        "properties": {
+            "jobID": {
+              "required": true,
+              "type" : "string",
+              "example" : "234344234234"
+            },
+            "status" : {
+              "required": true,
+              "type": "string",
+              "example": "deleted"
+            }
+        }
+    },
+    "400error" : {
+       "properties": {
+        "message": {
+          "type": "string",
+          "example" : "400 Bad Request"
+        }
+      }
+    }
+  }
+}
