@@ -3,12 +3,12 @@
 var app = require('../..');
 var request = require('supertest');
 
-var newProductMaster;
+var newProducts;
 
-describe('ProductMaster API:', function() {
+describe('Products API:', function() {
 
   describe('GET /api/products', function() {
-    var productMasters;
+    var productss;
 
     beforeEach(function(done) {
       request(app)
@@ -19,13 +19,13 @@ describe('ProductMaster API:', function() {
           if (err) {
             return done(err);
           }
-          productMasters = res.body;
+          productss = res.body;
           done();
         });
     });
 
     it('should respond with JSON array', function() {
-      productMasters.should.be.instanceOf(Array);
+      productss.should.be.instanceOf(Array);
     });
 
   });
@@ -35,8 +35,8 @@ describe('ProductMaster API:', function() {
       request(app)
         .post('/api/products')
         .send({
-          name: 'New ProductMaster',
-          info: 'This is the brand new productMaster!!!'
+          name: 'New Products',
+          info: 'This is the brand new products!!!'
         })
         .expect(201)
         .expect('Content-Type', /json/)
@@ -44,24 +44,24 @@ describe('ProductMaster API:', function() {
           if (err) {
             return done(err);
           }
-          newProductMaster = res.body;
+          newProducts = res.body;
           done();
         });
     });
 
-    it('should respond with the newly created productMaster', function() {
-      newProductMaster.name.should.equal('New ProductMaster');
-      newProductMaster.info.should.equal('This is the brand new productMaster!!!');
+    it('should respond with the newly created products', function() {
+      newProducts.name.should.equal('New Products');
+      newProducts.info.should.equal('This is the brand new products!!!');
     });
 
   });
 
   describe('GET /api/products/:id', function() {
-    var productMaster;
+    var products;
 
     beforeEach(function(done) {
       request(app)
-        .get('/api/products/' + newProductMaster._id)
+        .get('/api/products/' + newProducts._id)
         
         .expect(200)
         .expect('Content-Type', /json/)
@@ -69,32 +69,32 @@ describe('ProductMaster API:', function() {
           if (err) {
             return done(err);
           }
-          productMaster = res.body;
+          products = res.body;
           done();
         });
     });
 
     afterEach(function() {
-      productMaster = {};
+      products = {};
     });
 
-    it('should respond with the requested productMaster', function() {
-      productMaster.name.should.equal('New ProductMaster');
-      productMaster.info.should.equal('This is the brand new productMaster!!!');
+    it('should respond with the requested products', function() {
+      products.name.should.equal('New Products');
+      products.info.should.equal('This is the brand new products!!!');
     });
 
   });
 
   describe('PUT /api/products/:id', function() {
-    var updatedProductMaster
+    var updatedProducts
 
     beforeEach(function(done) {
       request(app)
-        .put('/api/products/' + newProductMaster._id) 
+        .put('/api/products/' + newProducts._id) 
         
         .send({
-          name: 'Updated ProductMaster',
-          info: 'This is the updated productMaster!!!'
+          name: 'Updated Products',
+          info: 'This is the updated products!!!'
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -102,18 +102,18 @@ describe('ProductMaster API:', function() {
           if (err) {
             return done(err);
           }
-          updatedProductMaster = res.body;
+          updatedProducts = res.body;
           done();
         });
     });
 
     afterEach(function() {
-      updatedProductMaster = {};
+      updatedProducts = {};
     });
 
-    it('should respond with the updated productMaster', function() {
-      updatedProductMaster.name.should.equal('Updated ProductMaster');
-      updatedProductMaster.info.should.equal('This is the updated productMaster!!!');
+    it('should respond with the updated products', function() {
+      updatedProducts.name.should.equal('Updated Products');
+      updatedProducts.info.should.equal('This is the updated products!!!');
     });
 
   });
@@ -122,7 +122,7 @@ describe('ProductMaster API:', function() {
 
     it('should respond with 204 on successful removal', function(done) {
       request(app)
-        .delete('/api/products/' + newProductMaster._id)
+        .delete('/api/products/' + newProducts._id)
         
         .expect(204)
         .end(function(err, res) {
@@ -133,9 +133,9 @@ describe('ProductMaster API:', function() {
         });
     });
 
-    it('should respond with 404 when productMaster does not exist', function(done) {
+    it('should respond with 404 when products does not exist', function(done) {
       request(app)
-        .delete('/api/products/' + newProductMaster._id)
+        .delete('/api/products/' + newProducts._id)
         
         .expect(404)
         .end(function(err, res) {

@@ -6,7 +6,7 @@
 'use strict';
 import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
-import Product from '../api/productMaster/productMaster.model'; 
+import Product from '../api/products/products.model'; 
 
 Thing.find({}).removeAsync()
   .then(function() {

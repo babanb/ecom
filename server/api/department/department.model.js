@@ -4,7 +4,8 @@ var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 
 var DepartmentSchema = new Schema({
-  name: {
+  
+    name: {
       type: String,
       required: true
     },

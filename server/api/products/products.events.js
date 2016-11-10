@@ -1,15 +1,15 @@
 /**
- * ProductMaster model events
+ * Products model events
  */
 
 'use strict';
 
 var EventEmitter = require('events').EventEmitter;
-var ProductMaster = require('./productMaster.model');
-var ProductMasterEvents = new EventEmitter();
+var Products = require('./products.model');
+var ProductsEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
-ProductMasterEvents.setMaxListeners(0);
+ProductsEvents.setMaxListeners(0);
 
 // Model events
 var events = {
@@ -20,15 +20,15 @@ var events = {
 // Register the event emitter to the model events
 for (var e in events) {
   var event = events[e];
-  ProductMaster.schema.post(e, emitEvent(event));
+  Products.schema.post(e, emitEvent(event));
 }
 
 function emitEvent(event) {
   return function(doc) {
-    ProductMasterEvents.emit(event + ':' + doc._id, doc);
+    ProductsEvents.emit(event + ':' + doc._id, doc);
     
-    ProductMasterEvents.emit(event, doc);
+    ProductsEvents.emit(event, doc);
   }
 }
 
-module.exports = ProductMasterEvents;
+module.exports = ProductsEvents;

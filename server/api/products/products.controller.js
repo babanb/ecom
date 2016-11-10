@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /products              ->  index
- * POST    /products              ->  create
- * GET     /products/:id          ->  show
- * PUT     /products/:id          ->  update
- * DELETE  /products/:id          ->  destroy
+ * GET     /api/products              ->  index
+ * POST    /api/products              ->  create
+ * GET     /api/products/:id          ->  show
+ * PUT     /api/products/:id          ->  update
+ * DELETE  /api/products/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var ProductMaster = require('./productMaster.model');
+var Products = require('./products.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,45 +59,45 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of ProductMasters
+// Gets a list of Productss
 exports.index = function(req, res) {
-  ProductMaster.findAsync()
+  Products.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets a single ProductMaster from the DB
+// Gets a single Products from the DB
 exports.show = function(req, res) {
-  ProductMaster.findByIdAsync(req.params.id)
+  Products.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Creates a new ProductMaster in the DB
+// Creates a new Products in the DB
 exports.create = function(req, res) {
-  ProductMaster.createAsync(req.body)
+  Products.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing ProductMaster in the DB
+// Updates an existing Products in the DB
 exports.update = function(req, res) {
   
   if (req.body._id) {
     delete req.body._id;
   }
   
-  ProductMaster.findByIdAsync(req.params.id)
+  Products.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a ProductMaster from the DB
+// Deletes a Products from the DB
 exports.destroy = function(req, res) {
-  ProductMaster.findByIdAsync(req.params.id)
+  Products.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

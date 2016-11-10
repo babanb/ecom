@@ -3,8 +3,8 @@
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var Schema = mongoose.Schema;
 
-var ProductMasterSchema = new Schema({
- 	active: Boolean,
+var ProductsSchema = new Schema({
+ active: Boolean,
    	newOld: String,
 	description: String,
     externalProductId: String,
@@ -79,4 +79,4 @@ var ProductMasterSchema = new Schema({
     FeatureID: Number
 });
 
-module.exports = mongoose.model('ProductMaster', ProductMasterSchema);
+module.exports = mongoose.model('Products', ProductsSchema);

@@ -2,12 +2,12 @@
 
 var proxyquire = require('proxyquire').noPreserveCache();
 
-var productMasterCtrlStub = {
-  index: 'productMasterCtrl.index',
-  show: 'productMasterCtrl.show',
-  create: 'productMasterCtrl.create',
-  update: 'productMasterCtrl.update',
-  destroy: 'productMasterCtrl.destroy'
+var productsCtrlStub = {
+  index: 'productsCtrl.index',
+  show: 'productsCtrl.show',
+  create: 'productsCtrl.create',
+  update: 'productsCtrl.update',
+  destroy: 'productsCtrl.destroy'
 };
 
 var routerStub = {
@@ -19,26 +19,26 @@ var routerStub = {
 };
 
 // require the index with our stubbed out modules
-var productMasterIndex = proxyquire('./index.js', {
+var productsIndex = proxyquire('./index.js', {
   'express': {
     Router: function() {
       return routerStub;
     }
   },
-  './productMaster.controller': productMasterCtrlStub
+  './products.controller': productsCtrlStub
 });
 
-describe('ProductMaster API Router:', function() {
+describe('Products API Router:', function() {
 
   it('should return an express router instance', function() {
-    productMasterIndex.should.equal(routerStub);
+    productsIndex.should.equal(routerStub);
   });
 
   describe('GET /api/products', function() {
 
-    it('should route to productMaster.controller.index', function() {
+    it('should route to products.controller.index', function() {
       routerStub.get
-        .withArgs('/', 'productMasterCtrl.index')
+        .withArgs('/', 'productsCtrl.index')
         .should.have.been.calledOnce;
     });
 
@@ -46,9 +46,9 @@ describe('ProductMaster API Router:', function() {
 
   describe('GET /api/products/:id', function() {
 
-    it('should route to productMaster.controller.show', function() {
+    it('should route to products.controller.show', function() {
       routerStub.get
-        .withArgs('/:id', 'productMasterCtrl.show')
+        .withArgs('/:id', 'productsCtrl.show')
         .should.have.been.calledOnce;
     });
 
@@ -56,9 +56,9 @@ describe('ProductMaster API Router:', function() {
 
   describe('POST /api/products', function() {
 
-    it('should route to productMaster.controller.create', function() {
+    it('should route to products.controller.create', function() {
       routerStub.post
-        .withArgs('/', 'productMasterCtrl.create')
+        .withArgs('/', 'productsCtrl.create')
         .should.have.been.calledOnce;
     });
 
@@ -66,9 +66,9 @@ describe('ProductMaster API Router:', function() {
 
   describe('PUT /api/products/:id', function() {
 
-    it('should route to productMaster.controller.update', function() {
+    it('should route to products.controller.update', function() {
       routerStub.put
-        .withArgs('/:id', 'productMasterCtrl.update')
+        .withArgs('/:id', 'productsCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -76,9 +76,9 @@ describe('ProductMaster API Router:', function() {
 
   describe('PATCH /api/products/:id', function() {
 
-    it('should route to productMaster.controller.update', function() {
+    it('should route to products.controller.update', function() {
       routerStub.patch
-        .withArgs('/:id', 'productMasterCtrl.update')
+        .withArgs('/:id', 'productsCtrl.update')
         .should.have.been.calledOnce;
     });
 
@@ -86,9 +86,9 @@ describe('ProductMaster API Router:', function() {
 
   describe('DELETE /api/products/:id', function() {
 
-    it('should route to productMaster.controller.destroy', function() {
+    it('should route to products.controller.destroy', function() {
       routerStub.delete
-        .withArgs('/:id', 'productMasterCtrl.destroy')
+        .withArgs('/:id', 'productsCtrl.destroy')
         .should.have.been.calledOnce;
     });
 
