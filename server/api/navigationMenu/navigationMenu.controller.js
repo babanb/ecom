@@ -61,14 +61,20 @@ function removeEntity(res) {
 
 // Gets a list of NavigationMenus
 exports.index = function(req, res) {
-  NavigationMenu.findAsync()
+  NavigationMenu.find()
+    .populate('category','name')
+    .populate('department','name')
+    .exec()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
 // Gets a single NavigationMenu from the DB
 exports.show = function(req, res) {
-  NavigationMenu.findByIdAsync(req.params.id)
+  NavigationMenu.findById(req.params.id)
+    .populate('category','name')
+    .populate('department','name')
+    .exec()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));

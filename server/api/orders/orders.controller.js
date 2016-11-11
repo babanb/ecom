@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/subCategories              ->  index
- * POST    /api/subCategories              ->  create
- * GET     /api/subCategories/:id          ->  show
- * PUT     /api/subCategories/:id          ->  update
- * DELETE  /api/subCategories/:id          ->  destroy
+ * GET     /api/orderss              ->  index
+ * POST    /api/orderss              ->  create
+ * GET     /api/orderss/:id          ->  show
+ * PUT     /api/orderss/:id          ->  update
+ * DELETE  /api/orderss/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var SubCategory = require('./subCategory.model');
+var Orders = require('./orders.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,49 +59,45 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of SubCategorys
+// Gets a list of Orderss
 exports.index = function(req, res) {
-  SubCategory.find()
-    .populate('category','name')
-    .exec()
+  Orders.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets a single SubCategory from the DB
+// Gets a single Orders from the DB
 exports.show = function(req, res) {
-  SubCategory.findById(req.params.id)
-    .populate('category','name')
-    .exec()
+  Orders.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Creates a new SubCategory in the DB
+// Creates a new Orders in the DB
 exports.create = function(req, res) {
-  SubCategory.createAsync(req.body)
+  Orders.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing SubCategory in the DB
+// Updates an existing Orders in the DB
 exports.update = function(req, res) {
   
   if (req.body._id) {
     delete req.body._id;
   }
   
-  SubCategory.findByIdAsync(req.params.id)
+  Orders.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a SubCategory from the DB
+// Deletes a Orders from the DB
 exports.destroy = function(req, res) {
-  SubCategory.findByIdAsync(req.params.id)
+  Orders.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/subCategories              ->  index
- * POST    /api/subCategories              ->  create
- * GET     /api/subCategories/:id          ->  show
- * PUT     /api/subCategories/:id          ->  update
- * DELETE  /api/subCategories/:id          ->  destroy
+ * GET     /paymentStatus              ->  index
+ * POST    /paymentStatus              ->  create
+ * GET     /paymentStatus/:id          ->  show
+ * PUT     /paymentStatus/:id          ->  update
+ * DELETE  /paymentStatus/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var SubCategory = require('./subCategory.model');
+var PaymentStatus = require('./paymentStatus.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,49 +59,45 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of SubCategorys
+// Gets a list of PaymentStatuss
 exports.index = function(req, res) {
-  SubCategory.find()
-    .populate('category','name')
-    .exec()
+  PaymentStatus.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets a single SubCategory from the DB
+// Gets a single PaymentStatus from the DB
 exports.show = function(req, res) {
-  SubCategory.findById(req.params.id)
-    .populate('category','name')
-    .exec()
+  PaymentStatus.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Creates a new SubCategory in the DB
+// Creates a new PaymentStatus in the DB
 exports.create = function(req, res) {
-  SubCategory.createAsync(req.body)
+  PaymentStatus.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing SubCategory in the DB
+// Updates an existing PaymentStatus in the DB
 exports.update = function(req, res) {
   
   if (req.body._id) {
     delete req.body._id;
   }
   
-  SubCategory.findByIdAsync(req.params.id)
+  PaymentStatus.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a SubCategory from the DB
+// Deletes a PaymentStatus from the DB
 exports.destroy = function(req, res) {
-  SubCategory.findByIdAsync(req.params.id)
+  PaymentStatus.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

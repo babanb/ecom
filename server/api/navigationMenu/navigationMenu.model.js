@@ -12,8 +12,8 @@ var NavigationMenuSchema = new Schema({
         type: String,
         required: true
     },
-    category: { type: Schema.Types.ObjectId, ref: 'category' },
-    department: { type: Schema.Types.ObjectId, ref: 'department' },
+    category: { type: Schema.Types.ObjectId, ref: 'Category' },
+    department: { type: Schema.Types.ObjectId, ref: 'Department' },
     level:  {
         type: Number,
         required: true

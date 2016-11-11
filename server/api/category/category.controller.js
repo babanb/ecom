@@ -11,7 +11,7 @@
 
 var _ = require('lodash');
 var Category = require('./category.model');
-
+//console.log(Category);
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
   return function(err) {
@@ -61,14 +61,18 @@ function removeEntity(res) {
 
 // Gets a list of Categorys
 exports.index = function(req, res) {
-  Category.findAsync()
+  Category.find()
+    .populate('department','name')
+    .exec()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
 // Gets a single Category from the DB
 exports.show = function(req, res) {
-  Category.findByIdAsync(req.params.id)
+  Category.findById(req.params.id)
+    .populate('department','name')
+    .exec()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));

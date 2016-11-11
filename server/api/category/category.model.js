@@ -9,7 +9,7 @@ var CategorySchema = new Schema({
       required: true
     },
     department: {
-      type: Schema.Types.ObjectId, ref: 'department',
+      type: Schema.Types.ObjectId, ref: 'Department',
       required: true
     },
     isActive: {

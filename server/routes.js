@@ -10,6 +10,14 @@ import path from 'path';
 module.exports = function(app) {
 
   // Insert routes below
+  app.use('/api/productReviews', require('./api/productReviews'));
+  app.use('/api/todaysDeals', require('./api/todaysDeal'));
+  app.use('/api/paymentStatus', require('./api/paymentStatus'));
+  app.use('/api/orderStatus', require('./api/orderStatus'));
+  app.use('/api/paymentTypes', require('./api/paymentType'));
+  app.use('/api/autocompleteSearchs', require('./api/autocompleteSearch'));
+  app.use('/api/shoppingCart', require('./api/shoppingCart'));
+  app.use('/api/orders', require('./api/orders'));
   app.use('/api/products', require('./api/products'));
   app.use('/api/departments', require('./api/department'));
   app.use('/api/subCategories', require('./api/subCategory'));

@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/subCategories              ->  index
- * POST    /api/subCategories              ->  create
- * GET     /api/subCategories/:id          ->  show
- * PUT     /api/subCategories/:id          ->  update
- * DELETE  /api/subCategories/:id          ->  destroy
+ * GET     /api/orderStatus              ->  index
+ * POST    /api/orderStatus              ->  create
+ * GET     /api/orderStatus/:id          ->  show
+ * PUT     /api/orderStatus/:id          ->  update
+ * DELETE  /api/orderStatus/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var SubCategory = require('./subCategory.model');
+var OrderStatus = require('./orderStatus.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,49 +59,45 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of SubCategorys
+// Gets a list of OrderStatuss
 exports.index = function(req, res) {
-  SubCategory.find()
-    .populate('category','name')
-    .exec()
+  OrderStatus.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets a single SubCategory from the DB
+// Gets a single OrderStatus from the DB
 exports.show = function(req, res) {
-  SubCategory.findById(req.params.id)
-    .populate('category','name')
-    .exec()
+  OrderStatus.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Creates a new SubCategory in the DB
+// Creates a new OrderStatus in the DB
 exports.create = function(req, res) {
-  SubCategory.createAsync(req.body)
+  OrderStatus.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing SubCategory in the DB
+// Updates an existing OrderStatus in the DB
 exports.update = function(req, res) {
   
   if (req.body._id) {
     delete req.body._id;
   }
   
-  SubCategory.findByIdAsync(req.params.id)
+  OrderStatus.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a SubCategory from the DB
+// Deletes a OrderStatus from the DB
 exports.destroy = function(req, res) {
-  SubCategory.findByIdAsync(req.params.id)
+  OrderStatus.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
