@@ -30,6 +30,31 @@ describe('Category API:', function() {
 
   });
 
+
+  describe('GET /api/categories/getcategoriesByDepartmetId/:id', function() {
+    var categorys;
+
+    beforeEach(function(done) {
+      request(app)
+        .get('/api/categories/getcategoriesByDepartmetId/' + newCategory._id)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          categorys = res.body;
+          done();
+        });
+    });
+
+    it('should respond with JSON array', function() {
+      categorys.should.be.instanceOf(Array);
+    });
+
+  });
+
+  
   describe('POST /api/categories', function() {
     beforeEach(function(done) {
       request(app)

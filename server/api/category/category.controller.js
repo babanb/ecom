@@ -78,6 +78,14 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+// Gets a all categories by Department from the DB
+exports.getAllcategories = function(req, res) {
+  Category.find({department:req.params.id}).select({ "name": 1, "_id": 1})
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
 // Creates a new Category in the DB
 exports.create = function(req, res) {
   Category.createAsync(req.body)

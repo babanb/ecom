@@ -46,7 +46,7 @@ function saveUpdates(updates) {
         return updated;
       });
   };
-}
+} 
 
 function removeEntity(res) {
   return function(entity) {
@@ -69,6 +69,16 @@ exports.index = function(req, res) {
 // Gets a single Department from the DB
 exports.show = function(req, res) {
   Department.findByIdAsync(req.params.id)
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
+// Gets a single Department from the DB
+exports.getAllcategories = function(req, res) {
+  Department.findById(req.params.id)
+    .populate('department','name')
+    .exec()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
