@@ -1,6 +1,9 @@
 'use strict';
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+var AutoIncrement = require('mongoose-auto-increment');
+AutoIncrement.initialize(mongoose.connection);
+
 var Schema = mongoose.Schema;
 
 var ProductsSchema = new Schema({
@@ -75,7 +78,9 @@ var ProductsSchema = new Schema({
     vendorID: String,
     instock: String,
     subCat: String,
-    Features: Object
-});
+    Features: Object,
+    _id: {type:Number,  default: 1, unique:true},
+}, { _id: false });
 
 module.exports = mongoose.model('Products', ProductsSchema);
+ProductsSchema.plugin(AutoIncrement.plugin, 'Products');

@@ -1,21 +1,19 @@
 'use strict';
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+var AutoIncrement = require('mongoose-auto-increment');
+AutoIncrement.initialize(mongoose.connection);
+
 var Schema = mongoose.Schema;
 
 var OrdersSchema = new Schema({
 
-   orderID: {
-      type: String,
-      required: true,
-      generated: true
-    },
     productID: {
-      type: Schema.Types.ObjectId, ref: 'Products',
+      type: Number, ref: 'Products',
       required: true
     },
     userID: {
-		type: Schema.Types.ObjectId, ref: 'Users' ,
+		type: Number, ref: 'Users' ,
       	required: true
     },
     salePrice: {
@@ -43,11 +41,11 @@ var OrdersSchema = new Schema({
       type: String
     },
     paymentType: {
-    	type: Schema.Types.ObjectId, ref: 'PaymentType',
+    	type: Number, ref: 'PaymentType',
       required: true 
 	  },
     paymentStatus: { 
-    	type: Schema.Types.ObjectId, ref: 'PaymentStatus' 
+    	type: Number, ref: 'PaymentStatus' 
 	  },
     referenceNumber: {
       type: String
@@ -62,17 +60,17 @@ var OrdersSchema = new Schema({
       type: String
     },
     paymentMethod: {
-      type: Schema.Types.ObjectId, ref: 'PaymentMethod' 
+      type: Number, ref: 'PaymentMethod' 
     },
     orderStatus: {
-      type: Schema.Types.ObjectId, ref: 'OrderStatus' 
+      type: Number, ref: 'OrderStatus' 
     },
     address: {
-      type: Schema.Types.ObjectId, ref: 'Adress' ,
+      type: Number, ref: 'Adress' ,
       required: true
     },
     billingAddress: {
-      type: Schema.Types.ObjectId, ref: 'Address' ,
+      type: Number, ref: 'Address' ,
       required: true
     },
     orderDate: {
@@ -80,19 +78,19 @@ var OrdersSchema = new Schema({
       required: true
     },
     orderHistory: {
-      type: Schema.Types.ObjectId, ref: 'OrderHistory',
+      type: Number, ref: 'OrderHistory',
       required: true
     },
     quantity: {
       type: Number,
       required: true
-  	}
-
-});
+  	},
+    _id: {type:Number,  default: 1, unique:true},
+}, { _id: false });
 
 var OrderHistorySchema = new Schema({
  	orderID: {
-      type: Schema.Types.ObjectId, ref: 'Orders',
+      type: String, ref: 'Orders',
       required: true
     },
     createdDate: {
@@ -100,17 +98,21 @@ var OrderHistorySchema = new Schema({
       required: true
     },
     orderStatus: {
-      type: Schema.Types.ObjectId, ref: 'OrderStatus' 
+      type: Number, ref: 'OrderStatus' 
     },
     remarks: {
       type: String
     },
     updatedDate: {
       type: Date
-    }
+    },
+    _id: {type:Number,  default: 1, unique:true}
 
-});
+}, { _id: false });
+
 
 module.exports = mongoose.model('Orders', OrdersSchema);
 
 module.exports = mongoose.model('OrderHistory', OrderHistorySchema);
+OrdersSchema.plugin(AutoIncrement.plugin, 'Orders');
+OrderHistorySchema.plugin(AutoIncrement.plugin, 'OrderHistory');

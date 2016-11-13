@@ -4,41 +4,10 @@
  */
 
 'use strict';
-import Thing from '../api/thing/thing.model';
 import User from '../api/user/user.model';
 import Product from '../api/products/products.model'; 
+import PaymentStatus from '../api/paymentStatus/paymentStatus.model'; 
 
-Thing.find({}).removeAsync()
-  .then(function() {
-    Thing.create({
-      name: 'Development Tools',
-      info: 'Integration with popular tools such as Grunt, Babel, Karma, ' +
-             'Mocha, JSHint, Node Inspector, Livereload, Protractor, Jade, ' +
-             'Stylus, Sass, and Less.'
-    }, {
-      name: 'Server and Client integration',
-      info: 'Built with a powerful and fun stack: MongoDB, Express, ' +
-             'AngularJS, and Node.'
-    }, {
-      name: 'Smart Build System',
-      info: 'Build system ignores `spec` files, allowing you to keep ' +
-             'tests alongside code. Automatic injection of scripts and ' +
-             'styles into your index.html'
-    }, {
-      name: 'Modular Structure',
-      info: 'Best practice client and server structures allow for more ' +
-             'code reusability and maximum scalability'
-    }, {
-      name: 'Optimized Build',
-      info: 'Build process packs up your templates as a single JavaScript ' +
-             'payload, minifies your scripts/css/images, and rewrites asset ' +
-             'names for caching.'
-    }, {
-      name: 'Deployment Ready',
-      info: 'Easily deploy your app to Heroku or Openshift with the heroku ' +
-             'and openshift subgenerators'
-    });
-  });
 
 User.find({}).removeAsync()
   .then(function() {
@@ -59,6 +28,68 @@ User.find({}).removeAsync()
     });
   });
  
+
+
+PaymentStatus.find({}).removeAsync()
+  .then(function() {
+    PaymentStatus.createAsync({
+    name: "Completed",
+    description: "Payment has been completed, and the funds have been added successfully to merchant's account balance.",
+  },
+  {
+    name: "CanceledReversal",
+    description: "A reversal has been canceled. For example, merchant won a dispute with the customer, and the funds for the transaction that was reversed have been returned to merchant.",
+   
+  },
+  {
+    name: "Denied",
+    description: "When merchant denied the payment. This happens only if the payment was previously pending.",
+   
+  },
+  {
+    name: "Expired",
+    description: "This authorization has expired and cannot be captured.",
+   
+  },
+  {
+    name: "Failed",
+    description: "The payment has failed. This happens only if the payment was made from merchant customer's bank account.",
+   
+  },
+  {
+    name: "InProgress",
+    description: "The transaction is in process of authorization and capture.",
+   
+  },
+  {
+    name: "Pending",
+    description: "The payment is pending.",
+   
+  },
+  {
+    name: "Processed",
+    description: "The payment has been accepted.",
+   
+  },
+  {
+    name: "Refunded",
+    description: "The payment was refunded.",
+   
+  },
+  {
+    name: "Reversed",
+    description: "The payment was reversed due to a chargeback or other type of reversal. The funds have been removed from merchant's account balance and returned to the buyer.",
+   
+  },
+  {
+    name: "Voided",
+    description: "This authorization has been voided.",
+   
+  })
+    .then(function() {
+      console.log('finished populating PaymentStatus');
+    });
+  });
 
 Product.find({}).removeAsync()
   .then(function() {
@@ -135,7 +166,12 @@ Product.find({}).removeAsync()
     instock: '12',
     subCat: 'Shirt',
     itemID: 122,
-    FeatureID: 1
+    FeatureID: {
+      test:'test',
+      test1:'test1',
+      test2:'test2',
+      test3:'test3',
+    }
     })
     .then(function() {
       console.log('finished populating Products');

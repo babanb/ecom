@@ -6,7 +6,7 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/juskart-dev'
+    uri: 'mongodb://127.0.0.1/juskart-dev'
   },
 
   // Sequelize connecton opions

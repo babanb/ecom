@@ -13,7 +13,5 @@ var db = {
   sequelize: new Sequelize(config.sequelize.uri, config.sequelize.options)
 };
 
-// Insert models below
-db.Thing = db.sequelize.import('../api/thing/thing.model');
 
 module.exports = db;

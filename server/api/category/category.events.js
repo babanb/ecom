@@ -8,6 +8,8 @@ var EventEmitter = require('events').EventEmitter;
 var Category = require('./category.model');
 var CategoryEvents = new EventEmitter();
 
+
+
 // Set max event listeners (0 == unlimited)
 CategoryEvents.setMaxListeners(0);
 

@@ -1,18 +1,21 @@
 'use strict';
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+var AutoIncrement = require('mongoose-auto-increment');
+AutoIncrement.initialize(mongoose.connection);
+
 var Schema = mongoose.Schema;
 
 var ProductReviewsSchema = new Schema({
   productID: {
-      type: Schema.Types.ObjectId, ref: 'Products',
+      type: Number, ref: 'Products',
       required: true
     },
     comments: {
       type: String
     },
     userID: {
-      type: Schema.Types.ObjectId, ref: 'Users',
+      type: Number, ref: 'Users',
       required: true
     },
     ipAddress: {
@@ -27,7 +30,9 @@ var ProductReviewsSchema = new Schema({
     },
     updatedAt: {
       type: Date
-    }
-});
+    },
+    _id: {type:Number,  default: 1, unique:true},
+}, { _id: false });
 
 module.exports = mongoose.model('ProductReviews', ProductReviewsSchema);
+ProductReviewsSchema.plugin(AutoIncrement.plugin, 'ProductReviews');
