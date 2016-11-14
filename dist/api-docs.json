@@ -25,10 +25,10 @@
     "application/json"
   ],
   "paths": {
-    "/api/things": {
+    "/api/departments": {
        "get": {
-          "tags": ["things"],
-          "description": "what this API does",
+          "tags": ["departments"],
+          "description": "Get all departments",
           "operationId": "get",
           "produces": [
             "application/json"
@@ -48,8 +48,91 @@
               }
             }
           }
+        },
+
+         "post": {
+          "tags": ["departments"],
+          "description": "Create new department",
+          "operationId": "Create",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "Department Parameters",
+                "in": "body",
+                "description": "Departments add to the database",
+                "required": true,
+              "schema": {
+                "$ref": "#/definitions/createDept"
+                }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create response",
+              "schema": {
+                 "$ref": "#/definitions/deptresponse"
+              }
+            }
+          }
         }
+
     },
+
+     "/api/departments/{Id}": {
+        "delete":{
+          "tags":["departments"],
+          "description":"Deletes a department",
+          "operationId":"delete",
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+              {
+                "name": "ID",
+                "in": "path",
+                "description": "ID to delete",
+                "required": true,
+                "type": "number"
+              }
+            ],
+          "responses": {
+            "200": {
+              "description": "delete response",
+              "schema":{
+                "$ref":"#/definitions/deleteRes"
+              }
+            }
+          }
+        },
+      "get":{
+          "tags": ["departments"],
+          "description": "Get department by ID",
+          "operationId": "findById",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "ID",
+                "in": "path",
+                "description": "ID to fetch",
+                "required": true,
+                "type": "number"
+              }
+            ],
+        "responses": {
+            "200": {
+              "description": "response",
+              "schema": {
+                "$ref": "#/definitions/response1"
+              }
+            }
+          }
+        }
+      },
+
   "/api/products": {
         "post":{
           "tags":["products"],
@@ -65,14 +148,17 @@
                 "paramType": "body",
                 "description": "add products",
                 "required": true,
-                "type": "itemMaster"
-              }
+                "type": "itemMaster", 
+                "schema": {
+                "$ref": "#/definitions/createProduct"
+                }
+            }
             ],
           "responses": {
             "200": {
               "description": "create response",
               "schema":{
-                "$ref":"#/definitions/create"
+                "$ref":"#/definitions/productResponse"
               }
             }
           }
@@ -102,7 +188,7 @@
         }
   },
 
-    "/api/products/ID": {
+    "/api/products/{ID}": {
         "delete":{
           "tags":["products"],
           "description":"Deletes a something",
@@ -112,11 +198,11 @@
           ],
           "parameters":[
               {
-                "name": "someVariable",
+                "name": "ID",
                 "in": "path",
                 "description": "ID to delete",
                 "required": true,
-                "type": "string"
+                "type": "number"
               }
             ],
           "responses": {
@@ -141,7 +227,7 @@
                 "in": "path",
                 "description": "ID to fetch",
                 "required": true,
-                "type": "string"
+                "type": "number"
               }
             ],
         "responses": {
@@ -157,121 +243,350 @@
   },
 
   "definitions": {
-    "create": {
+    "productResponse": {
       "properties": {
-        "eventId": {
+            "active": { 
+                "type": "boolean",
+                "example": true
+              },
+            "newOld": {
+                "type": "string",
+                "example": "New"
+                },
+            "description":  {
+              "type": "asdasdasd",
+              "example": "New"
+              },
+            "externalProductId":  {
+              "type": "string",
+              "example": "asd12456"
+              },
+            "model":  {
+              "type": "string",
+              "example": "as321231"
+              },
+            "make":  {
+              "type": "string",
+              "example": "xyz"
+              },
+            "productSiteLaunchDate":  {
+              "type": "date",
+              "example": "12-11-2016"
+              },
+            "merchantReleaseDate":  {
+              "type": "date",
+              "example": "12-11-2016"
+              },
+            "restockDate":  {
+              "type": "string",
+              "example": "12-11-2016"
+              },
+            "quantity":  {
+              "type": "number",
+              "example": 10
+              },
+            "saleFromDate":  {
+              "type": "date",
+              "example": "12-11-2016"
+              },
+            "saleEndDate":  {
+              "type": "date",
+              "example": "12-11-2016"
+              },
+            "maxShipQty":  {
+              "type": "number",
+              "example": 2
+              },
+            "itemPackageQty":  {
+              "type": "number",
+              "example": "1"
+              },
+            "numberOfItems":  {
+              "type": "number",
+              "example": "1"
+              },
+            "isGiftwrapped":  {
+              "type": "boolean",
+              "example": false
+              },
+            "isDiscontinuedByManufacturer":  {
+              "type": "boolean",
+              "example": false
+              },
+            "isGiftMessaged":  {
+              "type": "boolean",
+              "example": false
+              },
+            "shippingWeight":  {
+              "type": "number",
+              "example": 100
+              },
+            "shippingWeightUnitOfMeasure":  {
+              "type": "string",
+              "example": "gm"
+              },
+            "weightUnitOfMeasure":  {
+              "type": "string",
+              "example": "gm"
+              },
+            "length":  {
+              "type": "number",
+              "example": 100
+              },
+            "width":  {
+              "type": "number",
+              "example": 100
+              },
+            "height":  {
+              "type": "number",
+              "example": "50"
+              },
+            "point1":  {
+              "type": "string",
+              "example": "boolet point 1"
+              },
+            "point2":  {
+              "type": "string",
+              "example": "boolet point 2"
+              },
+            "point3":  {
+              "type": "string",
+              "example": "boolet point 3"
+              },
+            "point4":  {
+              "type": "string",
+              "example": "boolet point 4"
+              },
+            "point5":  {
+              "type": "string",
+              "example": "boolet point 5"
+              },
+            "s3":  {
+              "type": "string",
+              "example": "New"
+              },
+            "s4":  {
+              "type": "string",
+              "example": "search Keywords 4"
+              },
+            "s5":  {
+              "type": "string",
+              "example": "search Keywords 5"
+              },
+            "p3":  {
+              "type": "string",
+              "example": "platinum search Keywords 3"
+              },
+            "p4":  {
+              "type": "string",
+              "example": "platinum search Keywords 4"
+              },
+            "s6":  {
+              "type": "string",
+              "example": "search Keywords 6"
+              },
+            "otherImageUrl":  {
+              "type": "string",
+              "example": "abcd.jpg"
+              },
+            "otherImageUrl1":  {
+              "type": "string",
+              "example": "abcd1.jpg"
+              },
+            "otherImageUrl2":  {
+              "type": "string",
+              "example": "abcd2.jpg"
+              },
+            "otherImageUrl3": {
+              "type": "string",
+              "example": "abcd3.jpg"
+              },
+            "otherImageUrl4":  {
+              "type": "string",
+              "example": "abcd4.jpg"
+              },
+            "otherImageUrl5":  {
+              "type": "string",
+              "example": "abcd5.jpg"
+              },
+            "otherImageUrl6":  {
+              "type": "string",
+              "example": "abcd6.jpg"
+              },
+            "otherImageUrl7":  {
+              "type": "string",
+              "example": "abcd7.jpg"
+              },
+            "otherImageUrl8":  {
+              "type": "string",
+              "example": "abcd8.jpg"
+              },
+            "color":  {
+              "type": "string",
+              "example": "black"
+              },
+            "size":  {
+              "type": "string",
+              "example": "xl"
+              },
+            "sizeMap":  {
+              "type": "string",
+              "example": "xl"
+              },
+            "colorMap":  {
+              "type": "string",
+              "example": "black"
+              },
+            "discount":  {
+              "type": "number",
+              "example": 0
+              },
+            "finalDiscount":  {
+              "type": "number",
+              "example": 0
+              },
+            "offerAmt":  {
+              "type": "number",
+              "example": 0
+              },
+            "offerPrice":  {
+              "type": "number",
+              "example": 0
+              },
+            "discountOnDiscount":  {
+              "type": "number",
+              "example": 0
+              },
+            "brand":  {
+              "type": "string",
+              "example": "abc"
+              },
+            "listPrice":  {
+              "type": "number",
+              "example": 500
+              },
+            "mainImageUrl":  {
+              "type": "string",
+              "example": "abc.jpg"
+              },
+            "name":  {
+              "type": "string",
+              "example": "test"
+              },
+            "p1":  {
+              "type": "string",
+              "example": "platinum search Keywords 1"
+              },
+            "s1":  {
+              "type": "string",
+              "example": "search Keywords 1"
+              },
+            "s2":  {
+              "type": "string",
+              "example": "search Keywords 2"
+              },
+            "p2":  {
+              "type": "string",
+              "example": "platinum search Keywords 2"
+              },
+            "salePrice":  {
+              "type": "Number",
+              "example": 300
+              },
+            "sku":  {
+              "type": "string",
+              "example": "abc1234"
+              },
+            "dept":  {
+              "type": "string",
+              "example": "Mens"
+              },
+            "cat":  {
+              "type": "Clothing",
+              "example": "New"
+              },
+            "vendorID":  {
+              "type": "Number",
+              "example": 1000
+              },
+            "instock":  {
+              "type": "boolean",
+              "example": true 
+              },
+            "subCat":  {
+              "type": "string",
+              "example": "Shirts"
+              }
+          }
+    },
+
+    "createDept": {
+      "properties": {
+        "name": {
           "required":true,
-          "type": "products",
-          "example": {
-                  "active": "boolean",
-                  "newOld": "string",
-                  "description": "string",
-                  "externalProductId": "string",
-                  "model": "string",
-                  "make": "string",
-                  "productSiteLaunchDate": "date",
-                  "merchantReleaseDate": "date",
-                  "restockDate": "date",
-                  "quantity": "Number",
-                  "saleFromDate": "date",
-                  "saleEndDate": "date",
-                  "maxShipQty": "Number",
-                  "itemPackageQty": "Number",
-                  "numberOfItems": "Number",
-                  "isGiftwrapped": "boolean",
-                  "isDiscontinuedByManufacturer": "boolean",
-                  "isGiftMessaged": "string",
-                  "shippingWeight": "string",
-                  "shippingWeightUnitOfMeasure": "string",
-                  "weightUnitOfMeasure": "string",
-                  "length": "string",
-                  "width": "string",
-                  "height": "string",
-                  "point1": "string",
-                  "point2": "string",
-                  "point3": "string",
-                  "point4": "string",
-                  "point5": "string",
-                  "s3": "string",
-                  "s4": "string",
-                  "s5": "string",
-                  "p3": "string",
-                  "p4": "string",
-                  "s6": "string",
-                  "otherImageUrl": "string",
-                  "otherImageUrl1": "string",
-                  "otherImageUrl2": "string",
-                  "otherImageUrl3": "string",
-                  "otherImageUrl4": "string",
-                  "otherImageUrl5": "string",
-                  "otherImageUrl6": "string",
-                  "otherImageUrl7": "string",
-                  "otherImageUrl8": "string",
-                  "color": "string",
-                  "size": "string",
-                  "sizeMap": "string",
-                  "colorMap": "string",
-                  "discount": "string",
-                  "finalDiscount": "string",
-                  "spcialOffer": "string",
-                  "offer1": "string",
-                  "offer4": "string",
-                  "offerAmt": "string",
-                  "offerPrice": "string",
-                  "discountOnDiscount": "string",
-                  "brand": "string",
-                  "listPrice": "string",
-                  "mainImageUrl": "string",
-                  "name": "string",
-                  "p1": "string",
-                  "s1": "string",
-                  "s2": "string",
-                  "p2": "string",
-                  "salePrice": "Number",
-                  "sku": "string",
-                  "dept": "string",
-                  "cat": "string",
-                  "vendorID": "string",
-                  "instock": "string",
-                  "subCat": "string",
-                  "itemID": "Number",
-                  "FeatureID": "Number"
-                }
+          "type": "string",
+          "example": "Mens"
+        },
+        "description": {
+          "type":"string",
+          "example": "Mens department"
+        },
+        "isActive": {
+          "required":true,
+          "type":"boolean"
         } 
       }
     },
+  "deptresponse": {
+        "properties": {
+          "name":{ "required":true,"type": "String","example": "Mens"},
+           "description":{ "required":true,"type": "String","example": "Mens department"},
+           "isActive": { "required":true,"type": "boolean","example": true}
+      }
+    },
+  "createProduct": {
+        "properties": {
+          "name":{ "type": "string","example": "test Shirt"},
+           "description":{ "type": "string","example": "mens Shirts"},
+           "dept":{"type": "string","example": "Mens"},
+           "cat":{ "type": "string","example": "Clothing"},
+           "subCat":{"type": "string","example": "Shirts"},
+           "sku":{ "type": "string","example": "abcd12345"},
+           "brand":{ "required":true,"type": "string","example": "abcd"},
+           "mainImageUrl":{ "required":true,"type": "string","example": "abcd.jpg"},
+           "vendorID":{ "required":true,"type": "Number","example": 100},
+           "quantity":{ "required":true,"type": "Number","example": 10},
+           "listPrice":{ "required":true,"type": "Number","example": 500},
+           "salePrice":{ "required":true,"type": "Number","example": 300},
+           "isActive": { "required":true,"type": "boolean","example": true}
+      }
+    },
+
+
     "response1": {
         "properties": {
-          "jobID": {
+          "Id": {
             "required":true,
-            "type": "string",
-            "example": "23423456543"
-          },
-          "request": {
-            "required":true,
-            "type": "schema",
-            "example": {
-              "eventId":"mathmaticial",
-              "numberRequired": 500
-            }
+            "type": "Number",
+            "example": "123"
           }
       }
     },
     "response": {
         "properties": {
-            "jobID": {
+            "Id": {
               "required": true,
-              "type" : "string",
-              "example" : "12321432423"
+              "type" : "Number",
+              "example" : "12"
             }
         }
     },
     "delete": {
         "properties": {
-            "jobID": {
+            "Id": {
               "required": true,
-              "type" : "string",
-              "example" : "234344234234"
+              "type" : "Number",
+              "example" : "12"
             },
             "status" : {
               "required": true,
