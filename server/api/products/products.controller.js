@@ -79,6 +79,15 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+// search Products from the DB
+exports.searchProducts = function(req, res) {
+  Products.find( { $text : { $search : req.params.text } })
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
 // Creates a new Products in the DB
 exports.create = function(req, res) {
   Products.createAsync(req.body)

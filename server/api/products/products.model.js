@@ -1,6 +1,8 @@
 'use strict';
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
+var textSearch = require('mongoose-text-search');
+
 var AutoIncrement = require('mongoose-auto-increment');
 AutoIncrement.initialize(mongoose.connection);
 
@@ -81,6 +83,10 @@ var ProductsSchema = new Schema({
     Features: Object,
     _id: {type:Number,  default: 1, unique:true},
 }, { _id: false });
+
+
+ProductsSchema.plugin(textSearch);
+ProductsSchema.index({ name: 'text', subCat: 'text', sku: 'text', dept: 'text', cat: 'text', brand: 'text', s1: 'text', s2: 'text', p1: 'text', p2: 'text' });
 
 module.exports = mongoose.model('Products', ProductsSchema);
 ProductsSchema.plugin(AutoIncrement.plugin, 'Products');

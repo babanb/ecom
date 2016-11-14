@@ -85,6 +85,38 @@ describe('Products API:', function() {
 
   });
 
+
+describe('GET /api/products/searchProducts/:text', function() {
+    var products;
+
+    beforeEach(function(done) {
+      request(app)
+        .get('/api/products/searchProducts/' + newProducts.text)
+        
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          products = res.body;
+          done();
+        });
+    });
+
+    afterEach(function() {
+      products = {};
+    });
+
+    it('should respond with the requested products', function() {
+      products.name.should.equal('New Products');
+      products.info.should.equal('This is the brand new products!!!');
+    });
+
+  });
+
+
+
   describe('PUT /api/products/:id', function() {
     var updatedProducts
 
