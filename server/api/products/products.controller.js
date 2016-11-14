@@ -9,8 +9,13 @@
 
 'use strict';
 
+var fs = require('fs');
 var _ = require('lodash');
-var Products = require('./products.model');
+var Products = require('./products.model'); 
+var prodSchema =require("mongoose").model("Products").schema;
+var csvParser = require('csv-parse');
+var Converter = require("csvtojson").Converter;
+var converter = new Converter({});  
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -102,3 +107,57 @@ exports.destroy = function(req, res) {
     .then(removeEntity(res))
     .catch(handleError(res));
 };
+
+exports.uploadCsv = function(req, res) { 
+  console.log('file path --> ' + req.body.filePath); 
+  fs.createReadStream(req.body.filePath).pipe(converter);
+  // fs.readFile(req.body.filePath, {
+  //           encoding: 'utf-8'
+  //       }, function(err, csvData) {
+  //           if (err) {
+  //               console.log(err);
+  //           }
+  
+  //           csvParser(csvData, {
+  //               delimiter: ',' 
+  //           }, function(err, data) {
+  //               if (err) {
+  //                   console.log(err);
+  //               } else {
+  //                   console.log(data);
+  //               }
+  //           });
+  //       }); 
+};
+
+//end_parsed will be emitted once parsing finished 
+converter.on("end_parsed", function (jsonArray) {   
+        var prod = prodSchema.obj;
+   if(jsonArray && jsonArray.length >0){
+      for(var i=0; i<jsonArray.length; i++){
+        var productObj ={}, 
+            nonProductObj = {},
+            obj = jsonArray[i];
+
+        for(var prop in obj){
+          if(prod.hasOwnProperty(prop)){
+             productObj[prop] = obj[prop];
+          } else {
+             nonProductObj[prop] = obj[prop];
+          }
+        }
+
+        productObj['Features'] = nonProductObj;
+
+        console.log(productObj); 
+
+        // Need to check if the product allredy exists then we have to deicide what to be done..
+        Products.createAsync(productObj);                                                                                                                                    
+        
+
+        // push the remaing obj to secoundry table with Product id linked
+      }
+   }
+
+
+});
