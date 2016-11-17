@@ -80,6 +80,41 @@
 
     },
 
+"/api/orders/getOrdersByUser/{Id}": {
+       "get": {
+          "tags": ["orders"],
+          "description": "Get all orders by user",
+          "operationId": "get",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+
+            {
+                "name": "Id",
+                "in": "path",
+                "description": "userId to get Orders",
+                "required": true,
+                "type": "number"
+              },
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Pass JWT Token with Bearer ",
+                "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Get all orders by user",
+              "schema": {
+                 "$ref": "#/definitions/getOrderByUserResponse"
+              }
+            }
+          }
+        }
+  },
      "/api/departments/{Id}": {
         "delete":{
           "tags":["departments"],
@@ -133,6 +168,221 @@
         }
       },
 
+  "/api/users": {
+         "post": {
+              "tags": ["users"],
+              "description": "Create new User",
+              "operationId": "Create",
+              "produces": [
+                "application/json"
+              ],
+              "parameters": [
+                  {
+                    "name": "User Parameters",
+                    "in": "body",
+                    "description": "User add to the database",
+                    "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/createUser"
+                    }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "create response",
+                  "schema": {
+                     "$ref": "#/definitions/Userresponse"
+                  }
+                }
+              }
+          }
+      },
+
+"/api/shoppingCart/updateCart/{id}": {
+         "post": {
+              "tags": ["shoppingCart"],
+              "description": "Update Carts Item quantity or UserId if user logged in",
+              "operationId": "UpdateCart",
+              "produces": [
+                "application/json"
+              ],
+              "parameters": [
+                {
+                  "name": "Id",
+                  "in": "path",
+                  "description": "userId to get Orders",
+                  "required": true,
+                  "type": "number"
+                },
+                  {
+                    "name": "shoppingCart Parameters",
+                    "in": "body",
+                    "description": "Update Cart to the database",
+                    "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/UpdateCart"
+                    }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Update Cart response",
+                  "schema": {
+                     "$ref": "#/definitions/UpdateCartresponse"
+                  }
+                }
+              }
+          }
+      },
+
+"/api/shoppingCart/getCartItems": {
+     "post": {
+          "tags": ["shoppingCart"],
+          "description": "get all items in shoppingCart",
+          "operationId": "Get",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "Cart Parameters",
+                "in": "body",
+                "description": "get all items in shoppingCart",
+                "required": true,
+              "schema": {
+                "$ref": "#/definitions/getCartItems"
+                }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Login response",
+              "schema": {
+                 "$ref": "#/definitions/getCartItemsResponse"
+              }
+            }
+          }
+        }
+      },
+
+"/auth/local": {
+     "post": {
+          "tags": ["users"],
+          "description": "Login",
+          "operationId": "Authenticate",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "User Parameters",
+                "in": "body",
+                "description": "User add to the database",
+                "required": true,
+              "schema": {
+                "$ref": "#/definitions/Login"
+                }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Login response",
+              "schema": {
+                 "$ref": "#/definitions/loginresponse"
+              }
+            }
+          }
+        }
+      },
+
+
+"/api/users/me": {
+     "get": {
+          "tags": ["users"],
+          "description": "User Info",
+          "operationId": "Authenticate",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "Authorization",
+                "in": "header",
+                "type": "string",
+                "description": "Pass JWT Token with Bearer ",
+                "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "user Info response",
+              "schema": {
+                 "$ref": "#/definitions/userInfoResponse"
+              }
+            }
+          }
+        }
+      },
+
+      "/api/shoppingCart": {
+        
+     "post": {
+          "tags": ["shoppingCart"],
+          "description": "Create new shoppingCart",
+          "operationId": "Create",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "shoppingCart Parameters",
+                "in": "body",
+                "description": "shoppingCart add to the database",
+                "required": true,
+              "schema": {
+                "$ref": "#/definitions/createshoppingCart"
+                }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "create response",
+              "schema": {
+                 "$ref": "#/definitions/cartresponse"
+              }
+            }
+          }
+        }
+      },
+
+ "/api/products/searchProducts/{searchTerm}": {
+        
+      "get":{
+          "tags": ["products"],
+          "description": "Get department by ID",
+          "operationId": "search",
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+              {
+                "name": "searchTerm",
+                "in": "path",
+                "description": "ID to fetch",
+                "required": true,
+                "type": "number"
+              }
+            ],
+        "responses": {
+            "200": {
+              "description": "response",
+              "schema": {
+                "$ref": "#/definitions/searchresponse"
+              }
+            }
+          }
+        }
+      },
   "/api/products": {
         "post":{
           "tags":["products"],
@@ -544,6 +794,268 @@
            "isActive": { "required":true,"type": "boolean","example": true}
       }
     },
+
+    "getOrderByUserId": {
+      "properties": {
+        "UserId": {
+          "required":true,
+          "type": "Number",
+          "example": "123"
+        } 
+      }
+    },
+  "getOrderByUserResponse": {
+        "properties": {
+          "name":{ "required":true,"type": "String","example": "Mens"},
+           "description":{ "required":true,"type": "String","example": "Mens department"},
+           "isActive": { "required":true,"type": "boolean","example": true}
+      }
+    },
+
+  "getCartItems": {
+        "properties": {
+          "UserID":{"type": "Number","example": 131},
+           "sessionID":{ "required":true,"type": "String","example": "aa565asdasdy87sadasd987"}
+      }
+    },
+
+
+"createUser": {
+      "properties": {
+        "name": {
+          "required":true,
+          "type": "string",
+          "example": "user1"
+        },
+        "email": {
+          "type":"string",
+          "required":true,
+          "unique":true,
+          "example": "user123@gmail.com"
+        },
+        "password": {
+          "required":true,
+          "type":"string",
+          "example": "Admin@123"
+        } 
+      }
+    },
+  "Userresponse": {
+        "properties": {
+          "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEzMSwiaWF0IjoxNDc5Mzk1NzQ1LCJleHAiOjE0Nzk0MTM3NDV9.qk7ru4Y2Q1qj1GcjykOEE2Ik81YG8susBYPDDJXGk-U"
+      }
+    },
+
+"Login": {
+      "properties": {
+        "email": {
+          "type":"string",
+          "example": "user123@gmail.com"
+        },
+        "password": {
+          "required":true,
+          "type":"string",
+          "example": "Admin@123"
+        } 
+      }
+    },
+  "loginresponse": {
+        "properties": {
+           "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEzMSwiaWF0IjoxNDc5Mzk1NzQ1LCJleHAiOjE0Nzk0MTM3NDV9.qk7ru4Y2Q1qj1GcjykOEE2Ik81YG8susBYPDDJXGk-U"
+      }
+    },
+
+"UpdateCart": {
+      "properties": {
+        "quantity": {
+          "type":"Number",
+          "example": 2
+        },
+        "UserID": {
+          "type":"Number",
+          "example": 123
+        } 
+      }
+    },
+  "UpdateCartresponse": {
+        "properties": {
+           "_id": {
+          "type":"number",
+          "example": 1
+          },
+          "product": {
+          "type":"number",
+          "example": 1
+          },
+          "ipAddress": {
+          "type":"string",
+          "example": "192.19.10.1"
+          },
+          "area": {
+          "type":"string",
+          "example": "Bangalore"
+          },
+          "pinCode": {
+          "type":"number",
+          "example": 560102
+          },
+          "quantity": {
+          "type":"number",
+          "example": 2
+          },
+          "sessionID": {
+          "type":"string",
+          "example": "aa565asdasdy87sadasd987"
+          },
+          "sessionToken": {
+          "type":"string",
+          "example": "aa565asdasdy87sadasd987asdasdasdasd"
+          },
+          "updatedDate": {
+          "type":"date",
+          "example": "2016-11-17T18:19:31.781Z"
+          },
+          "isDeleted": {
+          "type":"number",
+          "example": false
+          },
+          "UserID": {
+          "type":"number",
+          "example": 131
+          }
+      }
+    },
+
+
+
+"userInfoResponse": {
+      "properties": {
+        "_id": {
+          "type":"number",
+          "example": 123
+        },
+        "provider": {
+          "type":"string",
+          "example": "local"
+        },
+        "name": {
+          "type":"string",
+          "example": "user1"
+        },
+       "email": {
+        "type":"string",
+        "example": "user123@gmail.com"
+        },
+        "password": {
+          "type":"string",
+          "example": "SJdqxCIR0ZSolWP9j04KCPBgkwOp+IXacLotuqCiNVGCXbQvNVpRljqMnaCQZ+1y+sIQ944JLJ+6dfEwm5THLA=="
+        },
+       "role": {
+        "type":"string",
+        "example": "user"
+        }  
+      }
+    },
+
+  "createshoppingCart": {
+      "properties": {
+        "product": {
+          "required":true,
+          "type": "number",
+          "example": "123"
+        },
+        "ipAddress": {
+          "type":"string",
+          "required":true,
+          "example": "192.19.10.1"
+        },
+        "area": {
+          "type":"string",
+          "example": "Bangalore"
+        },
+        "pinCode": {
+          "type":"number",
+          "example": "560102"
+        },
+        "quantity": {
+          "type":"number",
+          "required":true,
+          "example": "2"
+        },
+        "UserID": {
+          "type":"string",
+          "example": "12"
+        },
+        "sessionID": {
+          "type":"string",
+          "required":true,
+          "example": "aa565asdasdy87sadasd987"
+        },
+        "sessionToken": {
+          "required":true,
+          "type":"string",
+          "example": "aa565asdasdy87sadasd987asdasdasdasd"
+        },
+        "updatedDate": {
+          "type":"date",
+          "example": "12-11-2016"
+        },
+        "isDeleted": {
+          "type":"boolean",
+          "example": false
+        } 
+      }
+    },
+  "cartresponse": {
+        "properties": {
+         "product": {
+          "required":true,
+          "type": "number",
+          "example": "123"
+        },
+        "ipAddress": {
+          "type":"string",
+          "required":true,
+          "example": "192.19.10.1"
+        },
+        "area": {
+          "type":"string",
+          "example": "Bangalore"
+        },
+        "pinCode": {
+          "type":"number",
+          "example": "560102"
+        },
+        "quantity": {
+          "type":"number",
+          "required":true,
+          "example": "2"
+        },
+        "UserID": {
+          "type":"string",
+          "example": "12"
+        },
+        "sessionID": {
+          "type":"string",
+          "required":true,
+          "example": "aa565asdasdy87sadasd987"
+        },
+        "sessionToken": {
+          "required":true,
+          "type":"string",
+          "example": "aa565asdasdy87sadasd987asdasdasdasd"
+        },
+        "updatedDate": {
+          "type":"date",
+          "example": "12-11-2016"
+        },
+        "isDeleted": {
+          "example": false,
+          "type":"boolean"
+        } 
+      }
+    },
+
   "createProduct": {
         "properties": {
           "name":{ "type": "string","example": "test Shirt"},
@@ -569,6 +1081,15 @@
             "required":true,
             "type": "Number",
             "example": "123"
+          }
+      }
+    },
+    "searchresponse": {
+        "properties": {
+          "searchTerm": {
+            "required":true,
+            "type": "String",
+            "example": "shirt"
           }
       }
     },

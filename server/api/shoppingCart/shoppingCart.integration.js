@@ -56,6 +56,33 @@ describe('ShoppingCart API:', function() {
 
   });
 
+describe('POST /api/updateCart/:id', function() {
+    beforeEach(function(done) {
+      request(app)
+        .post('/api/updateCart'+ newShoppingCart._id)
+        .send({
+          name: 'New ShoppingCart',
+          info: 'This is the brand new shoppingCart!!!'
+        })
+        .expect(201)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          newShoppingCart = res.body;
+          done();
+        });
+    });
+
+    it('should respond with the newly created shoppingCart', function() {
+      newShoppingCart.name.should.equal('New ShoppingCart');
+      newShoppingCart.info.should.equal('This is the brand new shoppingCart!!!');
+    });
+
+  });
+
+
   describe('GET /api/shoppingCart/:id', function() {
     var shoppingCart;
 

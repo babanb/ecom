@@ -66,6 +66,7 @@ exports.index = function(req, res) {
     .catch(handleError(res));
 };
 
+
 // Gets a single ShoppingCart from the DB
 exports.show = function(req, res) {
   ShoppingCart.findByIdAsync(req.params.id)
@@ -74,8 +75,38 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+// Gets a all Items by session or UserID ShoppingCart from the DB
+exports.getCartItems = function(req, res) {
+  if(req.body.UserID){
+
+  ShoppingCart.find({UserID:req.body.UserID})
+    .populate('product','_id name mainImageUrl salePrice sku instock listPrice')
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+  }else{
+  ShoppingCart.find({sessionID:req.body.sessionID})
+    .populate('product','_id name mainImageUrl salePrice sku instock listPrice')
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+  }
+};
+
+// Update Qty in ShoppingCart to the DB
+exports.updateCart = function(req, res) {
+  req.body.updatedDate = new Date();
+  ShoppingCart.findOneAndUpdate({_id:req.params.id},req.body)
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
 // Creates a new ShoppingCart in the DB
 exports.create = function(req, res) {
+  req.body.createdDate = new Date();
   ShoppingCart.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
@@ -83,7 +114,7 @@ exports.create = function(req, res) {
 
 // Updates an existing ShoppingCart in the DB
 exports.update = function(req, res) {
-  
+  req.body.updatedDate = new Date();
   if (req.body._id) {
     delete req.body._id;
   }

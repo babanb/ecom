@@ -8,13 +8,12 @@ var Schema = mongoose.Schema;
 
 var ShoppingCartSchema = new Schema({
   
-    productID: {
+    product: {
       type: Number, ref: 'Products',
       required: true
     },
     createdDate: {
-      type: Date,
-      required: true
+      type: Date
     },
     ipAddress: {
       type: String
@@ -29,16 +28,8 @@ var ShoppingCartSchema = new Schema({
       type: Number,
 	  required: true
     },
-    offerAmount: {
-      type: String,
-      required: true
-    },
-    salePrice: {
-      type: String,
-      required: true
-    },
     UserID: {
-      type: Number, ref: 'Users'    
+      type: Number, ref: 'User'    
     },
     sessionID: {
       type: String,

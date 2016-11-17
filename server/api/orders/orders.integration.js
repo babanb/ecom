@@ -85,6 +85,36 @@ describe('Orders API:', function() {
 
   });
 
+
+  describe('GET /api/orders/getOrdersByUser/:id', function() {
+    var orders;
+
+    beforeEach(function(done) {
+      request(app)
+        .get('/api/orders/getOrdersByUser/' + newOrders._id)
+        
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function(err, res) {
+          if (err) {
+            return done(err);
+          }
+          orders = res.body;
+          done();
+        });
+    });
+
+    afterEach(function() {
+      orders = {};
+    });
+
+    it('should respond with the requested orders', function() {
+      orders.name.should.equal('Get Orders');
+      orders.info.should.equal('This is the brand new orders!!!');
+    });
+
+  });
+
   describe('PUT /api/orders/:id', function() {
     var updatedOrders
 

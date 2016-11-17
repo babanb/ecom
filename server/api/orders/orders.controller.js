@@ -74,6 +74,23 @@ exports.show = function(req, res) {
     .catch(handleError(res));
 };
 
+// Gets a all Orders by User from the DB
+exports.getOrdersByUser = function(req, res) {
+  Orders.find({userID:req.params.id})
+    .populate('department','name')
+    .populate('Products')
+    .populate('PaymentType','name')
+    .populate('PaymentStatus','name')
+    .populate('PaymentMethod','name')
+    .populate('OrderStatus')
+    .populate('Adress')
+    .populate('OrderHistory')
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
 // Creates a new Orders in the DB
 exports.create = function(req, res) {
   Orders.createAsync(req.body)

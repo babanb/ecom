@@ -117,8 +117,7 @@ exports.destroy = function(req, res) {
     .catch(handleError(res));
 };
 
-exports.uploadCsv = function(req, res) { 
-  console.log('file path --> ' + req.body.filePath); 
+exports.uploadCsv = function(req, res) {  
   fs.createReadStream(req.body.filePath).pipe(converter);
   // fs.readFile(req.body.filePath, {
   //           encoding: 'utf-8'
@@ -154,14 +153,22 @@ converter.on("end_parsed", function (jsonArray) {
           } else {
              nonProductObj[prop] = obj[prop];
           }
-        }
-
-        productObj['Features'] = nonProductObj;
+        } 
 
         console.log(productObj); 
+        
+        Products.find({'_id' : 51}, function (err, count){ 
+            if(count>0){
+                console.log("document exists ");
+            }else if(count == 0){
+                console.log("document not exists ");
+                productObj['Features'] = nonProductObj;
+                Products.createAsync(productObj); 
+            }
+        }); 
 
         // Need to check if the product allredy exists then we have to deicide what to be done..
-        Products.createAsync(productObj);                                                                                                                                    
+                                                                                                                                           
         
 
         // push the remaing obj to secoundry table with Product id linked
