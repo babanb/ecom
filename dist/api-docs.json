@@ -2,8 +2,8 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Sample spec",
-    "description": "Sample spec for Swagger",
+    "title": "Krazy Meals",
+    "description": "Krazy Meals for Swagger",
     "termsOfService": "http://swagger.io/terms/"
   },
   "basePath": "/",
