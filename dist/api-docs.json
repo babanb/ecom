@@ -426,10 +426,9 @@
           "parameters":[
             {
                 "name":"body",
-                "paramType": "body",
+                "in": "body",
                 "description": "add products",
                 "required": true,
-                "type": "itemMaster", 
                 "schema": {
                 "$ref": "#/definitions/createProduct"
                 }
