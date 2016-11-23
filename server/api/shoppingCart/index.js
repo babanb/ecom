@@ -8,6 +8,7 @@ var router = express.Router();
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/updateCart/:id', controller.update);
+router.post('/updateCart/', controller.updateCart);
 router.post('/getCartItems/', controller.getCartItems);
 router.post('/', controller.create);
 router.put('/:id', controller.update);

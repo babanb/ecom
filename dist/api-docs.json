@@ -235,6 +235,37 @@
           }
       },
 
+
+"/api/shoppingCart/updateCart": {
+         "post": {
+              "tags": ["shoppingCart"],
+              "description": "Update Carts Item quantity or UserId if user logged in",
+              "operationId": "UpdateCart",
+              "produces": [
+                "application/json"
+              ],
+              "parameters": [
+                  {
+                    "name": "shoppingCart Parameters",
+                    "in": "body",
+                    "description": "Update Cart to the database",
+                    "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/UpdateUserToCart"
+                    }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Update Cart response",
+                  "schema": {
+                     "$ref": "#/definitions/UpdateUserToCartresponse"
+                  }
+                }
+              }
+          }
+      },
+
 "/api/shoppingCart/getCartItems": {
      "post": {
           "tags": ["shoppingCart"],
@@ -819,6 +850,12 @@
       }
     },
 
+"UpdateUserToCart": {
+        "properties": {
+          "UserID":{"required":true,"type": "Number","example": 131},
+           "sessionID":{ "required":true,"type": "String","example": "aa565asdasdy87sadasd987"}
+      }
+    },
 
 "createUser": {
       "properties": {

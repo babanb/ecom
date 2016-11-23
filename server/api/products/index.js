@@ -12,6 +12,6 @@ router.get('/searchProducts/:text', controller.searchProducts);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
-router.post('/uploadCsv/', controller.uploadCsv);
+router.post('/uploadProducts/', controller.uploadCsv);
 
 module.exports = router;

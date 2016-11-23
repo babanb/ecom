@@ -10,6 +10,8 @@ import sqldb from './sqldb';
 import config from './config/environment';
 import http from 'http';
 
+var fileUpload = require('express-fileupload');
+
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
 mongoose.connection.on('error', function(err) {
@@ -25,6 +27,8 @@ var app = express();
 var server = http.createServer(app);
 require('./config/express')(app);
 require('./routes')(app);
+
+app.use(fileUpload());
 
 // Start server
 function startServer() {

@@ -118,24 +118,24 @@ exports.destroy = function(req, res) {
 };
 
 exports.uploadCsv = function(req, res) {  
-  fs.createReadStream(req.body.filePath).pipe(converter);
-  // fs.readFile(req.body.filePath, {
-  //           encoding: 'utf-8'
-  //       }, function(err, csvData) {
-  //           if (err) {
-  //               console.log(err);
-  //           }
+
+  fs.readFile(req.body.filePath, {
+            encoding: 'utf-8'
+        }, function(err, csvData) {
+            if (err) {
+                console.log(err);
+            }
   
-  //           csvParser(csvData, {
-  //               delimiter: ',' 
-  //           }, function(err, data) {
-  //               if (err) {
-  //                   console.log(err);
-  //               } else {
-  //                   console.log(data);
-  //               }
-  //           });
-  //       }); 
+            csvParser(csvData, {
+                delimiter: ',' 
+            }, function(err, data) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(data);
+                }
+            });
+        }); 
 };
 
 //end_parsed will be emitted once parsing finished 
@@ -157,7 +157,8 @@ converter.on("end_parsed", function (jsonArray) {
 
         console.log(productObj); 
         
-        Products.find({'_id' : 51}, function (err, count){ 
+        Products.find({'vendorID' : 100}, function (err, count){ 
+            console.log(count);
             if(count>0){
                 console.log("document exists ");
             }else if(count == 0){
