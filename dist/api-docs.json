@@ -782,7 +782,7 @@
               "example": "Mexican Grilled Chicken"
               },
             "cat":  {
-              "type": "Clothing",
+              "type": "food",
               "example": "New"
               },
             "vendorID":  {
@@ -795,7 +795,7 @@
               },
             "subCat":  {
               "type": "string",
-              "example": "Shirts"
+              "example": "meals"
               }
           }
     },
@@ -1125,7 +1125,7 @@
           "searchTerm": {
             "required":true,
             "type": "String",
-            "example": "shirt"
+            "example": "meals"
           }
       }
     },
