@@ -8,10 +8,10 @@
   },
   "basePath": "/",
   "tags" : [
-    {"name": "things", 
+    {"name": "things",
     "description": "API for something"
     },
-    {"name": "itemMaster", 
+    {"name": "itemMaster",
     "description": "API for itemMaster"
     }
   ],
@@ -356,7 +356,7 @@
       },
 
       "/api/shoppingCart": {
-        
+
      "post": {
           "tags": ["shoppingCart"],
           "description": "Create new shoppingCart",
@@ -387,7 +387,7 @@
       },
 
  "/api/products/searchProducts/{searchTerm}": {
-        
+
       "get":{
           "tags": ["products"],
           "description": "Get department by ID",
@@ -525,7 +525,7 @@
   "definitions": {
     "productResponse": {
       "properties": {
-            "active": { 
+            "active": {
                 "type": "boolean",
                 "example": true
               },
@@ -779,7 +779,7 @@
               },
             "dept":  {
               "type": "string",
-              "example": "Mens"
+              "example": "Mexican Grilled Chicken"
               },
             "cat":  {
               "type": "Clothing",
@@ -791,7 +791,7 @@
               },
             "instock":  {
               "type": "boolean",
-              "example": true 
+              "example": true
               },
             "subCat":  {
               "type": "string",
@@ -805,22 +805,22 @@
         "name": {
           "required":true,
           "type": "string",
-          "example": "Mens"
+          "example": "non veg"
         },
         "description": {
           "type":"string",
-          "example": "Mens department"
+          "example": "non veg"
         },
         "isActive": {
           "required":true,
           "type":"boolean"
-        } 
+        }
       }
     },
   "deptresponse": {
         "properties": {
-          "name":{ "required":true,"type": "String","example": "Mens"},
-           "description":{ "required":true,"type": "String","example": "Mens department"},
+          "name":{ "required":true,"type": "String","example": "non veg"},
+           "description":{ "required":true,"type": "String","example": "non veg "},
            "isActive": { "required":true,"type": "boolean","example": true}
       }
     },
@@ -831,13 +831,13 @@
           "required":true,
           "type": "Number",
           "example": "123"
-        } 
+        }
       }
     },
   "getOrderByUserResponse": {
         "properties": {
-          "name":{ "required":true,"type": "String","example": "Mens"},
-           "description":{ "required":true,"type": "String","example": "Mens department"},
+          "name":{ "required":true,"type": "String","example": "non veg"},
+           "description":{ "required":true,"type": "String","example": "non veg"},
            "isActive": { "required":true,"type": "boolean","example": true}
       }
     },
@@ -873,7 +873,7 @@
           "required":true,
           "type":"string",
           "example": "Admin@123"
-        } 
+        }
       }
     },
   "Userresponse": {
@@ -892,7 +892,7 @@
           "required":true,
           "type":"string",
           "example": "Admin@123"
-        } 
+        }
       }
     },
   "loginresponse": {
@@ -910,7 +910,7 @@
         "UserID": {
           "type":"Number",
           "example": 123
-        } 
+        }
       }
     },
   "UpdateCartresponse": {
@@ -929,7 +929,7 @@
           },
           "area": {
           "type":"string",
-          "example": "Bangalore"
+          "example": "DUbai"
           },
           "pinCode": {
           "type":"number",
@@ -989,7 +989,7 @@
        "role": {
         "type":"string",
         "example": "user"
-        }  
+        }
       }
     },
 
@@ -1007,7 +1007,7 @@
         },
         "area": {
           "type":"string",
-          "example": "Bangalore"
+          "example": "dubai"
         },
         "pinCode": {
           "type":"number",
@@ -1039,7 +1039,7 @@
         "isDeleted": {
           "type":"boolean",
           "example": false
-        } 
+        }
       }
     },
   "cartresponse": {
@@ -1088,17 +1088,17 @@
         "isDeleted": {
           "example": false,
           "type":"boolean"
-        } 
+        }
       }
     },
 
   "createProduct": {
         "properties": {
-          "name":{ "type": "string","example": "test Shirt"},
-           "description":{ "type": "string","example": "mens Shirts"},
-           "dept":{"type": "string","example": "Mens"},
-           "cat":{ "type": "string","example": "Clothing"},
-           "subCat":{"type": "string","example": "Shirts"},
+          "name":{ "type": "string","example": "chicken"},
+           "description":{ "type": "string","example": "Mexican Grilled Chicken "},
+           "dept":{"type": "string","example": "non veg"},
+           "cat":{ "type": "string","example": "non veg"},
+           "subCat":{"type": "string","example": "chicken"},
            "sku":{ "type": "string","example": "abcd12345"},
            "brand":{ "required":true,"type": "string","example": "abcd"},
            "mainImageUrl":{ "required":true,"type": "string","example": "abcd.jpg"},
