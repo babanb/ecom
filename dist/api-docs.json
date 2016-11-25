@@ -7,12 +7,14 @@
     "termsOfService": "http://swagger.io/terms/"
   },
   "basePath": "/",
-  "tags" : [
-    {"name": "things",
-    "description": "API for something"
+  "tags": [
+    {
+      "name": "things",
+      "description": "API for something"
     },
-    {"name": "itemMaster",
-    "description": "API for itemMaster"
+    {
+      "name": "itemMaster",
+      "description": "API for itemMaster"
     }
   ],
   "schemes": [
@@ -26,1137 +28,1402 @@
   ],
   "paths": {
     "/api/departments": {
-       "get": {
-          "tags": ["departments"],
-          "description": "Get all departments",
-          "operationId": "get",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-              "schema": {
-                "$ref": "#/definitions/get"
-                }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create response",
-              "schema": {
-                 "$ref": "#/definitions/response"
-              }
+      "get": {
+        "tags": [
+          "departments"
+        ],
+        "description": "Get all departments",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
             }
           }
-        },
-
-         "post": {
-          "tags": ["departments"],
-          "description": "Create new department",
-          "operationId": "Create",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "Department Parameters",
-                "in": "body",
-                "description": "Departments add to the database",
-                "required": true,
-              "schema": {
-                "$ref": "#/definitions/createDept"
-                }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create response",
-              "schema": {
-                 "$ref": "#/definitions/deptresponse"
-              }
-            }
-          }
-        }
-
-    },
-
-"/api/orders/getOrdersByUser/{Id}": {
-       "get": {
-          "tags": ["orders"],
-          "description": "Get all orders by user",
-          "operationId": "get",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-
-            {
-                "name": "Id",
-                "in": "path",
-                "description": "userId to get Orders",
-                "required": true,
-                "type": "number"
-              },
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Pass JWT Token with Bearer ",
-                "required": true
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Get all orders by user",
-              "schema": {
-                 "$ref": "#/definitions/getOrderByUserResponse"
-              }
-            }
-          }
-        }
-  },
-     "/api/departments/{Id}": {
-        "delete":{
-          "tags":["departments"],
-          "description":"Deletes a department",
-          "operationId":"delete",
-          "produces": [
-            "application/json"
-          ],
-          "parameters":[
-              {
-                "name": "ID",
-                "in": "path",
-                "description": "ID to delete",
-                "required": true,
-                "type": "number"
-              }
-            ],
-          "responses": {
-            "200": {
-              "description": "delete response",
-              "schema":{
-                "$ref":"#/definitions/deleteRes"
-              }
-            }
-          }
-        },
-      "get":{
-          "tags": ["departments"],
-          "description": "Get department by ID",
-          "operationId": "findById",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "ID",
-                "in": "path",
-                "description": "ID to fetch",
-                "required": true,
-                "type": "number"
-              }
-            ],
+        ],
         "responses": {
-            "200": {
-              "description": "response",
-              "schema": {
-                "$ref": "#/definitions/response1"
-              }
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
             }
           }
         }
       },
-
-  "/api/users": {
-         "post": {
-              "tags": ["users"],
-              "description": "Create new User",
-              "operationId": "Create",
-              "produces": [
-                "application/json"
-              ],
-              "parameters": [
-                  {
-                    "name": "User Parameters",
-                    "in": "body",
-                    "description": "User add to the database",
-                    "required": true,
-                  "schema": {
-                    "$ref": "#/definitions/createUser"
-                    }
-                }
-              ],
-              "responses": {
-                "200": {
-                  "description": "create response",
-                  "schema": {
-                     "$ref": "#/definitions/Userresponse"
-                  }
-                }
-              }
-          }
-      },
-
-"/api/shoppingCart/updateCart/{id}": {
-         "post": {
-              "tags": ["shoppingCart"],
-              "description": "Update Carts Item quantity or UserId if user logged in",
-              "operationId": "UpdateCart",
-              "produces": [
-                "application/json"
-              ],
-              "parameters": [
-                {
-                  "name": "Id",
-                  "in": "path",
-                  "description": "userId to get Orders",
-                  "required": true,
-                  "type": "number"
-                },
-                  {
-                    "name": "shoppingCart Parameters",
-                    "in": "body",
-                    "description": "Update Cart to the database",
-                    "required": true,
-                  "schema": {
-                    "$ref": "#/definitions/UpdateCart"
-                    }
-                }
-              ],
-              "responses": {
-                "200": {
-                  "description": "Update Cart response",
-                  "schema": {
-                     "$ref": "#/definitions/UpdateCartresponse"
-                  }
-                }
-              }
-          }
-      },
-
-
-"/api/shoppingCart/updateCart": {
-         "post": {
-              "tags": ["shoppingCart"],
-              "description": "Update Carts Item quantity or UserId if user logged in",
-              "operationId": "UpdateCart",
-              "produces": [
-                "application/json"
-              ],
-              "parameters": [
-                  {
-                    "name": "shoppingCart Parameters",
-                    "in": "body",
-                    "description": "Update Cart to the database",
-                    "required": true,
-                  "schema": {
-                    "$ref": "#/definitions/UpdateUserToCart"
-                    }
-                }
-              ],
-              "responses": {
-                "200": {
-                  "description": "Update Cart response",
-                  "schema": {
-                     "$ref": "#/definitions/UpdateUserToCartresponse"
-                  }
-                }
-              }
-          }
-      },
-
-"/api/shoppingCart/getCartItems": {
-     "post": {
-          "tags": ["shoppingCart"],
-          "description": "get all items in shoppingCart",
-          "operationId": "Get",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "Cart Parameters",
-                "in": "body",
-                "description": "get all items in shoppingCart",
-                "required": true,
-              "schema": {
-                "$ref": "#/definitions/getCartItems"
-                }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Login response",
-              "schema": {
-                 "$ref": "#/definitions/getCartItemsResponse"
-              }
+      "post": {
+        "tags": [
+          "departments"
+        ],
+        "description": "Create new department",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Department Parameters",
+            "in": "body",
+            "description": "Departments add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createDept"
             }
           }
-        }
-      },
-
-"/auth/local": {
-     "post": {
-          "tags": ["users"],
-          "description": "Login",
-          "operationId": "Authenticate",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "User Parameters",
-                "in": "body",
-                "description": "User add to the database",
-                "required": true,
-              "schema": {
-                "$ref": "#/definitions/Login"
-                }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "Login response",
-              "schema": {
-                 "$ref": "#/definitions/loginresponse"
-              }
-            }
-          }
-        }
-      },
-
-
-"/api/users/me": {
-     "get": {
-          "tags": ["users"],
-          "description": "User Info",
-          "operationId": "Authenticate",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "Authorization",
-                "in": "header",
-                "type": "string",
-                "description": "Pass JWT Token with Bearer ",
-                "required": true
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "user Info response",
-              "schema": {
-                 "$ref": "#/definitions/userInfoResponse"
-              }
-            }
-          }
-        }
-      },
-
-      "/api/shoppingCart": {
-
-     "post": {
-          "tags": ["shoppingCart"],
-          "description": "Create new shoppingCart",
-          "operationId": "Create",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "shoppingCart Parameters",
-                "in": "body",
-                "description": "shoppingCart add to the database",
-                "required": true,
-              "schema": {
-                "$ref": "#/definitions/createshoppingCart"
-                }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create response",
-              "schema": {
-                 "$ref": "#/definitions/cartresponse"
-              }
-            }
-          }
-        }
-      },
-
- "/api/products/searchProducts/{searchTerm}": {
-
-      "get":{
-          "tags": ["products"],
-          "description": "Get department by ID",
-          "operationId": "search",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "searchTerm",
-                "in": "path",
-                "description": "ID to fetch",
-                "required": true,
-                "type": "number"
-              }
-            ],
+        ],
         "responses": {
-            "200": {
-              "description": "response",
-              "schema": {
-                "$ref": "#/definitions/searchresponse"
-              }
-            }
-          }
-        }
-      },
-  "/api/products": {
-        "post":{
-          "tags":["products"],
-          "description":"add products",
-          "operationId":"post",
-          "type": "object",
-          "produces": [
-            "application/json"
-          ],
-          "parameters":[
-            {
-                "name":"body",
-                "in": "body",
-                "description": "add products",
-                "required": true,
-                "schema": {
-                "$ref": "#/definitions/createProduct"
-                }
-            }
-            ],
-          "responses": {
-            "200": {
-              "description": "create response",
-              "schema":{
-                "$ref":"#/definitions/productResponse"
-              }
-            }
-          }
-        },
-         "get": {
-          "tags": ["products"],
-          "description": "what this API does",
-          "operationId": "get",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-              "schema": {
-                "$ref": "#/definitions/get"
-                }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "create response",
-              "schema": {
-                 "$ref": "#/definitions/response"
-              }
-            }
-          }
-        }
-  },
-
-    "/api/products/{ID}": {
-        "delete":{
-          "tags":["products"],
-          "description":"Deletes a something",
-          "operationId":"delete",
-          "produces": [
-            "application/json"
-          ],
-          "parameters":[
-              {
-                "name": "ID",
-                "in": "path",
-                "description": "ID to delete",
-                "required": true,
-                "type": "number"
-              }
-            ],
-          "responses": {
-            "200": {
-              "description": "delete response",
-              "schema":{
-                "$ref":"#/definitions/deleteRes"
-              }
-            }
-          }
-        },
-      "get":{
-          "tags": [ "products"],
-          "description": "Returns the status of something",
-          "operationId": "findById",
-          "produces": [
-            "application/json"
-          ],
-          "parameters": [
-              {
-                "name": "ID",
-                "in": "path",
-                "description": "ID to fetch",
-                "required": true,
-                "type": "number"
-              }
-            ],
-        "responses": {
-            "200": {
-              "description": "response",
-              "schema": {
-                "$ref": "#/definitions/response1"
-              }
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/deptresponse"
             }
           }
         }
       }
-  },
+    },
+    "/api/orders/getOrdersByUser/{Id}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "description": "Get all orders by user",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "userId to get Orders",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Pass JWT Token with Bearer ",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get all orders by user",
+            "schema": {
+              "$ref": "#/definitions/getOrderByUserResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/departments/{Id}": {
+      "delete": {
+        "tags": [
+          "departments"
+        ],
+        "description": "Deletes a department",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to delete",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/definitions/deleteRes"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "departments"
+        ],
+        "description": "Get department by ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    },
 
+    "/api/categories": {
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "description": "Get all categories",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "category"
+        ],
+        "description": "Create new categories",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Category Parameters",
+            "in": "body",
+            "description": "Category add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createCategories"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/categoriesResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/getcategoriesByDepartmetId/{Id}": { 
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "description": "Get categories by department ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    },
+    "/api/categories/{Id}": {
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "description": "Deletes a category",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to delete",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/definitions/deleteRes"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "description": "Get category by ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create new User",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "User Parameters",
+            "in": "body",
+            "description": "User add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/Userresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/shoppingCart/updateCart/{id}": {
+      "post": {
+        "tags": [
+          "shoppingCart"
+        ],
+        "description": "Update Carts Item quantity or UserId if user logged in",
+        "operationId": "UpdateCart",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "userId to get Orders",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "shoppingCart Parameters",
+            "in": "body",
+            "description": "Update Cart to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Cart response",
+            "schema": {
+              "$ref": "#/definitions/UpdateCartresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/shoppingCart/updateCart": {
+      "post": {
+        "tags": [
+          "shoppingCart"
+        ],
+        "description": "Update Carts Item quantity or UserId if user logged in",
+        "operationId": "UpdateCart",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "shoppingCart Parameters",
+            "in": "body",
+            "description": "Update Cart to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserToCart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Cart response",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserToCartresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/shoppingCart/getCartItems": {
+      "post": {
+        "tags": [
+          "shoppingCart"
+        ],
+        "description": "get all items in shoppingCart",
+        "operationId": "Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Cart Parameters",
+            "in": "body",
+            "description": "get all items in shoppingCart",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getCartItems"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "schema": {
+              "$ref": "#/definitions/getCartItemsResponse"
+            }
+          }
+        }
+      }
+    },
+    "/auth/local": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Login",
+        "operationId": "Authenticate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "User Parameters",
+            "in": "body",
+            "description": "User add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "schema": {
+              "$ref": "#/definitions/loginresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/users/me": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "description": "User Info",
+        "operationId": "Authenticate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Pass JWT Token with Bearer ",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "user Info response",
+            "schema": {
+              "$ref": "#/definitions/userInfoResponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/shoppingCart": {
+      "post": {
+        "tags": [
+          "shoppingCart"
+        ],
+        "description": "Create new shoppingCart",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "shoppingCart Parameters",
+            "in": "body",
+            "description": "shoppingCart add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createshoppingCart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/cartresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/products/searchProducts/{searchTerm}": {
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "description": "Get department by ID",
+        "operationId": "search",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/searchresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/products": {
+      "post": {
+        "tags": [
+          "products"
+        ],
+        "description": "add products",
+        "operationId": "post",
+        "type": "object",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "add products",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createProduct"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/productResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "description": "what this API does",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
+    "/api/products/{ID}": {
+      "delete": {
+        "tags": [
+          "products"
+        ],
+        "description": "Deletes a something",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to delete",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/definitions/deleteRes"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "description": "Returns the status of something",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "productResponse": {
       "properties": {
-            "active": {
-                "type": "boolean",
-                "example": true
-              },
-            "newOld": {
-                "type": "string",
-                "example": "New"
-                },
-            "description":  {
-              "type": "asdasdasd",
-              "example": "New"
-              },
-            "externalProductId":  {
-              "type": "string",
-              "example": "asd12456"
-              },
-            "model":  {
-              "type": "string",
-              "example": "as321231"
-              },
-            "make":  {
-              "type": "string",
-              "example": "xyz"
-              },
-            "productSiteLaunchDate":  {
-              "type": "date",
-              "example": "12-11-2016"
-              },
-            "merchantReleaseDate":  {
-              "type": "date",
-              "example": "12-11-2016"
-              },
-            "restockDate":  {
-              "type": "string",
-              "example": "12-11-2016"
-              },
-            "quantity":  {
-              "type": "number",
-              "example": 10
-              },
-            "saleFromDate":  {
-              "type": "date",
-              "example": "12-11-2016"
-              },
-            "saleEndDate":  {
-              "type": "date",
-              "example": "12-11-2016"
-              },
-            "maxShipQty":  {
-              "type": "number",
-              "example": 2
-              },
-            "itemPackageQty":  {
-              "type": "number",
-              "example": "1"
-              },
-            "numberOfItems":  {
-              "type": "number",
-              "example": "1"
-              },
-            "isGiftwrapped":  {
-              "type": "boolean",
-              "example": false
-              },
-            "isDiscontinuedByManufacturer":  {
-              "type": "boolean",
-              "example": false
-              },
-            "isGiftMessaged":  {
-              "type": "boolean",
-              "example": false
-              },
-            "shippingWeight":  {
-              "type": "number",
-              "example": 100
-              },
-            "shippingWeightUnitOfMeasure":  {
-              "type": "string",
-              "example": "gm"
-              },
-            "weightUnitOfMeasure":  {
-              "type": "string",
-              "example": "gm"
-              },
-            "length":  {
-              "type": "number",
-              "example": 100
-              },
-            "width":  {
-              "type": "number",
-              "example": 100
-              },
-            "height":  {
-              "type": "number",
-              "example": "50"
-              },
-            "point1":  {
-              "type": "string",
-              "example": "boolet point 1"
-              },
-            "point2":  {
-              "type": "string",
-              "example": "boolet point 2"
-              },
-            "point3":  {
-              "type": "string",
-              "example": "boolet point 3"
-              },
-            "point4":  {
-              "type": "string",
-              "example": "boolet point 4"
-              },
-            "point5":  {
-              "type": "string",
-              "example": "boolet point 5"
-              },
-            "s3":  {
-              "type": "string",
-              "example": "New"
-              },
-            "s4":  {
-              "type": "string",
-              "example": "search Keywords 4"
-              },
-            "s5":  {
-              "type": "string",
-              "example": "search Keywords 5"
-              },
-            "p3":  {
-              "type": "string",
-              "example": "platinum search Keywords 3"
-              },
-            "p4":  {
-              "type": "string",
-              "example": "platinum search Keywords 4"
-              },
-            "s6":  {
-              "type": "string",
-              "example": "search Keywords 6"
-              },
-            "otherImageUrl":  {
-              "type": "string",
-              "example": "abcd.jpg"
-              },
-            "otherImageUrl1":  {
-              "type": "string",
-              "example": "abcd1.jpg"
-              },
-            "otherImageUrl2":  {
-              "type": "string",
-              "example": "abcd2.jpg"
-              },
-            "otherImageUrl3": {
-              "type": "string",
-              "example": "abcd3.jpg"
-              },
-            "otherImageUrl4":  {
-              "type": "string",
-              "example": "abcd4.jpg"
-              },
-            "otherImageUrl5":  {
-              "type": "string",
-              "example": "abcd5.jpg"
-              },
-            "otherImageUrl6":  {
-              "type": "string",
-              "example": "abcd6.jpg"
-              },
-            "otherImageUrl7":  {
-              "type": "string",
-              "example": "abcd7.jpg"
-              },
-            "otherImageUrl8":  {
-              "type": "string",
-              "example": "abcd8.jpg"
-              },
-            "color":  {
-              "type": "string",
-              "example": "black"
-              },
-            "size":  {
-              "type": "string",
-              "example": "xl"
-              },
-            "sizeMap":  {
-              "type": "string",
-              "example": "xl"
-              },
-            "colorMap":  {
-              "type": "string",
-              "example": "black"
-              },
-            "discount":  {
-              "type": "number",
-              "example": 0
-              },
-            "finalDiscount":  {
-              "type": "number",
-              "example": 0
-              },
-            "offerAmt":  {
-              "type": "number",
-              "example": 0
-              },
-            "offerPrice":  {
-              "type": "number",
-              "example": 0
-              },
-            "discountOnDiscount":  {
-              "type": "number",
-              "example": 0
-              },
-            "brand":  {
-              "type": "string",
-              "example": "abc"
-              },
-            "listPrice":  {
-              "type": "number",
-              "example": 500
-              },
-            "mainImageUrl":  {
-              "type": "string",
-              "example": "abc.jpg"
-              },
-            "name":  {
-              "type": "string",
-              "example": "test"
-              },
-            "p1":  {
-              "type": "string",
-              "example": "platinum search Keywords 1"
-              },
-            "s1":  {
-              "type": "string",
-              "example": "search Keywords 1"
-              },
-            "s2":  {
-              "type": "string",
-              "example": "search Keywords 2"
-              },
-            "p2":  {
-              "type": "string",
-              "example": "platinum search Keywords 2"
-              },
-            "salePrice":  {
-              "type": "Number",
-              "example": 300
-              },
-            "sku":  {
-              "type": "string",
-              "example": "abc1234"
-              },
-            "dept":  {
-              "type": "string",
-              "example": "Mexican Grilled Chicken"
-              },
-            "cat":  {
-              "type": "food",
-              "example": "New"
-              },
-            "vendorID":  {
-              "type": "Number",
-              "example": 1000
-              },
-            "instock":  {
-              "type": "boolean",
-              "example": true
-              },
-            "subCat":  {
-              "type": "string",
-              "example": "meals"
-              }
-          }
+        "active": {
+          "type": "boolean",
+          "example": true
+        },
+        "newOld": {
+          "type": "string",
+          "example": "New"
+        },
+        "description": {
+          "type": "asdasdasd",
+          "example": "New"
+        },
+        "externalProductId": {
+          "type": "string",
+          "example": "asd12456"
+        },
+        "model": {
+          "type": "string",
+          "example": "as321231"
+        },
+        "make": {
+          "type": "string",
+          "example": "xyz"
+        },
+        "productSiteLaunchDate": {
+          "type": "date",
+          "example": "12-11-2016"
+        },
+        "merchantReleaseDate": {
+          "type": "date",
+          "example": "12-11-2016"
+        },
+        "restockDate": {
+          "type": "string",
+          "example": "12-11-2016"
+        },
+        "quantity": {
+          "type": "number",
+          "example": 10
+        },
+        "saleFromDate": {
+          "type": "date",
+          "example": "12-11-2016"
+        },
+        "saleEndDate": {
+          "type": "date",
+          "example": "12-11-2016"
+        },
+        "maxShipQty": {
+          "type": "number",
+          "example": 2
+        },
+        "itemPackageQty": {
+          "type": "number",
+          "example": "1"
+        },
+        "numberOfItems": {
+          "type": "number",
+          "example": "1"
+        },
+        "isGiftwrapped": {
+          "type": "boolean",
+          "example": false
+        },
+        "isDiscontinuedByManufacturer": {
+          "type": "boolean",
+          "example": false
+        },
+        "isGiftMessaged": {
+          "type": "boolean",
+          "example": false
+        },
+        "shippingWeight": {
+          "type": "number",
+          "example": 100
+        },
+        "shippingWeightUnitOfMeasure": {
+          "type": "string",
+          "example": "gm"
+        },
+        "weightUnitOfMeasure": {
+          "type": "string",
+          "example": "gm"
+        },
+        "length": {
+          "type": "number",
+          "example": 100
+        },
+        "width": {
+          "type": "number",
+          "example": 100
+        },
+        "height": {
+          "type": "number",
+          "example": "50"
+        },
+        "point1": {
+          "type": "string",
+          "example": "boolet point 1"
+        },
+        "point2": {
+          "type": "string",
+          "example": "boolet point 2"
+        },
+        "point3": {
+          "type": "string",
+          "example": "boolet point 3"
+        },
+        "point4": {
+          "type": "string",
+          "example": "boolet point 4"
+        },
+        "point5": {
+          "type": "string",
+          "example": "boolet point 5"
+        },
+        "s3": {
+          "type": "string",
+          "example": "New"
+        },
+        "s4": {
+          "type": "string",
+          "example": "search Keywords 4"
+        },
+        "s5": {
+          "type": "string",
+          "example": "search Keywords 5"
+        },
+        "p3": {
+          "type": "string",
+          "example": "platinum search Keywords 3"
+        },
+        "p4": {
+          "type": "string",
+          "example": "platinum search Keywords 4"
+        },
+        "s6": {
+          "type": "string",
+          "example": "search Keywords 6"
+        },
+        "otherImageUrl": {
+          "type": "string",
+          "example": "abcd.jpg"
+        },
+        "otherImageUrl1": {
+          "type": "string",
+          "example": "abcd1.jpg"
+        },
+        "otherImageUrl2": {
+          "type": "string",
+          "example": "abcd2.jpg"
+        },
+        "otherImageUrl3": {
+          "type": "string",
+          "example": "abcd3.jpg"
+        },
+        "otherImageUrl4": {
+          "type": "string",
+          "example": "abcd4.jpg"
+        },
+        "otherImageUrl5": {
+          "type": "string",
+          "example": "abcd5.jpg"
+        },
+        "otherImageUrl6": {
+          "type": "string",
+          "example": "abcd6.jpg"
+        },
+        "otherImageUrl7": {
+          "type": "string",
+          "example": "abcd7.jpg"
+        },
+        "otherImageUrl8": {
+          "type": "string",
+          "example": "abcd8.jpg"
+        },
+        "color": {
+          "type": "string",
+          "example": "black"
+        },
+        "size": {
+          "type": "string",
+          "example": "xl"
+        },
+        "sizeMap": {
+          "type": "string",
+          "example": "xl"
+        },
+        "colorMap": {
+          "type": "string",
+          "example": "black"
+        },
+        "discount": {
+          "type": "number",
+          "example": 0
+        },
+        "finalDiscount": {
+          "type": "number",
+          "example": 0
+        },
+        "offerAmt": {
+          "type": "number",
+          "example": 0
+        },
+        "offerPrice": {
+          "type": "number",
+          "example": 0
+        },
+        "discountOnDiscount": {
+          "type": "number",
+          "example": 0
+        },
+        "brand": {
+          "type": "string",
+          "example": "abc"
+        },
+        "listPrice": {
+          "type": "number",
+          "example": 500
+        },
+        "mainImageUrl": {
+          "type": "string",
+          "example": "abc.jpg"
+        },
+        "name": {
+          "type": "string",
+          "example": "test"
+        },
+        "p1": {
+          "type": "string",
+          "example": "platinum search Keywords 1"
+        },
+        "s1": {
+          "type": "string",
+          "example": "search Keywords 1"
+        },
+        "s2": {
+          "type": "string",
+          "example": "search Keywords 2"
+        },
+        "p2": {
+          "type": "string",
+          "example": "platinum search Keywords 2"
+        },
+        "salePrice": {
+          "type": "Number",
+          "example": 300
+        },
+        "sku": {
+          "type": "string",
+          "example": "abc1234"
+        },
+        "dept": {
+          "type": "string",
+          "example": "Mexican Grilled Chicken"
+        },
+        "cat": {
+          "type": "food",
+          "example": "New"
+        },
+        "vendorID": {
+          "type": "Number",
+          "example": 1000
+        },
+        "instock": {
+          "type": "boolean",
+          "example": true
+        },
+        "subCat": {
+          "type": "string",
+          "example": "meals"
+        }
+      }
     },
-
     "createDept": {
       "properties": {
         "name": {
-          "required":true,
+          "required": true,
           "type": "string",
           "example": "non veg"
         },
         "description": {
-          "type":"string",
+          "type": "string",
           "example": "non veg"
         },
         "isActive": {
-          "required":true,
-          "type":"boolean"
+          "required": true,
+          "type": "boolean"
         }
       }
     },
-  "deptresponse": {
-        "properties": {
-          "name":{ "required":true,"type": "String","example": "non veg"},
-           "description":{ "required":true,"type": "String","example": "non veg "},
-           "isActive": { "required":true,"type": "boolean","example": true}
+    "createCategories": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "string",
+          "example": "non veg"
+        },
+        "department": {
+          "type": "Number",
+          "example": "1"
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean"
+        }
       }
     },
-
+    "categoriesResponse": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "String",
+          "example": "non veg"
+        },
+        "department": {
+          "required": true,
+          "type": "Number",
+          "example": "0"
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "deptresponse": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "String",
+          "example": "non veg"
+        },
+        "description": {
+          "required": true,
+          "type": "String",
+          "example": "non veg "
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
     "getOrderByUserId": {
       "properties": {
         "UserId": {
-          "required":true,
+          "required": true,
           "type": "Number",
           "example": "123"
         }
       }
     },
-  "getOrderByUserResponse": {
-        "properties": {
-          "name":{ "required":true,"type": "String","example": "non veg"},
-           "description":{ "required":true,"type": "String","example": "non veg"},
-           "isActive": { "required":true,"type": "boolean","example": true}
-      }
-    },
-
-  "getCartItems": {
-        "properties": {
-          "UserID":{"type": "Number","example": 131},
-           "sessionID":{ "required":true,"type": "String","example": "aa565asdasdy87sadasd987"}
-      }
-    },
-
-"UpdateUserToCart": {
-        "properties": {
-          "UserID":{"required":true,"type": "Number","example": 131},
-           "sessionID":{ "required":true,"type": "String","example": "aa565asdasdy87sadasd987"}
-      }
-    },
-
-"createUser": {
+    "getOrderByUserResponse": {
       "properties": {
         "name": {
-          "required":true,
+          "required": true,
+          "type": "String",
+          "example": "non veg"
+        },
+        "description": {
+          "required": true,
+          "type": "String",
+          "example": "non veg"
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
+    "getCartItems": {
+      "properties": {
+        "UserID": {
+          "type": "Number",
+          "example": 131
+        },
+        "sessionID": {
+          "required": true,
+          "type": "String",
+          "example": "aa565asdasdy87sadasd987"
+        }
+      }
+    },
+    "UpdateUserToCart": {
+      "properties": {
+        "UserID": {
+          "required": true,
+          "type": "Number",
+          "example": 131
+        },
+        "sessionID": {
+          "required": true,
+          "type": "String",
+          "example": "aa565asdasdy87sadasd987"
+        }
+      }
+    },
+    "createUser": {
+      "properties": {
+        "name": {
+          "required": true,
           "type": "string",
           "example": "user1"
         },
         "email": {
-          "type":"string",
-          "required":true,
-          "unique":true,
+          "type": "string",
+          "required": true,
+          "unique": true,
           "example": "user123@gmail.com"
         },
         "password": {
-          "required":true,
-          "type":"string",
+          "required": true,
+          "type": "string",
           "example": "Admin@123"
         }
       }
     },
-  "Userresponse": {
-        "properties": {
-          "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEzMSwiaWF0IjoxNDc5Mzk1NzQ1LCJleHAiOjE0Nzk0MTM3NDV9.qk7ru4Y2Q1qj1GcjykOEE2Ik81YG8susBYPDDJXGk-U"
+    "Userresponse": {
+      "properties": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEzMSwiaWF0IjoxNDc5Mzk1NzQ1LCJleHAiOjE0Nzk0MTM3NDV9.qk7ru4Y2Q1qj1GcjykOEE2Ik81YG8susBYPDDJXGk-U"
       }
     },
-
-"Login": {
+    "Login": {
       "properties": {
         "email": {
-          "type":"string",
+          "type": "string",
           "example": "user123@gmail.com"
         },
         "password": {
-          "required":true,
-          "type":"string",
+          "required": true,
+          "type": "string",
           "example": "Admin@123"
         }
       }
     },
-  "loginresponse": {
-        "properties": {
-           "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEzMSwiaWF0IjoxNDc5Mzk1NzQ1LCJleHAiOjE0Nzk0MTM3NDV9.qk7ru4Y2Q1qj1GcjykOEE2Ik81YG8susBYPDDJXGk-U"
+    "loginresponse": {
+      "properties": {
+        "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOjEzMSwiaWF0IjoxNDc5Mzk1NzQ1LCJleHAiOjE0Nzk0MTM3NDV9.qk7ru4Y2Q1qj1GcjykOEE2Ik81YG8susBYPDDJXGk-U"
       }
     },
-
-"UpdateCart": {
+    "UpdateCart": {
       "properties": {
         "quantity": {
-          "type":"Number",
+          "type": "Number",
           "example": 2
         },
         "UserID": {
-          "type":"Number",
+          "type": "Number",
           "example": 123
         }
       }
     },
-  "UpdateCartresponse": {
-        "properties": {
-           "_id": {
-          "type":"number",
-          "example": 1
-          },
-          "product": {
-          "type":"number",
-          "example": 1
-          },
-          "ipAddress": {
-          "type":"string",
-          "example": "192.19.10.1"
-          },
-          "area": {
-          "type":"string",
-          "example": "DUbai"
-          },
-          "pinCode": {
-          "type":"number",
-          "example": 560102
-          },
-          "quantity": {
-          "type":"number",
-          "example": 2
-          },
-          "sessionID": {
-          "type":"string",
-          "example": "aa565asdasdy87sadasd987"
-          },
-          "sessionToken": {
-          "type":"string",
-          "example": "aa565asdasdy87sadasd987asdasdasdasd"
-          },
-          "updatedDate": {
-          "type":"date",
-          "example": "2016-11-17T18:19:31.781Z"
-          },
-          "isDeleted": {
-          "type":"number",
-          "example": false
-          },
-          "UserID": {
-          "type":"number",
-          "example": 131
-          }
-      }
-    },
-
-
-
-"userInfoResponse": {
+    "UpdateCartresponse": {
       "properties": {
         "_id": {
-          "type":"number",
+          "type": "number",
+          "example": 1
+        },
+        "product": {
+          "type": "number",
+          "example": 1
+        },
+        "ipAddress": {
+          "type": "string",
+          "example": "192.19.10.1"
+        },
+        "area": {
+          "type": "string",
+          "example": "DUbai"
+        },
+        "pinCode": {
+          "type": "number",
+          "example": 560102
+        },
+        "quantity": {
+          "type": "number",
+          "example": 2
+        },
+        "sessionID": {
+          "type": "string",
+          "example": "aa565asdasdy87sadasd987"
+        },
+        "sessionToken": {
+          "type": "string",
+          "example": "aa565asdasdy87sadasd987asdasdasdasd"
+        },
+        "updatedDate": {
+          "type": "date",
+          "example": "2016-11-17T18:19:31.781Z"
+        },
+        "isDeleted": {
+          "type": "number",
+          "example": false
+        },
+        "UserID": {
+          "type": "number",
+          "example": 131
+        }
+      }
+    },
+    "userInfoResponse": {
+      "properties": {
+        "_id": {
+          "type": "number",
           "example": 123
         },
         "provider": {
-          "type":"string",
+          "type": "string",
           "example": "local"
         },
         "name": {
-          "type":"string",
+          "type": "string",
           "example": "user1"
         },
-       "email": {
-        "type":"string",
-        "example": "user123@gmail.com"
+        "email": {
+          "type": "string",
+          "example": "user123@gmail.com"
         },
         "password": {
-          "type":"string",
+          "type": "string",
           "example": "SJdqxCIR0ZSolWP9j04KCPBgkwOp+IXacLotuqCiNVGCXbQvNVpRljqMnaCQZ+1y+sIQ944JLJ+6dfEwm5THLA=="
         },
-       "role": {
-        "type":"string",
-        "example": "user"
+        "role": {
+          "type": "string",
+          "example": "user"
         }
       }
     },
-
-  "createshoppingCart": {
+    "createshoppingCart": {
       "properties": {
         "product": {
-          "required":true,
+          "required": true,
           "type": "number",
           "example": "123"
         },
         "ipAddress": {
-          "type":"string",
-          "required":true,
+          "type": "string",
+          "required": true,
           "example": "192.19.10.1"
         },
         "area": {
-          "type":"string",
+          "type": "string",
           "example": "dubai"
         },
         "pinCode": {
-          "type":"number",
+          "type": "number",
           "example": "560102"
         },
         "quantity": {
-          "type":"number",
-          "required":true,
+          "type": "number",
+          "required": true,
           "example": "2"
         },
         "UserID": {
-          "type":"string",
+          "type": "string",
           "example": "12"
         },
         "sessionID": {
-          "type":"string",
-          "required":true,
+          "type": "string",
+          "required": true,
           "example": "aa565asdasdy87sadasd987"
         },
         "sessionToken": {
-          "required":true,
-          "type":"string",
+          "required": true,
+          "type": "string",
           "example": "aa565asdasdy87sadasd987asdasdasdasd"
         },
         "updatedDate": {
-          "type":"date",
+          "type": "date",
           "example": "12-11-2016"
         },
         "isDeleted": {
-          "type":"boolean",
+          "type": "boolean",
           "example": false
         }
       }
     },
-  "cartresponse": {
-        "properties": {
-         "product": {
-          "required":true,
+    "cartresponse": {
+      "properties": {
+        "product": {
+          "required": true,
           "type": "number",
           "example": "123"
         },
         "ipAddress": {
-          "type":"string",
-          "required":true,
+          "type": "string",
+          "required": true,
           "example": "192.19.10.1"
         },
         "area": {
-          "type":"string",
+          "type": "string",
           "example": "Bangalore"
         },
         "pinCode": {
-          "type":"number",
+          "type": "number",
           "example": "560102"
         },
         "quantity": {
-          "type":"number",
-          "required":true,
+          "type": "number",
+          "required": true,
           "example": "2"
         },
         "UserID": {
-          "type":"string",
+          "type": "string",
           "example": "12"
         },
         "sessionID": {
-          "type":"string",
-          "required":true,
+          "type": "string",
+          "required": true,
           "example": "aa565asdasdy87sadasd987"
         },
         "sessionToken": {
-          "required":true,
-          "type":"string",
+          "required": true,
+          "type": "string",
           "example": "aa565asdasdy87sadasd987asdasdasdasd"
         },
         "updatedDate": {
-          "type":"date",
+          "type": "date",
           "example": "12-11-2016"
         },
         "isDeleted": {
           "example": false,
-          "type":"boolean"
+          "type": "boolean"
         }
       }
     },
-
-  "createProduct": {
-        "properties": {
-          "name":{ "type": "string","example": "chicken"},
-           "description":{ "type": "string","example": "Mexican Grilled Chicken "},
-           "dept":{"type": "string","example": "non veg"},
-           "cat":{ "type": "string","example": "non veg"},
-           "subCat":{"type": "string","example": "chicken"},
-           "sku":{ "type": "string","example": "abcd12345"},
-           "brand":{ "required":true,"type": "string","example": "abcd"},
-           "mainImageUrl":{ "required":true,"type": "string","example": "abcd.jpg"},
-           "vendorID":{ "required":true,"type": "Number","example": 100},
-           "quantity":{ "required":true,"type": "Number","example": 10},
-           "listPrice":{ "required":true,"type": "Number","example": 500},
-           "salePrice":{ "required":true,"type": "Number","example": 300},
-           "isActive": { "required":true,"type": "boolean","example": true}
+    "createProduct": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "chicken"
+        },
+        "description": {
+          "type": "string",
+          "example": "Mexican Grilled Chicken "
+        },
+        "dept": {
+          "type": "string",
+          "example": "non veg"
+        },
+        "cat": {
+          "type": "string",
+          "example": "non veg"
+        },
+        "subCat": {
+          "type": "string",
+          "example": "chicken"
+        },
+        "sku": {
+          "type": "string",
+          "example": "abcd12345"
+        },
+        "brand": {
+          "required": true,
+          "type": "string",
+          "example": "abcd"
+        },
+        "mainImageUrl": {
+          "required": true,
+          "type": "string",
+          "example": "abcd.jpg"
+        },
+        "vendorID": {
+          "required": true,
+          "type": "Number",
+          "example": 100
+        },
+        "quantity": {
+          "required": true,
+          "type": "Number",
+          "example": 10
+        },
+        "listPrice": {
+          "required": true,
+          "type": "Number",
+          "example": 500
+        },
+        "salePrice": {
+          "required": true,
+          "type": "Number",
+          "example": 300
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean",
+          "example": true
+        }
       }
     },
-
-
     "response1": {
-        "properties": {
-          "Id": {
-            "required":true,
-            "type": "Number",
-            "example": "123"
-          }
+      "properties": {
+        "Id": {
+          "required": true,
+          "type": "Number",
+          "example": "123"
+        }
       }
     },
     "searchresponse": {
-        "properties": {
-          "searchTerm": {
-            "required":true,
-            "type": "String",
-            "example": "meals"
-          }
+      "properties": {
+        "searchTerm": {
+          "required": true,
+          "type": "String",
+          "example": "meals"
+        }
       }
     },
     "response": {
-        "properties": {
-            "Id": {
-              "required": true,
-              "type" : "Number",
-              "example" : "12"
-            }
+      "properties": {
+        "Id": {
+          "required": true,
+          "type": "Number",
+          "example": "12"
         }
+      }
     },
     "delete": {
-        "properties": {
-            "Id": {
-              "required": true,
-              "type" : "Number",
-              "example" : "12"
-            },
-            "status" : {
-              "required": true,
-              "type": "string",
-              "example": "deleted"
-            }
+      "properties": {
+        "Id": {
+          "required": true,
+          "type": "Number",
+          "example": "12"
+        },
+        "status": {
+          "required": true,
+          "type": "string",
+          "example": "deleted"
         }
+      }
     },
-    "400error" : {
-       "properties": {
+    "400error": {
+      "properties": {
         "message": {
           "type": "string",
-          "example" : "400 Bad Request"
+          "example": "400 Bad Request"
         }
       }
     }
