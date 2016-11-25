@@ -316,7 +316,119 @@
           }
         }
       }
-    },
+    }, 
+     "/api/todaysDeal": {
+      "get": {
+        "tags": [
+          "todaysDeal"
+        ],
+        "description": "Get all todaysDeal",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "todaysDeal"
+        ],
+        "description": "Create new todaysDeal",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "todaysDeal Parameters",
+            "in": "body",
+            "description": "todaysDeal add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createtodaysDeal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/todaysDealResponse"
+            }
+          }
+        }
+      }
+    }, 
+    "/api/todaysDeal/{Id}": {
+      "delete": {
+        "tags": [
+          "todaysDeal"
+        ],
+        "description": "Deletes a todaysDeal",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to delete",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/definitions/deleteRes"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "todaysDeal"
+        ],
+        "description": "Get todaysDeal by ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    }, 
     "/api/users": {
       "post": {
         "tags": [
@@ -976,6 +1088,25 @@
         }
       }
     },
+    "deptresponse": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "String",
+          "example": "non veg"
+        },
+        "description": {
+          "required": true,
+          "type": "String",
+          "example": "non veg "
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean",
+          "example": true
+        }
+      }
+    },
     "createCategories": {
       "properties": {
         "name": {
@@ -1011,26 +1142,65 @@
           "example": true
         }
       }
-    },
-    "deptresponse": {
-      "properties": {
-        "name": {
+    }, 
+    "createtodaysDeal": {
+      "properties": { 
+        "fromDate": {
+          "type": "Date",
           "required": true,
-          "type": "String",
-          "example": "non veg"
+          "example": "11-12-2016"
         },
-        "description": {
+        "toDate": {
+          "type": "Date",
           "required": true,
-          "type": "String",
-          "example": "non veg "
+          "example": "11-12-2016"
         },
-        "isActive": {
+        "toTime": {
+          "type": "Date",
           "required": true,
-          "type": "boolean",
-          "example": true
+          "example": "12:20 00"
+        },
+        "fromTime": {
+          "type": "Date",
+          "required": true,
+          "example": "20:40 00"
+        },
+        "productID": {
+          "type": "Number", 
+          "required": true,
+          "example": "1"
         }
       }
     },
+    "todaysDealResponse": {
+      "properties": {
+        "fromDate": {
+          "type": "Date",
+          "required": true,
+          "example": "11-12-2016"
+        },
+        "toDate": {
+          "type": "Date",
+          "required": true,
+          "example": "11-12-2016"
+        },
+        "toTime": {
+          "type": "Date",
+          "required": true,
+          "example": "12:20 00"
+        },
+        "fromTime": {
+          "type": "Date",
+          "required": true,
+          "example": "20:40 00"
+        },
+        "productID": {
+          "type": "Number", 
+          "required": true,
+          "example": "1"
+        }
+      }
+    }, 
     "getOrderByUserId": {
       "properties": {
         "UserId": {
