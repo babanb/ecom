@@ -176,6 +176,119 @@
       }
     },
 
+    "/api/navigationMenu": {
+      "get": {
+        "tags": [
+          "navigationMenu"
+        ],
+        "description": "Get all categories",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "navigationMenu"
+        ],
+        "description": "Create new categories",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "navigationMenu Parameters",
+            "in": "body",
+            "description": "navigationMenu add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createNavigationMenu"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/navigationMenuResponse"
+            }
+          }
+        }
+      }
+    }, 
+    "/api/navigationMenu/{Id}": {
+      "delete": {
+        "tags": [
+          "navigationMenu"
+        ],
+        "description": "Deletes a navigationMenu",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to delete",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/definitions/deleteRes"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "navigationMenu"
+        ],
+        "description": "Get navigationMenu by ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    }, 
+
     "/api/categories": {
       "get": {
         "tags": [
@@ -1172,6 +1285,92 @@
         }
       }
     },
+
+    "createNavigationMenu": {
+      "properties": {
+
+        "subCategory":  {
+          "type": "Number",
+          "example": "1"
+        },
+      "img": {  
+          "type": "string",
+          "example": "non veg"
+        },
+      "isActive": {
+          "required": true,
+          "type": "boolean"
+        },
+      "parent": { 
+          "type": "string",
+          "example": "veg"
+        },
+      "title": {
+          "required": true,
+          "type": "string",
+          "example": "non veg"
+        },
+      "category":  {
+          "type": "Number",
+          "example": "1"
+        },
+      "department":  {
+          "type": "Number",
+          "example": "1"
+        },
+      "level":   {
+          "type": "Number",
+          "example": "1"
+        },
+      "sequence":  {
+          "type": "Number",
+          "example": "1"
+        } 
+      }
+    },
+
+     "navigationMenuResponse": {
+      "properties": {
+        "subCategory":  {
+          "type": "Number",
+          "example": "1"
+        },
+      "img": {  
+          "type": "string",
+          "example": "non veg"
+        },
+      "isActive": {
+          "required": true,
+          "type": "boolean"
+        },
+      "parent": { 
+          "type": "string",
+          "example": "veg"
+        },
+      "title": {
+          "required": true,
+          "type": "string",
+          "example": "non veg"
+        },
+      "category":  {
+          "type": "Number",
+          "example": "1"
+        },
+      "department":  {
+          "type": "Number",
+          "example": "1"
+        },
+      "level":   {
+          "type": "Number",
+          "example": "1"
+        },
+      "sequence":  {
+          "type": "Number",
+          "example": "1"
+        } 
+      }
+    }, 
+
     "todaysDealResponse": {
       "properties": {
         "fromDate": {
