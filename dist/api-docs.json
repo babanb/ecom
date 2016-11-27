@@ -289,6 +289,119 @@
       }
     }, 
 
+    "/api/productReviews": {
+      "get": {
+        "tags": [
+          "productReviews"
+        ],
+        "description": "Get all productReviews",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "productReviews"
+        ],
+        "description": "Create new productReviews",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "productReviews Parameters",
+            "in": "body",
+            "description": "productReviews add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createproductReviews"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/productReviewsResponse"
+            }
+          }
+        }
+      }
+    }, 
+    "/api/productReviews/{Id}": {
+      "delete": {
+        "tags": [
+          "productReviews"
+        ],
+        "description": "Deletes a productReviews",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to delete",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/definitions/deleteRes"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "productReviews"
+        ],
+        "description": "Get productReviews by ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    }, 
+
     "/api/categories": {
       "get": {
         "tags": [
@@ -1256,6 +1369,78 @@
         }
       }
     }, 
+
+    "createproductReviews": {
+      "properties": {
+
+        "productID":  {
+          "required": true,
+          "type": "Number",
+          "example": "1"
+        },
+      "comments": {  
+          "type": "string",
+          "example": "non veg"
+        },
+      "userID": { 
+          "required": true,
+          "type": "Number",
+          "example": "1"
+        },
+      "ipAddress": { 
+          "type": "string",
+          "example": "veg"
+        },
+      "ratings": { 
+          "type": "string",
+          "example": "non veg"
+        },
+      "createdAt":  {
+          "type": "Date", 
+          "example": "11-12-2016"
+        },
+      "updatedAt":  {
+          "type": "Date", 
+          "example": "11-12-2016"
+        } 
+      }
+    },
+
+     "productReviewsResponse": {
+      "properties": {
+            "productID":  {
+            "required": true,
+            "type": "Number",
+            "example": "1"
+          },
+        "comments": {  
+            "type": "string",
+            "example": "non veg"
+          },
+        "userID": { 
+            "required": true,
+            "type": "Number",
+            "example": "1"
+          },
+        "ipAddress": { 
+            "type": "string",
+            "example": "veg"
+          },
+        "ratings": { 
+            "type": "string",
+            "example": "non veg"
+          },
+        "createdAt":  {
+            "type": "Date", 
+            "example": "11-12-2016"
+          },
+        "updatedAt":  {
+            "type": "Date", 
+            "example": "11-12-2016"
+          } 
+      }
+    }, 
+    
     "createtodaysDeal": {
       "properties": { 
         "fromDate": {
