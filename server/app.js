@@ -5,6 +5,7 @@
 'use strict';
 
 import express from 'express';
+import busboy from 'connect-busboy';
 import mongoose from 'mongoose';
 import sqldb from './sqldb';
 import config from './config/environment';
@@ -24,6 +25,7 @@ if (config.seedDB) { require('./config/seed'); }
 
 // Setup server
 var app = express();
+app.use(busboy());
 var server = http.createServer(app);
 require('./config/express')(app);
 require('./routes')(app);

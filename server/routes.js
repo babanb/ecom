@@ -16,6 +16,7 @@ module.exports = function(app) {
   });
 
   // Insert routes below
+  app.use('/api/productsProperties', require('./api/uploadProductsProperties'));
   app.use('/api/productReviews', require('./api/productReviews'));
   app.use('/api/todaysDeals', require('./api/todaysDeal'));
   app.use('/api/paymentStatus', require('./api/paymentStatus'));

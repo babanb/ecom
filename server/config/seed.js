@@ -7,6 +7,7 @@
 import User from '../api/user/user.model';
 import Product from '../api/products/products.model'; 
 import PaymentStatus from '../api/paymentStatus/paymentStatus.model'; 
+import productProperties from '../api/uploadProductsProperties/uploadProductsProperties.model'; 
 
 
 User.find({}).removeAsync()
@@ -28,6 +29,165 @@ User.find({}).removeAsync()
     });
   });
  
+productProperties.find({}).removeAsync()
+  .then(function() {
+    productProperties.createAsync({
+    fieldName: "Product_Name",
+    ProductMappingfield: "name",
+    dataType: "string",
+    isImage: false,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "Product_sku",
+    ProductMappingfield: "sku",
+    dataType: "string",
+    isImage: false,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "category_name",
+    ProductMappingfield: "cat",
+    dataType: "string",
+    isImage: false,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "department_name",
+    ProductMappingfield: "dept",
+    dataType: "string",
+    isImage: false,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "sub_category",
+    ProductMappingfield: "subCat",
+    dataType: "string",
+    isImage: false,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "vendorID",
+    ProductMappingfield: "vendorID",
+    dataType: "number",
+    isImage: false,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "sale_Price",
+    ProductMappingfield: "salePrice",
+    dataType: "number",
+    isImage: false,
+    specialConditionValue: "",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "list_Price",
+    ProductMappingfield: "listPrice",
+    dataType: "number",
+    isImage: false,
+    specialConditionValue: "",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "main_Image_Url",
+    ProductMappingfield: "mainImageUrl",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: true,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url1",
+    ProductMappingfield: "otherImageUrl1",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url2",
+    ProductMappingfield: "otherImageUrl2",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url3",
+    ProductMappingfield: "otherImageUrl3",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url4",
+    ProductMappingfield: "otherImageUrl4",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url5",
+    ProductMappingfield: "otherImageUrl5",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url6",
+    ProductMappingfield: "otherImageUrl6",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url7",
+    ProductMappingfield: "otherImageUrl7",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  },
+  {
+    fieldName: "other_image_url8",
+    ProductMappingfield: "otherImageUrl8",
+    dataType: "string",
+    isImage: true,
+    specialConditionValue: "~,`,!,@,#,$,%,:,^,*,=,/,\"\\",
+    isRequired: false,
+    subCategory: "Common"
+  })
+    .then(function() {
+      console.log('finished populating users');
+    });
+  });
 
 
 PaymentStatus.find({}).removeAsync()

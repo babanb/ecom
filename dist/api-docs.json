@@ -906,6 +906,99 @@
         }
       }
     },
+
+    "/api/productsProperties": {
+      "post": {
+        "tags": [
+          "uploadProductsProperties"
+        ],
+        "description": "add productsProperties",
+        "operationId": "post",
+        "type": "object",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "add uploadProductsProperties",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createProductsPropertiesResponse"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/productsPropertiesResponse"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "uploadProductsProperties"
+        ],
+        "description": "what this API does",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create productsProperties response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/api/products/uploadProducts": {
+        "post":{
+          "tags":["products"],
+          "description":"Upload products",
+          "operationId":"post",
+          "type": "object",
+          "consumes": [
+            "multipart/form-data"
+          ],
+          "produces": [
+            "application/json"
+          ],
+          "parameters":[
+            {
+                "name":"file",
+                "in": "formData",
+                "description": "add products",
+                "required": true,
+                "type": "file"
+
+            }
+            ],
+          "responses": {
+            "200": {
+              "description": "Upload products response",
+              "schema":{
+                "$ref":"#/definitions/response1"
+              }
+            }
+          }
+        }
+  },
+  
     "/api/products": {
       "post": {
         "tags": [
@@ -1932,6 +2025,82 @@
         }
       }
     },
+
+
+"createProductsPropertiesResponse": {
+      "properties": {
+        "fieldName": {
+          "required": true,
+          "type": "string",
+          "example": "Product_Name"
+        },
+        "ProductMappingfield": {
+          "required": true,
+          "type": "string",
+          "example": "name"
+        },
+        "dataType": {
+          "type": "string",
+          "required": true,
+          "example": "string"
+        },
+        "isImage": {
+          "type": "boolean",
+          "example": "false"
+        },
+        "specialConditionValue": {
+          "type": "string",
+          "example": "~,`,!,@,#,$,%,:,^,*,=,\/,\"\\"
+        },
+        "isRequired": {
+          "type": "boolean",
+          "required": true,
+          "example": "true"
+        },
+        "subCategory": {
+          "type": "string",
+          "example": "Common"
+        }
+      }
+    },
+   
+   "productsPropertiesResponse": {
+      "properties": {
+        "fieldName": {
+          "required": true,
+          "type": "string",
+          "example": "Product_Name"
+        },
+        "ProductMappingfield": {
+          "required": true,
+          "type": "string",
+          "example": "name"
+        },
+        "dataType": {
+          "type": "string",
+          "required": true,
+          "example": "string"
+        },
+        "isImage": {
+          "type": "boolean",
+          "example": "false"
+        },
+        "specialConditionValue": {
+          "type": "string",
+          "example": "~,`,!,@,#,$,%,:,^,*,=,\/,\"\\"
+        },
+        "isRequired": {
+          "type": "boolean",
+          "required": true,
+          "example": "true"
+        },
+        "subCategory": {
+          "type": "string",
+          "example": "Common"
+        }
+      }
+    },
+
     "response1": {
       "properties": {
         "Id": {
