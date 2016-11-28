@@ -8,6 +8,12 @@ import errors from './components/errors';
 import path from 'path';
 
 module.exports = function(app) {
+  //cors handled
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 
   // Insert routes below
   app.use('/api/productReviews', require('./api/productReviews'));
@@ -23,10 +29,10 @@ module.exports = function(app) {
   app.use('/api/subCategories', require('./api/subCategory'));
   app.use('/api/categories', require('./api/category'));
   app.use('/api/menus', require('./api/navigationMenu'));
-  
+
   app.use('/api/users', require('./api/user'));
   app.use('/auth', require('./auth'));
-  
+
   // All undefined asset or api routes should return a 404
   app.route('/:url(api|auth)/*')
    .get(errors[404]);
