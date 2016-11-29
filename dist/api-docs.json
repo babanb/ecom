@@ -686,6 +686,48 @@
         }
       }
     },
+
+
+    "/api/users/{id}/password": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Chnage user password",
+        "operationId": "changePassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [ 
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Pass JWT Token with Bearer ",
+            "required": true
+          },
+          {
+            "name": "User password Parameters",
+            "in": "body",
+            "description": "Change password with old password with Authorization Bearer {tocken}",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/changeUserPassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "change password response",
+            "schema": {
+              "$ref": "#/definitions/Userresponse"
+            }
+          }
+        }
+      }
+    },
+
+
     "/api/shoppingCart/updateCart/{id}": {
       "post": {
         "tags": [
@@ -1733,6 +1775,22 @@
         }
       }
     },
+
+    "changeUserPassword": {
+      "properties": {
+        "oldPassword": {
+          "required": true,
+          "type": "string",
+          "example": "test@123"
+        },
+        "newPassword": {
+          "type": "string",
+          "required": true, 
+          "example": "test@1234"
+        } 
+      }
+    },
+
     "createUser": {
       "properties": {
         "name": {
