@@ -1153,6 +1153,154 @@
           }
         }
       }
+    },
+     "/api/address": {
+      "get": {
+        "tags": [
+          "address"
+        ],
+        "description": "Get all address",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "address"
+        ],
+        "description": "Create new address",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "address Parameters",
+            "in": "body",
+            "description": "Address add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createaddress"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/createaddress"
+            }
+          }
+        }
+      }
+    },
+    "/api/address/getaddressByUserId/{Id}": { 
+      "get": {
+        "tags": [
+          "address"
+        ],
+        "description": "Get address by department ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "description": "Pass JWT Token with Bearer ",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    },
+    "/api/address/{Id}": {
+      "delete": {
+        "tags": [
+          "address"
+        ],
+        "description": "Deletes a address",
+        "operationId": "delete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to delete",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete response",
+            "schema": {
+              "$ref": "#/definitions/deleteRes"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "address"
+        ],
+        "description": "Get address by ID",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "ID",
+            "in": "path",
+            "description": "ID to fetch",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1876,7 +2024,7 @@
           "type": "string",
           "example": "aa565asdasdy87sadasd987"
         },
-        "sessionToken": {
+        "authToken": {
           "type": "string",
           "example": "aa565asdasdy87sadasd987asdasdasdasd"
         },
@@ -1956,8 +2104,7 @@
           "required": true,
           "example": "aa565asdasdy87sadasd987"
         },
-        "sessionToken": {
-          "required": true,
+        "authToken": { 
           "type": "string",
           "example": "aa565asdasdy87sadasd987asdasdasdasd"
         },
@@ -1969,6 +2116,80 @@
           "type": "boolean",
           "example": false
         }
+      }
+    },
+    "createaddress": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Anil S G",
+          "required": true
+        },
+        "userID": {
+          "type": "number",
+          "example": "0",
+          "required": true
+        },
+        "addressType": {
+          "type": "string",
+          "example": "non veg"
+        },
+        "authToken": {
+          "type": "string",
+          "example": ""
+        },
+        "street1": {
+          "type": "string",
+          "example": "1st Cross",
+          "required": true
+        },
+        "street2": {
+          "type": "string",
+          "example": "2nd main"
+        },
+        "street3": {
+          "type": "string",
+          "example": "3rd lane"
+        },
+        "street4": {
+          "type": "string",
+          "example": "Near to shop"
+        },
+        "companyName": {
+          "type": "string",
+          "example": ""
+        },
+        "officeNumber": { 
+          "type": "number",
+          "example": "1234567890"
+        },
+        "mobileNumber": { 
+          "type": "number",
+          "example": "1234567890"
+        },
+        "landLineNumber": { 
+          "type": "number",
+          "example": "1234567890"
+        },
+        "pinCode": { 
+          "type": "number",
+          "example": "1234567890"
+        },
+        "city": {
+          "required": true,
+          "type": "string",
+          "example": "Menia"
+        },
+        "state": {
+          "required": true,
+          "type": "string",
+          "example": "minnesota"
+        },
+        "country": {
+          "required": true,
+          "type": "string",
+          "example": "US"
+        } 
       }
     },
     "cartresponse": {
@@ -2005,8 +2226,7 @@
           "required": true,
           "example": "aa565asdasdy87sadasd987"
         },
-        "sessionToken": {
-          "required": true,
+        "authToken": { 
           "type": "string",
           "example": "aa565asdasdy87sadasd987asdasdasdasd"
         },
