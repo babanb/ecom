@@ -95,7 +95,7 @@ exports.searchProducts = function(req, res) {
 
 // search Products from the DB
 exports.searchProductsByCategory = function(req, res) {
-  Products.find({ cat: req.params.text})
+  Products.find({ cat: req.params.category})
     .exec()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
@@ -104,7 +104,7 @@ exports.searchProductsByCategory = function(req, res) {
 
 // search Products from the DB
 exports.searchProductsByDepartment = function(req, res) {
-  Products.find({ dept: req.params.text })
+  Products.find({ dept: req.params.dept })
     .exec()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))

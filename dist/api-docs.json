@@ -487,6 +487,64 @@
         }
       }
     },
+    "/api/products/searchProductsByCategory/{CATEGORY}": { 
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "description": "Get products by category",
+        "operationId": "findById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "CATEGORY",
+            "in": "path",
+            "description": "Category name to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    },
+    "/api/products/searchProductsByDepartment/{DEPT}": { 
+      "get": {
+        "tags": [
+          "products"
+        ],
+        "description": "Get products by department",
+        "operationId": "find",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "DEPT",
+            "in": "path",
+            "description": "Department name to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    },
     "/api/categories/{Id}": {
       "delete": {
         "tags": [
