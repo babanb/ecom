@@ -93,6 +93,24 @@ exports.searchProducts = function(req, res) {
     .catch(handleError(res));
 };
 
+// search Products from the DB
+exports.searchProductsByCategory = function(req, res) {
+  Products.find({ cat: req.params.text})
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
+// search Products from the DB
+exports.searchProductsByDepartment = function(req, res) {
+  Products.find({ dept: req.params.text })
+    .exec()
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
 // Creates a new Products in the DB
 exports.create = function(req, res) {
   Products.createAsync(req.body)
