@@ -79,7 +79,7 @@ exports.show = function(req, res) {
 exports.getCartItems = function(req, res) {
   if(req.body.UserID){
 
-  ShoppingCart.find({UserID:req.body.UserID})
+  ShoppingCart.find({UserID:req.body.UserID, isDeleted:false})
     .populate('product','_id name mainImageUrl salePrice sku instock listPrice')
     .exec()
     .then(handleEntityNotFound(res))
