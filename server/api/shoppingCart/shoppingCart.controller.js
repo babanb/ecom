@@ -86,7 +86,7 @@ exports.getCartItems = function(req, res) {
     .then(responseWithResult(res))
     .catch(handleError(res));
   }else{
-  ShoppingCart.find({sessionID:req.body.sessionID})
+  ShoppingCart.find({sessionID:req.body.sessionID, isDeleted:false})
     .populate('product','_id name mainImageUrl salePrice sku instock listPrice')
     .exec()
     .then(handleEntityNotFound(res))
