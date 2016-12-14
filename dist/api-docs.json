@@ -888,6 +888,41 @@
         }
       }
     },
+
+
+    "/api/shoppingCart/EmptyCart": {
+      "post": {
+        "tags": [
+          "shoppingCart"
+        ],
+        "description": "Empty Cart",
+        "operationId": "EmptyCart",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "shoppingCart Parameters",
+            "in": "body",
+            "description": "delete all the cart items from database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EmptyCart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Cart response",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserToCartresponse"
+            }
+          }
+        }
+      }
+    },
+
+    
     "/api/shoppingCart/getCartItems": {
       "post": {
         "tags": [
@@ -2000,10 +2035,25 @@
         }
       }
     },
+
     "UpdateUserToCart": {
       "properties": {
         "UserID": {
           "required": true,
+          "type": "Number",
+          "example": 131
+        },
+        "sessionID": {
+          "required": true,
+          "type": "String",
+          "example": "aa565asdasdy87sadasd987"
+        }
+      }
+    },
+
+    "EmptyCart": {
+      "properties": {
+        "UserID": {
           "type": "Number",
           "example": 131
         },
