@@ -803,14 +803,17 @@
             "in": "body",
             "description": "Get Temp Password",
             "required": true,
-            "type": "number"
+            "type": "number",
+            "schema": {
+              "$ref": "#/definitions/forgotPassword"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "change password response",
             "schema": {
-              "$ref": "#/definitions/response1"
+              "$ref": "#/definitions/forgotPasswordresponse"
             }
           }
         }
@@ -2525,6 +2528,27 @@
       }
     },
 
+    "forgotPasswordresponse": {
+      "properties": {
+        "email": {
+          "required": true,
+          "type": "string",
+          "example": "user123@gmail.com"
+        }
+      }
+    },
+
+
+    "forgotPassword": {
+      "properties": {
+        "email": {
+          "required": true,
+          "type": "string",
+          "example": "user123@gmail.com"
+        }
+      }
+    },
+
     "response1": {
       "properties": {
         "Id": {
@@ -2534,6 +2558,8 @@
         }
       }
     },
+
+    
     "searchresponse": {
       "properties": {
         "searchTerm": {
