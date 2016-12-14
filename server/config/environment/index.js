@@ -51,6 +51,15 @@ var all = {
     clientID:     process.env.GOOGLE_ID || 'id',
     clientSecret: process.env.GOOGLE_SECRET || 'secret',
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
+  },
+
+  email: {
+    user:         'user@gmail.com',
+    pass:         'userpass',
+    fromEmail:    'anil.16sg@gmail.com',
+    emailHead:    'JUSKART',
+    bcc:    'anil.16sg@gmail.com'
+
   }
 };
 

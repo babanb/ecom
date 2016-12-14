@@ -786,6 +786,39 @@
     },
 
 
+
+    "/api/users/forgotpassword": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Forgot user password",
+        "operationId": "ForgotPassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [ 
+          {
+            "name": "User Email",
+            "in": "body",
+            "description": "Get Temp Password",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "change password response",
+            "schema": {
+              "$ref": "#/definitions/response1"
+            }
+          }
+        }
+      }
+    },
+
+
+
     "/api/shoppingCart/updateCart/{id}": {
       "post": {
         "tags": [
