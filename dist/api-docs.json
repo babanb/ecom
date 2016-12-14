@@ -2011,6 +2011,11 @@
           "required": true,
           "type": "String",
           "example": "aa565asdasdy87sadasd987"
+        },
+        "isDeleted": {
+          "required": true,
+          "type": "boolean",
+          "example": false
         }
       }
     },
