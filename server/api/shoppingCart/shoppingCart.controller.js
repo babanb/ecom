@@ -98,7 +98,7 @@ exports.getCartItems = function(req, res) {
 // Update Qty in ShoppingCart to the DB
 exports.updateCart = function(req, res) {
   req.body.updatedDate = new Date();
-  ShoppingCart.update({sessionID:req.body.sessionID},{UserID:req.body.UserID},{multi:true})
+  ShoppingCart.update({sessionID:req.body.sessionID},{UserID:req.body.UserID},{isDeleted:req.body.isDeleted},{multi:true})
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
