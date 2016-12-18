@@ -886,6 +886,137 @@
         }
       }
     },
+    "/api/wishLists/updateCart/{id}": {
+      "post": {
+        "tags": [
+          "wishList"
+        ],
+        "description": "Update Carts Item quantity or UserId if user logged in",
+        "operationId": "UpdateCart",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "path",
+            "description": "userId to get Orders",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "wishList Parameters",
+            "in": "body",
+            "description": "Update Cart to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Cart response",
+            "schema": {
+              "$ref": "#/definitions/UpdateCartresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/wishLists/updateCart": {
+      "post": {
+        "tags": [
+          "wishList"
+        ],
+        "description": "Update Carts Item quantity or UserId if user logged in",
+        "operationId": "UpdateCart",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "wishList Parameters",
+            "in": "body",
+            "description": "Update Cart to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUserToCart"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update Cart response",
+            "schema": {
+              "$ref": "#/definitions/UpdateUserToCartresponse"
+            }
+          }
+        }
+      }
+    },
+    "/api/wishLists/getCartItems": {
+      "post": {
+        "tags": [
+          "wishList"
+        ],
+        "description": "get all items in wishList",
+        "operationId": "Get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Cart Parameters",
+            "in": "body",
+            "description": "get all items in wishList",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/getCartItems"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Login response",
+            "schema": {
+              "$ref": "#/definitions/getCartItemsResponse"
+            }
+          }
+        }
+      }
+    },
+     "/api/wishLists": {
+      "post": {
+        "tags": [
+          "wishList"
+        ],
+        "description": "Create new wishList",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "wishList Parameters",
+            "in": "body",
+            "description": "wishList add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createwishList"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/cartresponse"
+            }
+          }
+        }
+      }
+    },
     "/auth/local": {
       "post": {
         "tags": [
@@ -2129,6 +2260,54 @@
       }
     },
     "createshoppingCart": {
+      "properties": {
+        "product": {
+          "required": true,
+          "type": "number",
+          "example": "123"
+        },
+        "ipAddress": {
+          "type": "string",
+          "required": true,
+          "example": "192.19.10.1"
+        },
+        "area": {
+          "type": "string",
+          "example": "dubai"
+        },
+        "pinCode": {
+          "type": "number",
+          "example": "560102"
+        },
+        "quantity": {
+          "type": "number",
+          "required": true,
+          "example": "2"
+        },
+        "UserID": {
+          "type": "string",
+          "example": "12"
+        },
+        "sessionID": {
+          "type": "string",
+          "required": true,
+          "example": "aa565asdasdy87sadasd987"
+        },
+        "authToken": { 
+          "type": "string",
+          "example": "aa565asdasdy87sadasd987asdasdasdasd"
+        },
+        "updatedDate": {
+          "type": "date",
+          "example": "12-11-2016"
+        },
+        "isDeleted": {
+          "type": "boolean",
+          "example": false
+        }
+      }
+    },
+    "createwishList": {
       "properties": {
         "product": {
           "required": true,
