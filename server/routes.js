@@ -29,6 +29,7 @@ module.exports = function(app) {
   app.use('/api/products', require('./api/products'));
   app.use('/api/departments', require('./api/department'));
   app.use('/api/subCategories', require('./api/subCategory'));
+  app.use('/api/wishLists', require('./api/wishList'));
   app.use('/api/categories', require('./api/category'));
   app.use('/api/menus', require('./api/navigationMenu'));
 
