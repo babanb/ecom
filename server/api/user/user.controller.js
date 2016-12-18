@@ -4,6 +4,7 @@ import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import mailHelper from '../../components/email/emailHelper';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -37,6 +38,36 @@ exports.index = function(req, res) {
     })
     .catch(handleError(res));
 };
+
+
+exports.forgotpassword = function(req, res) {
+  User.findOneAsync({email:req.body.email})
+    .then(function(user) {
+        if (!user) {
+        return res.status(404).json({error:"This email is not registered."});
+      }else{
+        var pass = Math.random().toString(36).substring(7);
+         user.password = pass;
+        return user.saveAsync()
+          .then(function() {
+            var mailBody='<b>We received a request to reset the password associated with this e-mail address. </b>';
+            mailBody+='<p>Please use the below Temparary Password. </p>';
+            mailBody+='<b>Password : </b>'+ pass;
+
+            var subject = config.email.emailHead+' Password Assistance';
+            
+            var mailResponse = mailHelper.sendEmail(req.body.email, '', subject, mailBody, '', '', '');
+            console.log(mailResponse);
+
+            res.status(200).json({TempPass:pass});
+          })
+          .catch(validationError(res));
+        }
+    })
+    .catch(handleError(res));
+};
+
+
 
 /**
  * Creates a new user
