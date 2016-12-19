@@ -118,6 +118,42 @@ exports.create = function(req, res) {
     .catch(handleError(res));
 };
 
+
+// Creates a new Products in the DB
+exports.mapReduce = function(req, res) {
+  Products.mapReduce(
+    function() {
+    var document = this;
+    var stopwords = ["the","this","and","or"];
+    var fields = ["name","make","description","s1","s2","s3","s4","s5","s6","brand","p1","p2","p3","p4","sku","dept","cat","subCat"];
+    fields.forEach(
+      function(field){
+        var words = (document[field]).split(" ");
+        words.forEach(
+          function(word){
+            var cleaned = word.replace(/[;,.]/g,"")
+            if(
+              (stopwords.indexOf(word)>-1) ||
+              !(isNaN(parseInt(cleaned))) ||
+              !(isNaN(parseFloat(cleaned))) ||
+              cleaned.length < 2
+            )
+            {
+              return
+            }
+              emit({'word':cleaned,'productID':document._id,'field':field},1)
+          }
+        )
+      }
+    )
+  },
+  function(key,values) {
+    return _.sum(values);
+  },
+  {out: "searchtst" }
+)
+};
+
 // Updates an existing Products in the DB
 exports.update = function(req, res) {
   

@@ -15,5 +15,6 @@ router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 router.post('/uploadProducts/', controller.uploadCsv);
+router.post('/updateAutoComplete/', controller.mapReduce);
 
 module.exports = router;
