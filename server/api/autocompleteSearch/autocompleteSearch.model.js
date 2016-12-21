@@ -6,7 +6,7 @@ AutoIncrement.initialize(mongoose.connection);
 
 var Schema = mongoose.Schema;
 
-var AutocompleteSearchSchema = new Schema({
+var AutocompleteSchema = new Schema({
     _id: {type:Number,  default: 1, unique:true},
   	doc: {
       type: String
@@ -26,5 +26,5 @@ var AutocompleteSearchSchema = new Schema({
     }
 }, { _id: false });
 
-module.exports = mongoose.model('AutocompleteSearch', AutocompleteSearchSchema);
-AutocompleteSearchSchema.plugin(AutoIncrement.plugin, 'AutocompleteSearch');
+module.exports = mongoose.model('Autocomplete', AutocompleteSchema);
+AutocompleteSchema.plugin(AutoIncrement.plugin, 'Autocomplete');

@@ -2571,30 +2571,65 @@
     "createProduct": {
       "properties": {
         "name": {
+            "required": true,
           "type": "string",
           "example": "chicken"
         },
         "description": {
+            "required": true,
           "type": "string",
           "example": "Mexican Grilled Chicken "
         },
         "dept": {
+            "required": true,
           "type": "string",
           "example": "non veg"
         },
         "cat": {
+            "required": true,
           "type": "string",
           "example": "non veg"
         },
         "subCat": {
+            "required": true,
           "type": "string",
           "example": "chicken"
         },
         "sku": {
+            "required": true,
           "type": "string",
           "example": "abcd12345"
         },
         "brand": {
+          "required": true,
+          "type": "string",
+          "example": "abcd"
+        },
+
+        "s1": {
+          "required": true,
+          "type": "string",
+          "example": "abcd"
+        },
+
+        "s2": {
+          "required": true,
+          "type": "string",
+          "example": "abcd"
+        },
+
+        "s3": {
+          "required": true,
+          "type": "string",
+          "example": "abcd"
+        },
+        "p1": {
+          "required": true,
+          "type": "string",
+          "example": "abcd"
+        },
+
+        "p2": {
           "required": true,
           "type": "string",
           "example": "abcd"

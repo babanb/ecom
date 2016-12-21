@@ -12,4 +12,5 @@ router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
 
+router.get('/autoComplete/:term', controller.autocomplete);
 module.exports = router;

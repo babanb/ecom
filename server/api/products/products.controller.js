@@ -118,40 +118,86 @@ exports.create = function(req, res) {
     .catch(handleError(res));
 };
 
-
 // Creates a new Products in the DB
-exports.mapReduce = function(req, res) {
-  Products.mapReduce(
-    function() {
-    var document = this;
+exports.updateAutocomplete = function(req, res) {
+//   Products.mapReduce(
+//     function() {
+//     var document = this;
+//     var stopwords = ["the","this","and","or"];
+//     var fields = ["name","make","description","s1","s2","s3","s4","s5","s6","brand","p1","p2","p3","p4","sku","dept","cat","subCat"];
+//     fields.forEach(
+//       function(field){
+//         var words = (document[field]).split(" ");
+//         words.forEach(
+//           function(word){
+//             var cleaned = word.replace(/[;,.]/g,"")
+//             if(
+//               (stopwords.indexOf(word)>-1) ||
+//               !(isNaN(parseInt(cleaned))) ||
+//               !(isNaN(parseFloat(cleaned))) ||
+//               cleaned.length < 2
+//             )
+//             {
+//               return
+//             }
+//               emit({'word':cleaned,'productID':document._id,'field':field},1)
+//           }
+//         )
+//       }
+//     )
+//   },
+//   function(key,values) {
+//     return _.sum(values);
+//   },
+//   {out: "searchtst" }
+// )
+
+var o = {};
+o.map = function() {
+      var document = this;
     var stopwords = ["the","this","and","or"];
-    var fields = ["name","make","description","s1","s2","s3","s4","s5","s6","brand","p1","p2","p3","p4","sku","dept","cat","subCat"];
+    var fields = ["name","description","s1","s2","s3","brand","p1","p2","sku","dept","cat","subCat"];
     fields.forEach(
       function(field){
-        var words = (document[field]).split(" ");
-        words.forEach(
-          function(word){
-            var cleaned = word.replace(/[;,.]/g,"")
-            if(
-              (stopwords.indexOf(word)>-1) ||
-              !(isNaN(parseInt(cleaned))) ||
-              !(isNaN(parseFloat(cleaned))) ||
-              cleaned.length < 2
-            )
-            {
-              return
-            }
-              emit({'word':cleaned,'productID':document._id,'field':field},1)
-          }
-        )
+        var words = (document[field]).split("");
+        
+        // words.forEach(
+        //   function(word){
+        //     var cleaned = word.replace(/[;,.]/g,"")
+        //     if(
+        //       (stopwords.indexOf(word)>-1) ||
+        //       !(isNaN(parseInt(cleaned))) ||
+        //       !(isNaN(parseFloat(cleaned))) ||
+        //       cleaned.length < 2
+        //     )
+        //     {
+        //       return
+        //     }
+        //       emit({'word':cleaned,'productID':document._id,'field':field},1)
+        //   }
+        // )
+emit({'word':document[field],'productID':document._id,'field':field},1)
       }
     )
-  },
-  function(key,values) {
-    return _.sum(values);
-  },
-  {out: "searchtst" }
-)
+}
+
+o.reduce = function(previous, current) {
+    var count = 0;
+    for (index in current) {
+        count += current[index];
+    }
+    return count;
+}
+
+o.out = { replace : 'autocompletes'}
+o.verbose = true;
+
+
+Products.mapReduce(o, function (err, model, stats) {
+if(err) console.log(err);
+    console.log('stats: ' + stats);
+});
+ res.json({resilt:"success"});
 };
 
 // Updates an existing Products in the DB

@@ -81,6 +81,41 @@ exports.create = function(req, res) {
     .catch(handleError(res));
 };
 
+
+
+exports.autocomplete = function(req, res) {
+
+  AutocompleteSearch.aggregate(
+  // We match case insensitive ("i") as we want to prevent
+  // typos to reduce our search results
+  { $match:{"_id.word":{$regex: new RegExp('^'+req.params.term), $options: 'i'}} },
+  { $group:{
+      // Here is where the magic happens:
+      // we create a list of distinct words...
+      _id:"$_id.word",
+      occurrences:{
+        // ...add each occurrence to an array...
+        $push:{
+          doc:"$_id.doc",
+          field:"$_id.field"
+        } 
+      },
+      // ...and add up all occurrences to a score
+      // Note that this is optional and might be skipped
+      // to speed up things, as we should have a covered query
+      // when not accessing $value, though I am not too sure about that
+      score:{$sum:"$value"}
+    }
+  },
+  {
+    // Optional. See above
+    $sort:{_id:-1,score:1}
+  }
+)
+  .then(responseWithResult(res, 201))
+    .catch(handleError(res));
+};
+
 // Updates an existing AutocompleteSearch in the DB
 exports.update = function(req, res) {
   
