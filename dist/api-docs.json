@@ -745,6 +745,36 @@
       }
     },
 
+    "/api/autocompleteSearchs/autoComplete/{searchTerm}": {
+      "get": {
+        "tags": [
+          "autoComplete"
+        ],
+        "description": "Get autoComplete data by string",
+        "operationId": "search",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "searchTerm",
+            "in": "path",
+            "description": "string to fetch",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "response",
+            "schema": {
+              "$ref": "#/definitions/autoCompleteResponse"
+            }
+          }
+        }
+      }
+    },
+
 
     "/api/users/{id}/password": {
       "post": {
@@ -1266,7 +1296,37 @@
         }
       }
     },
-
+    "/api/products/updateAutoComplete": {
+       "post": {
+        "tags": [
+          "products"
+        ],
+        "description": "Create/ Update Auto Complete Table",
+        "operationId": "Update",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "productReviews Parameters",
+            "in": "body",
+            "description": "productReviews add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateAutoProductRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/updateAutoProductResponse"
+            }
+          }
+        }
+      }
+    },  
 
     "/api/products/uploadProducts": {
         "post":{
@@ -1983,6 +2043,21 @@
           } 
       }
     }, 
+
+
+    "updateAutoProductRequest": {
+      "properties": { 
+         
+      }
+    },
+    "updateAutoProductResponse": {
+      "properties": { 
+          "resilt": { 
+            "type": "string",
+            "example": "success"
+          }
+      }
+    },
     
     "createtodaysDeal": {
       "properties": { 
@@ -2773,7 +2848,16 @@
       }
     },
 
-    
+    "autoCompleteResponse": {
+      "properties": { 
+          "Id": {
+          "required": true,
+          "type": "Number",
+          "example": "12"
+        } 
+      }
+    },
+
     "searchresponse": {
       "properties": {
         "searchTerm": {
