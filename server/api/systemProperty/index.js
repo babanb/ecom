@@ -11,5 +11,9 @@ router.post('/', controller.create);
 router.put('/:id', controller.update);
 router.patch('/:id', controller.update);
 router.delete('/:id', controller.destroy);
+router.delete('/:id', controller.destroy);
+router.get('/getValueByKey/:key', controller.getValueByKey);
+router.post('/updateValueByKey', controller.updateValueByKey);
+
 
 module.exports = router;
