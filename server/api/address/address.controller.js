@@ -61,7 +61,15 @@ function removeEntity(res) {
 
 // Gets a all address by user from the DB
 exports.getAllAddress = function(req, res) {
-  Address.find({UserID:req.body.UserID})
+  Address.find({userID:req.params.id})
+    .then(handleEntityNotFound(res))
+    .then(responseWithResult(res))
+    .catch(handleError(res));
+};
+
+// Gets a all address by user from the DB
+exports.getAllAddressByType = function(req, res) {
+  Address.find({userID:req.params.id, addressType: req.params.type})
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
