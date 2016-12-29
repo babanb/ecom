@@ -18,7 +18,8 @@ var AddressSchema = new Schema({
         required: true  
   	  },      
       addressType: {
-        type: Boolean,
+        type: String,
+        enum: ['office', 'home', 'friends', 'others'],
         required: true
       },
       authToken: { 
