@@ -40,12 +40,10 @@ var OrdersSchema = new Schema({
     userRemarks: {
       type: String
     },
-    paymentType: {
-    	type: Number, ref: 'PaymentType',
-      required: true 
-	  },
     paymentStatus: { 
-    	type: Number, ref: 'PaymentStatus' 
+    	  required: true, 
+        type: String,
+        enum: ['Completed', 'CanceledReversal', 'Denied', 'Expired','Failed','InProgress','Pending','Processed','Refunded','Reversed','Voided']
 	  },
     referenceNumber: {
       type: String
@@ -78,8 +76,7 @@ var OrdersSchema = new Schema({
       required: true
     },
     orderHistory: {
-      type: Number, ref: 'OrderHistory',
-      required: true
+      type: Number, ref: 'OrderHistory'
     },
     quantity: {
       type: Number,
@@ -87,32 +84,8 @@ var OrdersSchema = new Schema({
   	},
     _id: {type:Number,  default: 1, unique:true},
 }, { _id: false });
-
-var OrderHistorySchema = new Schema({
- 	orderID: {
-      type: String, ref: 'Orders',
-      required: true
-    },
-    createdDate: {
-      type: Date,
-      required: true
-    },
-    orderStatus: {
-      type: Number, ref: 'OrderStatus' 
-    },
-    remarks: {
-      type: String
-    },
-    updatedDate: {
-      type: Date
-    },
-    _id: {type:Number,  default: 1, unique:true}
-
-}, { _id: false });
-
+ 
 
 module.exports = mongoose.model('Orders', OrdersSchema);
-
-module.exports = mongoose.model('OrderHistory', OrderHistorySchema);
-OrdersSchema.plugin(AutoIncrement.plugin, 'Orders');
-OrderHistorySchema.plugin(AutoIncrement.plugin, 'OrderHistory');
+ 
+OrdersSchema.plugin(AutoIncrement.plugin, 'Orders'); 

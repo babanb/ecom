@@ -109,7 +109,7 @@ exports.autocomplete = function(req, res) {
   },
   {
     // Optional. See above
-    $sort:{_id:-1,score:1}
+    $sort:{_id:-1,score:-1}
   }
 )
   .then(responseWithResult(res, 201))

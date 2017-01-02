@@ -16,6 +16,7 @@ module.exports = function(app) {
   });
 
   // Insert routes below
+  app.use('/api/checkout', require('./api/checkout'));
   app.use('/api/systemProperties', require('./api/systemProperty'));
   app.use('/api/address', require('./api/address'));
   app.use('/api/productsProperties', require('./api/uploadProductsProperties'));
