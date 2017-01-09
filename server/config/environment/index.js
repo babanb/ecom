@@ -54,9 +54,9 @@ var all = {
   },
 
   email: {
-    user:         'user@gmail.com',
-    pass:         'userpass',
-    fromEmail:    'anil.16sg@gmail.com',
+    user:         'darshanmyself@gmail.com',
+    pass:         'Nikhil@1989',
+    fromEmail:    'darshanmyself@gmail.com',
     emailHead:    'JUSKART',
     bcc:    'anil.16sg@gmail.com'
 
