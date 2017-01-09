@@ -61,14 +61,18 @@ function removeEntity(res) {
 
 // Gets a list of TodaysDeals
 exports.index = function(req, res) {
-  TodaysDeal.findAsync()
+  TodaysDeal.find()
+    .populate('product')
+    .exec()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
 // Gets a single TodaysDeal from the DB
 exports.show = function(req, res) {
-  TodaysDeal.findByIdAsync(req.params.id)
+  TodaysDeal.findById(req.params.id)
+    .populate('product')
+    .exec()
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));

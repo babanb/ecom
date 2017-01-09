@@ -23,7 +23,7 @@ var TodaysDealSchema = new Schema({
       type: Date,
       required: true
     },
-    productID: {
+    product: {
       type: Number, ref: 'Products',
       required: true
     },
