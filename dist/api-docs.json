@@ -2081,7 +2081,7 @@
           "required": true,
           "example": "20:40 00"
         },
-        "productID": {
+        "product": {
           "type": "Number", 
           "required": true,
           "example": "1"
