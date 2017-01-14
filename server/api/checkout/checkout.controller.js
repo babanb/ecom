@@ -168,7 +168,6 @@ orderStatusArray=data;
     .exec()
     .then(function(cart, err){
       if(err){
-        console.log(err);
         res.send({error:err,message:'Cart is Empty'});
       }else{
         var totalPrice=0;
@@ -220,11 +219,12 @@ orderStatusArray=data;
 
 if(req.body.paymentMethod==='1'){
 
-    ShoppingCart.update({UserID:req.body.UserID}, {isDeleted:req.body.isDeleted},{multi:true})    
+    ShoppingCart.update({UserID:req.body.UserID}, {isDeleted:true},{multi:true})    
     .then(function(data, err){}); 
 
-   res.redirect(req.body.returnURL);
-
+    res.statusCode = 302;
+    res.setHeader("Location", req.body.returnURL);
+    res.end();
        
 
 }
