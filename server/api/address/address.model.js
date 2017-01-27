@@ -1,4 +1,4 @@
-'use strict'; 
+'use strict';
 
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var AutoIncrement = require('mongoose-auto-increment');
@@ -11,18 +11,18 @@ var AddressSchema = new Schema({
      name: {
         type: String,
         required: true
-      }, 
+      },
       userID: {
-	    type: Number, 
+	    type: Number,
 	    ref: 'User',
-        required: true  
-  	  },      
+        required: true
+  	  },
       addressType: {
         type: String,
         enum: ['office', 'home', 'friends', 'others'],
         required: true
       },
-      authToken: { 
+      authToken: {
         required: true,
   	    type: String
   	  },
@@ -31,8 +31,8 @@ var AddressSchema = new Schema({
         required: true
       },
       street2:{
-        type: String 
-      }, 
+        type: String
+      },
       street3:{
         type: String
       },
@@ -54,7 +54,11 @@ var AddressSchema = new Schema({
       city: {
         type: String,
         required: true
-      }, 
+      },
+      country: {
+        type: String,
+        required: true
+      },
       state: {
         type: String,
         required: true
@@ -65,5 +69,5 @@ var AddressSchema = new Schema({
       }
 },{ _id: false });
 
-module.exports = mongoose.model('Address', AddressSchema); 
+module.exports = mongoose.model('Address', AddressSchema);
 AddressSchema.plugin(AutoIncrement.plugin, 'Address');
