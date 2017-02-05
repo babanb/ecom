@@ -48,8 +48,8 @@ var all = {
   },
 
   google: {
-    clientID:     process.env.GOOGLE_ID || 'id',
-    clientSecret: process.env.GOOGLE_SECRET || 'secret',
+    clientID:     process.env.GOOGLE_ID || '395593907364-cc9p9l4njfd08koqqoouqucgd2u4hbo6.apps.googleusercontent.com',
+    clientSecret: process.env.GOOGLE_SECRET || '9eXPEtNFE2zqIvXB8p5-LJ_2',
     callbackURL:  (process.env.DOMAIN || '') + '/auth/google/callback'
   },
 
