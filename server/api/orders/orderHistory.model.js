@@ -8,27 +8,33 @@ var Schema = mongoose.Schema;
 
 
 var OrderHistorySchema = new Schema({
- 	orderID: {
-      type: String, ref: 'Orders',
-      required: true
+    orderID: {
+        type: String,
+        ref: 'Orders',
+        required: true
     },
     createdDate: {
-      type: Date,
-      required: true
+        type: Date,
+        required: true
     },
     orderStatus: {
-      type: Number, ref: 'OrderStatus' 
+        type: Number,
+        ref: 'OrderStatus'
     },
     remarks: {
-      type: String
+        type: String
     },
     updatedDate: {
-      type: Date
+        type: Date
     },
-    _id: {type:Number,  default: 1, unique:true}
+    _id: { type: Number, default: 1, unique: true }
 
 }, { _id: false });
 
 
+OrderHistorySchema.plugin(AutoIncrement.plugin, {
+    model: 'OrderHistory',
+    field: '_id',
+    startAt: 1
+});
 module.exports = mongoose.model('OrderHistory', OrderHistorySchema);
-OrderHistorySchema.plugin(AutoIncrement.plugin, 'OrderHistory');

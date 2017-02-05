@@ -7,67 +7,71 @@ AutoIncrement.initialize(mongoose.connection);
 var Schema = mongoose.Schema;
 
 var AddressSchema = new Schema({
-	_id: {type:Number,  default: 1, unique:true},
-     name: {
+    _id: { type: Number, default: 1, unique: true },
+    name: {
         type: String,
         required: true
-      },
-      userID: {
-	    type: Number,
-	    ref: 'User',
+    },
+    userID: {
+        type: Number,
+        ref: 'User',
         required: true
-  	  },
-      addressType: {
+    },
+    addressType: {
         type: String,
         enum: ['office', 'home', 'friends', 'others'],
         required: true
-      },
-      authToken: {
+    },
+    authToken: {
         required: true,
-  	    type: String
-  	  },
-      street1:{
+        type: String
+    },
+    street1: {
         type: String,
         required: true
-      },
-      street2:{
+    },
+    street2: {
         type: String
-      },
-      street3:{
+    },
+    street3: {
         type: String
-      },
-      street4:{
+    },
+    street4: {
         type: String
-      },
-      companyName:{
+    },
+    companyName: {
         type: String
-      },
-      officeNumber: {
-      	type: Number
-      },
-      mobileNumber: {
-      	type: Number
-      },
-      landLineNumber: {
-      	type: Number
-      },
-      city: {
+    },
+    officeNumber: {
+        type: Number
+    },
+    mobileNumber: {
+        type: Number
+    },
+    landLineNumber: {
+        type: Number
+    },
+    city: {
         type: String,
         required: true
-      },
-      country: {
+    },
+    country: {
         type: String,
         required: true
-      },
-      state: {
+    },
+    state: {
         type: String,
         required: true
-      },
-      pinCode: {
+    },
+    pinCode: {
         type: Number,
         required: true
-      }
-},{ _id: false });
+    }
+}, { _id: false });
 
+AddressSchema.plugin(AutoIncrement.plugin, {
+    model: 'Address',
+    field: '_id',
+    startAt: 1
+});
 module.exports = mongoose.model('Address', AddressSchema);
-AddressSchema.plugin(AutoIncrement.plugin, 'Address');

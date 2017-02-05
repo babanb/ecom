@@ -7,32 +7,36 @@ AutoIncrement.initialize(mongoose.connection);
 var Schema = mongoose.Schema;
 
 var UploadProductsPropertiesSchema = new Schema({
-  	fieldName: {
-      type: String,
-      required: true
+    fieldName: {
+        type: String,
+        required: true
     },
-	ProductMappingfield: {
-      type: String,
-      required: true
+    ProductMappingfield: {
+        type: String,
+        required: true
     },
     dataType: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     isImage: {
-      type: Boolean
+        type: Boolean
     },
     specialConditionValue: {
-      type: String
+        type: String
     },
     isRequired: {
-      type: Boolean
+        type: Boolean
     },
     subCategory: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     }
 });
 
+UploadProductsPropertiesSchema.plugin(AutoIncrement.plugin, {
+    model: 'UploadProductsProperties',
+    field: '_id',
+    startAt: 1
+});
 module.exports = mongoose.model('UploadProductsProperties', UploadProductsPropertiesSchema);
-UploadProductsPropertiesSchema.plugin(AutoIncrement.plugin, 'UploadProductsProperties');

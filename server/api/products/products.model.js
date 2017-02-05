@@ -10,8 +10,8 @@ var Schema = mongoose.Schema;
 
 var ProductsSchema = new Schema({
     active: Boolean,
-   	newOld: String,
-	description: { type: String, required: true },
+    newOld: String,
+    description: { type: String, required: true },
     externalProductId: String,
     model: String,
     make: String,
@@ -39,11 +39,11 @@ var ProductsSchema = new Schema({
     point4: String,
     point5: String,
     s3: { type: String, required: true },
-    s4: { type: String},
-    s5: { type: String},
-    p3: { type: String},
-    p4: { type: String},
-    s6: { type: String},
+    s4: { type: String },
+    s5: { type: String },
+    p3: { type: String },
+    p4: { type: String },
+    s6: { type: String },
     otherImageUrl: String,
     otherImageUrl1: String,
     otherImageUrl2: String,
@@ -81,12 +81,16 @@ var ProductsSchema = new Schema({
     instock: String,
     subCat: { type: String, required: true },
     Features: Object,
-    _id: {type:Number,  default: 1, unique:true},
+    _id: { type: Number, default: 1, unique: true },
 }, { _id: false });
 
 
 ProductsSchema.plugin(textSearch);
 ProductsSchema.index({ name: 'text', subCat: 'text', sku: 'text', dept: 'text', cat: 'text', brand: 'text', s1: 'text', s2: 'text', p1: 'text', p2: 'text' });
 
+ProductsSchema.plugin(AutoIncrement.plugin, {
+    model: 'Products',
+    field: '_id',
+    startAt: 1
+});
 module.exports = mongoose.model('Products', ProductsSchema);
-ProductsSchema.plugin(AutoIncrement.plugin, 'Products');

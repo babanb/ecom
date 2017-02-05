@@ -9,83 +9,94 @@ var Schema = mongoose.Schema;
 var OrdersSchema = new Schema({
 
     productID: {
-      type: Number, ref: 'Products',
-      required: true
+        type: Number,
+        ref: 'Products',
+        required: true
     },
     userID: {
-		type: Number, ref: 'Users' ,
-      	required: true
+        type: Number,
+        ref: 'Users',
+        required: true
     },
     salePrice: {
-      type: Number,
-      required: true
+        type: Number,
+        required: true
     },
     offerPrice: {
-      type: Number,
-      required: true
+        type: Number,
+        required: true
     },
     trackingCode: {
-      type: String
+        type: String
     },
     codCharges: {
-      type: Number
+        type: Number
     },
     orderAmount: {
-      type: Number,
-      required: true
+        type: Number,
+        required: true
     },
     shippingCharges: {
-      type: Number
+        type: Number
     },
     userRemarks: {
-      type: String
+        type: String
     },
-    paymentStatus: { 
-    	  required: true, 
+    paymentStatus: {
+        required: true,
         type: String,
-        enum: ['Completed', 'CanceledReversal', 'Denied', 'Expired','Failed','InProgress','Pending','Processed','Refunded','Reversed','Voided']
-	  },
+        enum: ['Completed', 'CanceledReversal', 'Denied', 'Expired', 'Failed', 'InProgress', 'Pending', 'Processed', 'Refunded', 'Reversed', 'Voided']
+    },
     referenceNumber: {
-      type: String
+        type: String
     },
     checkSum: {
-      type: String
+        type: String
     },
     couponCode: {
-      type: String
+        type: String
     },
     ipAddress: {
-      type: String
+        type: String
     },
     paymentMethod: {
-      type: Number, ref: 'PaymentMethod' 
+        type: Number,
+        ref: 'PaymentMethod'
     },
     orderStatus: {
-      type: Number, ref: 'OrderStatus' 
+        type: Number,
+        ref: 'OrderStatus'
     },
     address: {
-      type: Number, ref: 'Adress' ,
-      required: true
+        type: Number,
+        ref: 'Adress',
+        required: true
     },
     billingAddress: {
-      type: Number, ref: 'Address' ,
-      required: true
+        type: Number,
+        ref: 'Address',
+        required: true
     },
     orderDate: {
-      type: Date,
-      required: true
+        type: Date,
+        required: true
     },
     orderHistory: {
-      type: Number, ref: 'OrderHistory'
+        type: Number,
+        ref: 'OrderHistory'
     },
     quantity: {
-      type: Number,
-      required: true
-  	},
-    _id: {type:Number,  default: 1, unique:true},
+        type: Number,
+        required: true
+    },
+    _id: { type: Number, default: 1, unique: true },
 }, { _id: false });
- 
+
+
+OrdersSchema.plugin(AutoIncrement.plugin, {
+    model: 'Orders',
+    field: '_id',
+    startAt: 100000
+});
 
 module.exports = mongoose.model('Orders', OrdersSchema);
- 
-OrdersSchema.plugin(AutoIncrement.plugin, 'Orders'); 

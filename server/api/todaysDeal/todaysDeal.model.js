@@ -7,28 +7,33 @@ AutoIncrement.initialize(mongoose.connection);
 var Schema = mongoose.Schema;
 
 var TodaysDealSchema = new Schema({
-  fromDate: {
-      type: Date,
-      required: true
+    fromDate: {
+        type: Date,
+        required: true
     },
     toDate: {
-      type: Date,
-      required: true
+        type: Date,
+        required: true
     },
     toTime: {
-      type: Date,
-      required: true
+        type: Date,
+        required: true
     },
     fromTime: {
-      type: Date,
-      required: true
+        type: Date,
+        required: true
     },
     product: {
-      type: Number, ref: 'Products',
-      required: true
+        type: Number,
+        ref: 'Products',
+        required: true
     },
-    _id: {type:Number,  default: 1, unique:true},
+    _id: { type: Number, default: 1, unique: true },
 }, { _id: false });
 
+TodaysDealSchema.plugin(AutoIncrement.plugin, {
+    model: 'TodaysDeal',
+    field: '_id',
+    startAt: 1
+});
 module.exports = mongoose.model('TodaysDeal', TodaysDealSchema);
-TodaysDealSchema.plugin(AutoIncrement.plugin, 'TodaysDeal');

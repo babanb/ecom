@@ -7,20 +7,24 @@ AutoIncrement.initialize(mongoose.connection);
 var Schema = mongoose.Schema;
 
 var DepartmentSchema = new Schema({
-  
-    _id: {type:Number,  default: 1, unique:true},
+
+    _id: { type: Number, default: 1, unique: true },
     name: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     description: {
-      type: String
+        type: String
     },
     isActive: {
-      type: Boolean,
-      required: true
+        type: Boolean,
+        required: true
     }
 }, { _id: false });
 
+DepartmentSchema.plugin(AutoIncrement.plugin, {
+    model: 'Department',
+    field: '_id',
+    startAt: 100
+});
 module.exports = mongoose.model('Department', DepartmentSchema);
- DepartmentSchema.plugin(AutoIncrement.plugin, 'Department');

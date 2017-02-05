@@ -6,47 +6,53 @@ AutoIncrement.initialize(mongoose.connection);
 
 var Schema = mongoose.Schema;
 
-var WishListSchema = new Schema({ 
+var WishListSchema = new Schema({
     product: {
-      type: Number, ref: 'Products',
-      required: true
+        type: Number,
+        ref: 'Products',
+        required: true
     },
     createdDate: {
-      type: Date
+        type: Date
     },
     ipAddress: {
-      type: String
+        type: String
     },
     area: {
-      type: String
+        type: String
     },
     pinCode: {
-      type: Number
+        type: Number
     },
     quantity: {
-      type: Number,
-	  required: true
+        type: Number,
+        required: true
     },
     UserID: {
-      type: Number, ref: 'User'    
+        type: Number,
+        ref: 'User'
     },
     sessionID: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
     authToken: {
-      type: String
+        type: String
     },
-    isDeleted:{
-	  type: Boolean,
-	  required: true	
+    isDeleted: {
+        type: Boolean,
+        required: true
     },
-    updatedDate:{
-    	type: Date
+    updatedDate: {
+        type: Date
     },
-    _id: {type:Number,  default: 1, unique:true},
+    _id: { type: Number, default: 1, unique: true },
 }, { _id: false });
 
 
+WishListSchema.plugin(AutoIncrement.plugin, {
+    model: 'WishList',
+    field: '_id',
+    startAt: 1
+});
 module.exports = mongoose.model('WishList', WishListSchema);
-WishListSchema.plugin(AutoIncrement.plugin, 'WishList'); 
