@@ -49,7 +49,7 @@ var all = {
 
   google: {
     clientID:     process.env.GOOGLE_ID || '395593907364-cc9p9l4njfd08koqqoouqucgd2u4hbo6.apps.googleusercontent.com',
-    clientSecret: process.env.GOOGLE_SECRET || '9eXPEtNFE2zqIvXB8p5-LJ_2',
+    clientSecret: process.env.GOOGLE_SECRET || 'eMDg9klaLT6SqzxwEDDjXupk',
     callbackURL:  (process.env.DOMAIN || '') + 'http://ec2-54-187-15-116.us-west-2.compute.amazonaws.com:9000/auth/google/callback'
   },
 
