@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/todaysDeals              ->  index
- * POST    /api/todaysDeals              ->  create
- * GET     /api/todaysDeals/:id          ->  show
- * PUT     /api/todaysDeals/:id          ->  update
- * DELETE  /api/todaysDeals/:id          ->  destroy
+ * GET     /api/homePageSliders              ->  index
+ * POST    /api/homePageSliders              ->  create
+ * GET     /api/homePageSliders/:id          ->  show
+ * PUT     /api/homePageSliders/:id          ->  update
+ * DELETE  /api/homePageSliders/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var TodaysDeal = require('./todaysDeal.model');
+var HomePageSlider = require('./homePageSlider.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,50 +59,45 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of TodaysDeals
+// Gets a list of HomePageSliders
 exports.index = function(req, res) {
-  var today = new Date();
-  TodaysDeal.find({"$and":[{"fromDate": {"$lte": today}}, {"toDate":{ "$gte": today}}]})
-    .populate('product')
-    .exec()
+  HomePageSlider.findAsync()
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Gets a single TodaysDeal from the DB
+// Gets a single HomePageSlider from the DB
 exports.show = function(req, res) {
-  TodaysDeal.findById(req.params.id)
-    .populate('product')
-    .exec()
+  HomePageSlider.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Creates a new TodaysDeal in the DB
+// Creates a new HomePageSlider in the DB
 exports.create = function(req, res) {
-  TodaysDeal.createAsync(req.body)
+  HomePageSlider.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing TodaysDeal in the DB
+// Updates an existing HomePageSlider in the DB
 exports.update = function(req, res) {
   
   if (req.body._id) {
     delete req.body._id;
   }
   
-  TodaysDeal.findByIdAsync(req.params.id)
+  HomePageSlider.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a TodaysDeal from the DB
+// Deletes a HomePageSlider from the DB
 exports.destroy = function(req, res) {
-  TodaysDeal.findByIdAsync(req.params.id)
+  HomePageSlider.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

@@ -1,16 +1,16 @@
 /**
  * Using Rails-like standard naming convention for endpoints.
- * GET     /api/todaysDeals              ->  index
- * POST    /api/todaysDeals              ->  create
- * GET     /api/todaysDeals/:id          ->  show
- * PUT     /api/todaysDeals/:id          ->  update
- * DELETE  /api/todaysDeals/:id          ->  destroy
+ * GET     /api/homePageSections              ->  index
+ * POST    /api/homePageSections              ->  create
+ * GET     /api/homePageSections/:id          ->  show
+ * PUT     /api/homePageSections/:id          ->  update
+ * DELETE  /api/homePageSections/:id          ->  destroy
  */
 
 'use strict';
 
 var _ = require('lodash');
-var TodaysDeal = require('./todaysDeal.model');
+var HomePageSection = require('./homePageSection.model');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -59,50 +59,46 @@ function removeEntity(res) {
   };
 }
 
-// Gets a list of TodaysDeals
+// Gets a list of HomePageSections
 exports.index = function(req, res) {
   var today = new Date();
-  TodaysDeal.find({"$and":[{"fromDate": {"$lte": today}}, {"toDate":{ "$gte": today}}]})
-    .populate('product')
-    .exec()
+  HomePageSection.findAsync({"$and":[{"fromDate": {"$lte": today}}, {"toDate":{ "$gte": today}}]})
     .then(responseWithResult(res))
     .catch(handleError(res));
-};
+}; 
 
-// Gets a single TodaysDeal from the DB
+// Gets a single HomePageSection from the DB
 exports.show = function(req, res) {
-  TodaysDeal.findById(req.params.id)
-    .populate('product')
-    .exec()
+  HomePageSection.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Creates a new TodaysDeal in the DB
+// Creates a new HomePageSection in the DB
 exports.create = function(req, res) {
-  TodaysDeal.createAsync(req.body)
+  HomePageSection.createAsync(req.body)
     .then(responseWithResult(res, 201))
     .catch(handleError(res));
 };
 
-// Updates an existing TodaysDeal in the DB
+// Updates an existing HomePageSection in the DB
 exports.update = function(req, res) {
   
   if (req.body._id) {
     delete req.body._id;
   }
   
-  TodaysDeal.findByIdAsync(req.params.id)
+  HomePageSection.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(saveUpdates(req.body))
     .then(responseWithResult(res))
     .catch(handleError(res));
 };
 
-// Deletes a TodaysDeal from the DB
+// Deletes a HomePageSection from the DB
 exports.destroy = function(req, res) {
-  TodaysDeal.findByIdAsync(req.params.id)
+  HomePageSection.findByIdAsync(req.params.id)
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));

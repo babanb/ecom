@@ -8,6 +8,7 @@ var router = express.Router();
 router.get('/', controller.index);
 router.get('/:id', controller.show);
 router.post('/', controller.create);
+router.get('/getproductsFilters/:text', controller.getproduct_filters);
 router.get('/searchProducts/:text', controller.searchProducts);
 router.get('/searchProductsByCategory/:category', controller.searchProductsByCategory);
 router.get('/searchProductsByDepartment/:dept', controller.searchProductsByDepartment);

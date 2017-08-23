@@ -9,7 +9,7 @@ var Schema = mongoose.Schema;
 var OrdersSchema = new Schema({
 
     productID: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Products',
         required: true
     },

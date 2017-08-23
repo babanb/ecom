@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 
 var ProductReviewsSchema = new Schema({
     productID: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Products',
         required: true
     },

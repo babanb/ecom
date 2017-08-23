@@ -12,9 +12,13 @@ var fs = require('fs');
 var fsextra = require('fs-extra');
 var busboy = require('connect-busboy');
 var validUrl = require('valid-url');
+var request = require('request');
 var XLSX = require('xlsx');
 var _ = require('lodash');
+var Promise = require('bluebird');
 var Products = require('./products.model');
+var Category = require('../category/category.model');
+var ProductFilter = require('../productFilter/productFilter.model');
 var ProductsProperties = require('../uploadProductsProperties/uploadProductsProperties.model');
 var prodSchema = require("mongoose").model("Products").schema;
 var csvParser = require('csv-parse');
@@ -85,6 +89,7 @@ exports.show = function(req, res) {
 
 // search Products from the DB
 exports.searchProducts = function(req, res) {
+    var productData = {};
     Products.find({
             $text: {
                 $search: req.params.text
@@ -92,7 +97,138 @@ exports.searchProducts = function(req, res) {
         })
         .exec()
         .then(handleEntityNotFound(res))
-        .then(responseWithResult(res))
+        .then(function(res1){
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+
+                            // res2.forEach(function(field) {
+
+                            //     var name = field.filterOption;
+                            //     var query = {};
+                            //     query[name] = 1;
+                            //     promises.push(
+                            //         Products.find({cat:mostCommonCat})
+                            //           .select(query)
+                            //           .exec()
+                            //           .then(handleEntityNotFound(res))
+                            //           .then(function(res3){               
+                            //             filters.push({label:field.label,filterOption:field.filterOption,filters:res3});
+                            //           })          
+                            //    );
+                            // }); 
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption;
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+// search Products from the DB
+exports.getproduct_filters = function(req, res) {
+    var minPrice = 0, maxPrice=0,categories=[];
+    Products.find({
+            $text: {
+                $search: req.params.text
+            }
+        },{'salePrice':1})
+        .sort({'salePrice':-1})
+        .limit(1)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+            maxPrice=res1[0].salePrice;
+            console.log(res1[0].salePrice);
+            Products.find({
+            $text: {
+                $search: req.params.text
+                }
+            },{'salePrice':1})
+            .sort({'salePrice':1})
+            .limit(1)
+            .exec()
+            .then(handleEntityNotFound(res))
+            .then(function(res2){
+                minPrice=res2[0].salePrice;
+
+
+                Products.aggregate({
+                    $match: {
+                        $text:{ $search: req.params.text}
+                    }
+                },{$group:{
+                    "_id":{$toLower:'$cat'},
+                    "ItemCount":{'$sum':1}
+                }},
+                {$group:{
+                    "_id":{'Cat':'$_id',
+                    "ItemCount":'$ItemCount'}
+                }
+                })
+                .exec()
+                .then(handleEntityNotFound(res))
+                .then(function(response){
+                    categories=response;
+                     res.json({categories:categories,maxPrice:maxPrice,minPrice:minPrice});
+                    
+                })
+                .catch(handleError(res));
+
+            })
+            .catch(handleError(res));
+
+        })
         .catch(handleError(res));
 };
 
@@ -163,31 +299,35 @@ exports.updateAutocomplete = function(req, res) {
     o.map = function() {
         var document = this;
         var stopwords = ["the", "this", "and", "or"];
-        var fields = ["name", "description", "s1", "s2", "s3", "brand", "p1", "p2", "sku", "dept", "cat", "subCat"];
+        var fields = ["name", "s1", "s2", "s3", "brand", "p1", "p2", "sku", "dept", "cat", "subCat"];
         fields.forEach(
             function(field) {
-                var words = (document[field]).split("");
+                if(document[field]){
+                    var words = (document[field]).split("");
 
-                // words.forEach(
-                //   function(word){
-                //     var cleaned = word.replace(/[;,.]/g,"")
-                //     if(
-                //       (stopwords.indexOf(word)>-1) ||
-                //       !(isNaN(parseInt(cleaned))) ||
-                //       !(isNaN(parseFloat(cleaned))) ||
-                //       cleaned.length < 2
-                //     )
-                //     {
-                //       return
-                //     }
-                //       emit({'word':cleaned,'productID':document._id,'field':field},1)
-                //   }
-                // )
-                emit({
-                    'word': document[field],
-                    'productID': document._id,
-                    'field': field
-                }, 1)
+                    // words.forEach(
+                    //   function(word){
+                    //     var cleaned = word.replace(/[;,.]/g,"")
+                    //     if(
+                    //       (stopwords.indexOf(word)>-1) ||
+                    //       !(isNaN(parseInt(cleaned))) ||
+                    //       !(isNaN(parseFloat(cleaned))) ||
+                    //       cleaned.length < 2
+                    //     )
+                    //     {
+                    //       return
+                    //     }
+                    //       emit({'word':cleaned,'productID':document._id,'field':field},1)
+                    //   }
+                    // )
+                    emit({
+                        'word': document[field],
+                        'dept': document.dept,                    
+                        'cat': document.cat,
+                        'productID': document._id,
+                        'field': field
+                    }, 1)
+                }
             }
         )
     }
@@ -237,9 +377,56 @@ exports.destroy = function(req, res) {
         .catch(handleError(res));
 };
 
+function copyFile(source, target) {
+    return new Promise(function(resolve, reject) {
+        var rd = fs.createReadStream(source);
+        rd.on('error', rejectCleanup);
+        var wr = fs.createWriteStream(target);
+        wr.on('error', rejectCleanup);
+        function rejectCleanup(err) {
+            rd.destroy();
+            wr.end();
+            reject(err);
+        }
+        wr.on('finish', resolve);
+        rd.pipe(wr);
+    });
+}
+
+function downloadImg(url, dest, cb) {
+    var file = fs.createWriteStream(dest);
+    var sendReq = request.get(url);
+
+    // verify response code
+    sendReq.on('response', function(response) {
+        if (response.statusCode !== 200) {
+            return cb('Response status was ' + response.statusCode);
+        }
+    });
+
+    // check for request errors
+    sendReq.on('error', function (err) {
+        fs.unlink(dest);
+        return cb(err.message);
+    });
+
+    sendReq.pipe(file);
+
+    file.on('finish', function() {
+        file.close(cb);  // close() is async, call cb after close completes.
+    });
+
+    file.on('error', function(err) { // Handle errors
+        fs.unlink(dest); // Delete the file async. (But we don't check the result)
+        return cb(err.message);
+    });
+};
+
 exports.uploadCsv = function(req, res) {
 
     var fstream, uploadPath = __dirname + '/../../../uploads/';
+    var srcImagePath = __dirname + '/../../../uploads/product_images/';
+    var destImagePath = __dirname + '/Users/gurujusmac/workspace/juskart_frontend_ng4/src/assets/product_images/';
     req.pipe(req.busboy);
     req.busboy.on('file', function(fieldname, file, filename) {
         console.log("Uploading: " + filename);
@@ -275,7 +462,7 @@ exports.uploadCsv = function(req, res) {
                 //console.log('col='+col+'row='+row);
                 //store header names
                 if (row == 3) {
-                    headers[col] = value;
+                    headers[col] = value.toLowerCase();
                     continue;
                 }
 
@@ -306,18 +493,28 @@ exports.uploadCsv = function(req, res) {
                                 obj = data[i];
 
                             for (var prop in obj) {
+                                prop=prop.toLowerCase();                                
                                 var matchedFiled = properties.filter(function(value) {
-                                    return value.fieldName == prop;
+                                    return value.fieldName.toLowerCase() == prop;
                                 })
                                 if (matchedFiled.length > 0) {
                                     //console.log('properties ='+prop);
-                                    // if (validUrl.isUri(obj[prop])){
-                                    //     console.log('Looks like an URI');
-                                    // } 
-                                    // else {
-                                    //     console.log('Not a URI');
-                                    // }
+                                    if(prop==='mainImageUrl'){
 
+                                        if (validUrl.isUri(obj[prop])){
+                                            console.log('Looks like an URI');
+                                            var prod_name= obj.Product_Name.replace(/ /g,"_");
+                                            var filename = prod_name+'_'+obj[prop].split('/').pop().split('#')[0].split('?')[0];
+                                            
+                                            downloadImg(obj[prop], destImagePath+filename)
+                                        } 
+                                        else {
+                                            console.log('Not a URI');
+                                            copyFile(srcImagePath+obj[prop],destImagePath+obj[prop]);
+                                        }
+
+                                    }
+                                    console.log(prop, obj[prop]);
                                     productObj[matchedFiled[0].ProductMappingfield] = obj[prop];
                                 } else {
                                     nonProductObj[prop] = obj[prop];

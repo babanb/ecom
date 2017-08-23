@@ -16,6 +16,10 @@ module.exports = function(app) {
   });
 
   // Insert routes below
+  app.use('/api/productFilters', require('./api/productFilter'));
+  app.use('/api/homePageSectionItems', require('./api/homePageSectionItems'));
+  app.use('/api/homePageSections', require('./api/homePageSection'));
+  app.use('/api/homePageSliders', require('./api/homePageSlider'));
   app.use('/api/checkout', require('./api/checkout'));
   app.use('/api/systemProperties', require('./api/systemProperty'));
   app.use('/api/address', require('./api/address'));

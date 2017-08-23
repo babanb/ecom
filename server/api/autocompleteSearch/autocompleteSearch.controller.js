@@ -97,7 +97,9 @@ exports.autocomplete = function(req, res) {
         // ...add each occurrence to an array...
         $push:{
           doc:"$_id.doc",
-          field:"$_id.field"
+          field:"$_id.field",
+          dept:"$_id.dept",
+          cat:"$_id.cat"
         } 
       },
       // ...and add up all occurrences to a score

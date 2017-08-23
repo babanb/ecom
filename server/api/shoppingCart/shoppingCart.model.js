@@ -9,7 +9,7 @@ var Schema = mongoose.Schema;
 var ShoppingCartSchema = new Schema({
 
     product: {
-        type: Number,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Products',
         required: true
     },

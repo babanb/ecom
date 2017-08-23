@@ -3,11 +3,10 @@
 var mongoose = require('bluebird').promisifyAll(require('mongoose'));
 var AutoIncrement = require('mongoose-auto-increment');
 AutoIncrement.initialize(mongoose.connection);
-
 var Schema = mongoose.Schema;
 
-var TodaysDealSchema = new Schema({
-    fromDate: {
+var HomePageSectionSchema = new Schema({
+  fromDate: {
         type: Date,
         required: true
     },
@@ -15,25 +14,30 @@ var TodaysDealSchema = new Schema({
         type: Date,
         required: true
     },
-    toTime: {
-        type: Date,
+    name: {
+        type: String,
         required: true
     },
-    fromTime: {
-        type: Date,
+    description: {
+        type: String
+    },
+    title: {
+        type: String
+    },
+    isAdvt: {
+        type: Boolean,
         required: true
     },
-    product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Products',
+    level: {
+        type: Number,
         required: true
     },
     _id: { type: Number, default: 1, unique: true },
 }, { _id: false });
 
-TodaysDealSchema.plugin(AutoIncrement.plugin, {
-    model: 'TodaysDeal',
+HomePageSectionSchema.plugin(AutoIncrement.plugin, {
+    model: 'HomePageSection',
     field: '_id',
     startAt: 1
 });
-module.exports = mongoose.model('TodaysDeal', TodaysDealSchema);
+module.exports = mongoose.model('HomePageSection', HomePageSectionSchema);

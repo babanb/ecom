@@ -289,6 +289,63 @@
       }
     }, 
 
+
+    "/api/homePageSliders": {
+      "get": {
+        "tags": [
+          "homePageSlider"
+        ],
+        "description": "Get all home Page Slider Images",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "homePageSlider"
+        ],
+        "description": "Add new Slider Image",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "homePageSlider Parameters",
+            "in": "body",
+            "description": "homePageSlider add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createhomePageSlider"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/homePageSliderResponse"
+            }
+          }
+        }
+      }
+    }, 
     "/api/productReviews": {
       "get": {
         "tags": [
@@ -601,6 +658,63 @@
         }
       }
     }, 
+    "/api/subCategories": {
+      "get": {
+        "tags": [
+          "subCategories"
+        ],
+        "description": "Get all subCategories",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "subCategories"
+        ],
+        "description": "Create new subCategory",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Category Parameters",
+            "in": "body",
+            "description": "subCategory add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createSubCategories"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/subCategoriesResponse"
+            }
+          }
+        }
+      }
+    },
+
      "/api/todaysDeal": {
       "get": {
         "tags": [
@@ -1308,10 +1422,6 @@
         ],
         "parameters": [
           {
-            "name": "productReviews Parameters",
-            "in": "body",
-            "description": "productReviews add to the database",
-            "required": true,
             "schema": {
               "$ref": "#/definitions/updateAutoProductRequest"
             }
@@ -1566,6 +1676,120 @@
         }
       }
     },
+    "/api/homePageSectionItems": { 
+      "get": {
+        "tags": [
+          "homePageSectionItems"
+        ],
+        "description": "Get home Page Section Items",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "homePageSectionItems"
+        ],
+        "description": "Add new home PageS ection Item",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "home Page Section Items Parameters",
+            "in": "body",
+            "description": "Items add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createHomePageSectionItems"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/createHomePageSectionItems"
+            }
+          }
+        }
+      }
+    },
+
+    "/api/homePageSections": { 
+      "get": {
+        "tags": [
+          "homePageSections"
+        ],
+        "description": "Get home Page Sections",
+        "operationId": "get",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "$ref": "#/definitions/get"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/response"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "homePageSections"
+        ],
+        "description": "Create new home Page Section",
+        "operationId": "Create",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "homePageSections Parameters",
+            "in": "body",
+            "description": "Sections add to the database",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createHomePageSections"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "create response",
+            "schema": {
+              "$ref": "#/definitions/createHomePageSections"
+            }
+          }
+        }
+      }
+    },
+
     "/api/address/{Id}": {
       "delete": {
         "tags": [
@@ -1973,6 +2197,44 @@
       }
     }, 
 
+
+    "createSubCategories": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "string",
+          "example": "non veg"
+        },
+        "category": {
+          "type": "Number",
+          "example": "1"
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean"
+        }
+      }
+    },
+    "subCategoriesResponse": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "String",
+          "example": "non veg"
+        },
+        "category": {
+          "required": true,
+          "type": "Number",
+          "example": "1"
+        },
+        "isActive": {
+          "required": true,
+          "type": "boolean",
+          "example": true
+        }
+      }
+    }, 
+
     "createproductReviews": {
       "properties": {
 
@@ -2059,6 +2321,101 @@
       }
     },
     
+     "homePageSliderResponse": {
+      "properties": {
+            "sliderImg": {
+          "type": "String", 
+          "required": true,
+          "example": "http://juskart.com/img/abc.jpg"
+        },
+        "name": {
+          "type": "String", 
+          "required": true,
+          "example": "Main Slide1"
+        },
+        "description": {
+          "type": "String", 
+          "required": true,
+          "example": "Main Slider"
+        },
+        "searchKeyword": {
+          "type": "String", 
+          "required": true,
+          "example": "Mobiles"
+        },
+        "Category": {
+          "type": "Number",
+          "example": "1"
+        },
+        "Department": {
+          "type": "Number", 
+          "required": true,
+          "example": "2"
+        },
+        "SubCategory": {
+          "type": "Number", 
+          "example": "1"
+        },
+         "fromDate": {
+          "type": "Date",
+          "required": true,
+          "example": "11-12-2016"
+        },
+        "toDate": {
+          "type": "Date",
+          "required": true,
+          "example": "11-12-2016"
+        } 
+      }
+    }, 
+
+      "createhomePageSlider": {
+      "properties": { 
+        "sliderImg": {
+          "type": "String", 
+          "required": true,
+          "example": "http://juskart.com/img/abc.jpg"
+        },
+        "name": {
+          "type": "String", 
+          "required": true,
+          "example": "Main Slide1"
+        },
+        "description": {
+          "type": "String", 
+          "required": true,
+          "example": "Main Slider"
+        },
+        "searchKeyword": {
+          "type": "String", 
+          "required": true,
+          "example": "Mobiles"
+        },
+        "Category": {
+          "type": "Number",
+          "example": "1"
+        },
+        "Department": {
+          "type": "Number", 
+          "required": true,
+          "example": "2"
+        },
+        "SubCategory": {
+          "type": "Number", 
+          "example": "1"
+        },
+         "fromDate": {
+          "type": "Date",
+          "required": true,
+          "example": "11-12-2016"
+        },
+        "toDate": {
+          "type": "Date",
+          "required": true,
+          "example": "11-12-2016"
+        }
+      }
+    },
     "createtodaysDeal": {
       "properties": { 
         "fromDate": {
@@ -2743,6 +3100,77 @@
     },
 
 
+"createHomePageSections": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "string",
+          "example": "Product_Name"
+        },
+        "fromDate": {
+          "required": true,
+          "type": "Date",
+          "example": "06-30-2017"
+        },
+        "toDate": {
+          "required": true,
+          "type": "Date",
+          "example": "09-02-2017"
+        },
+        "description": {
+          "type": "String",
+          "example": "Featured Products section"
+        },
+        "title": {
+            "type": "String",
+          "example": "Featured Products"
+        },
+        "isAdvt": {
+          "required": true,
+          "type": "Boolean",
+          "example": "true"
+        },
+        "level": {
+          "required": true,
+            "type": "Number",
+          "example": "1"
+        },
+        "isActive": {
+          "type": "Boolean",
+          "example": "true"
+        }
+      }
+    },
+
+"createHomePageSectionItems": {
+      "properties": {
+        "name": {
+          "required": true,
+          "type": "string",
+          "example": "Product_Name"
+        },
+        "searchUrl": {
+          "type": "string",
+          "example": "name"
+        },
+        "imgUrl": {
+          "type": "string",
+          "example": "http://juskart.com/asd.jpg"
+        },
+        "product": {
+          "type": "Number",
+          "example": "1"
+        },
+        "section": {
+            "type": "Number",
+          "example": "1"
+        },
+        "isActive": {
+          "type": "Boolean",
+          "example": "true"
+        }
+      }
+    },
 "createProductsPropertiesResponse": {
       "properties": {
         "fieldName": {
