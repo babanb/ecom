@@ -113,30 +113,37 @@ exports.searchProducts = function(req, res) {
                         .then(function(res2){
                      
                             var promises = [];
-
-                            // res2.forEach(function(field) {
-
-                            //     var name = field.filterOption;
-                            //     var query = {};
-                            //     query[name] = 1;
-                            //     promises.push(
-                            //         Products.find({cat:mostCommonCat})
-                            //           .select(query)
-                            //           .exec()
-                            //           .then(handleEntityNotFound(res))
-                            //           .then(function(res3){               
-                            //             filters.push({label:field.label,filterOption:field.filterOption,filters:res3});
-                            //           })          
-                            //    );
-                            // }); 
+                             promises.push(
+                                Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[{'listPrice':{"$ne":""}},{'':{"$ne":"listPrice"}}]
+                                            }
+                                         }, 
+                                        { "$group": { 
+                                            "_id": null,
+                                            "max": { "$max": "$listPrice" }, 
+                                            "min": { "$min": "$listPrice" } 
+                                            
+                                        }
+                                    })
+                                    .exec()
+                                    .then(handleEntityNotFound(res))
+                                    .then(function(resPrice){               
+                                      filters.push({label:'Price',filterOption:'listPrice',filters:resPrice, type:'range'});
+                                  })
+                            );
 
                             res2.forEach(function(field) {
 
                                 var name = '$'+field.filterOption;
-                                var condition1 = {}, condition2 = {}, f1= field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
                                 var query = {};
                                 condition1[f1]={"$ne":""};
                                 condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
 
                                 query[field.filterOption] = '$_id';
                                 query['ItemCount'] = '$ItemCount';
@@ -158,7 +165,733 @@ exports.searchProducts = function(req, res) {
                                       .exec()
                                       .then(handleEntityNotFound(res))
                                       .then(function(res3){               
-                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3});
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+// search Products from the DB
+exports.searchProductsByDeptNCatNScatNTerm = function(req, res) {
+    var productData = {};
+    Products.find({
+            'dept': {'$regex': req.params.dept,$options:'i'},
+            'cat': {'$regex': req.params.cat,$options:'i'},
+            'subCat': {'$regex': req.params.subcat,$options:'i'},
+            $text: {
+                $search: req.params.term              
+            }
+        })
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+                             promises.push(
+                                Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[{'listPrice':{"$ne":""}},{'':{"$ne":"listPrice"}}]
+                                            }
+                                         }, 
+                                        { "$group": { 
+                                            "_id": null,
+                                            "max": { "$max": "$listPrice" }, 
+                                            "min": { "$min": "$listPrice" } 
+                                            
+                                        }
+                                    })
+                                    .exec()
+                                    .then(handleEntityNotFound(res))
+                                    .then(function(resPrice){               
+                                      filters.push({label:'Price',filterOption:'listPrice',filters:resPrice, type:'range'});
+                                  })
+                            );
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+// search Products from the DB
+exports.searchProductsByDeptNCatNScat = function(req, res) {
+    var productData = {};
+    Products.find({
+                'dept': {'$regex': req.params.dept,$options:'i'},
+                'cat': {'$regex': req.params.cat,$options:'i'},
+                'subCat': {'$regex': req.params.subcat,$options:'i'}
+        })
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+                             promises.push(
+                                Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[{'listPrice':{"$ne":""}},{'':{"$ne":"listPrice"}}]
+                                            }
+                                         }, 
+                                        { "$group": { 
+                                            "_id": null,
+                                            "max": { "$max": "$listPrice" }, 
+                                            "min": { "$min": "$listPrice" } 
+                                            
+                                        }
+                                    })
+                                    .exec()
+                                    .then(handleEntityNotFound(res))
+                                    .then(function(resPrice){               
+                                      filters.push({label:'Price',filterOption:'listPrice',filters:resPrice, type:'range'});
+                                  })
+                            );
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+// search Products from the DB
+exports.searchProductsByDeptNCat = function(req, res) {
+    var productData = {};
+    Products.find({
+                'dept': {'$regex': req.params.dept,$options:'i'},
+                'cat': {'$regex': req.params.cat,$options:'i'}
+        })
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+                             promises.push(
+                                Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[{'listPrice':{"$ne":""}},{'':{"$ne":"listPrice"}}]
+                                            }
+                                         }, 
+                                        { "$group": { 
+                                            "_id": null,
+                                            "max": { "$max": "$listPrice" }, 
+                                            "min": { "$min": "$listPrice" } 
+                                            
+                                        }
+                                    })
+                                    .exec()
+                                    .then(handleEntityNotFound(res))
+                                    .then(function(resPrice){               
+                                      filters.push({label:'Price',filterOption:'listPrice',filters:resPrice, type:'range'});
+                                  })
+                            );
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+
+
+
+// search Products from the DB
+exports.searchProductsByParams = function(req, res) {
+    var query={}, page=0;
+    for(var queryname in req.query){
+        if(queryname!=='cat' && queryname !== 'q' && queryname !== 'page'){            
+            var param = req.query[queryname].toString();
+            var newparam = param.split(',');
+             var regex = newparam.map(function (e) { return new RegExp(e, "i"); });
+             query[queryname]={$in: regex};
+        }
+    }
+
+    if(req.query.hasOwnProperty('cat') && req.query['cat']!=='All'){
+        query['cat']={'$regex': req.query.cat,$options:'i'};
+    }
+    
+    if(req.params.cat!=='All'){
+        query['cat']={'$regex': req.params.cat,$options:'i'};
+    }
+
+    if(req.query.hasOwnProperty('q')){
+        query['$text']={$search: req.query.q};
+    }
+
+    if(req.query.hasOwnProperty('page')){
+        page= req.query.page
+    }
+
+    var productData = {};
+    Products.find(query)
+        .skip(parseInt(page)).limit(5)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+            //console.log(res1);
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+                             promises.push(
+                                Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[{'listPrice':{"$ne":""}},{'':{"$ne":"listPrice"}}]
+                                            }
+                                         }, 
+                                        { "$group": { 
+                                            "_id": null,
+                                            "max": { "$max": "$listPrice" }, 
+                                            "min": { "$min": "$listPrice" } 
+                                            
+                                        }
+                                    })
+                                    .exec()
+                                    .then(handleEntityNotFound(res))
+                                    .then(function(resPrice){               
+                                      filters.push({label:'Price',filterOption:'listPrice',filters:resPrice, type:'range'});
+                                  })
+                            );
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+
+// search Products from the DB
+exports.searchProductsByParamsDeptNCat = function(req, res) {
+    var query={}, page=0;
+    for(var queryname in req.query){
+        if(queryname!=='cat' && queryname !== 'q' && queryname !== 'page'){            
+            var param = req.query[queryname].toString();
+            var newparam = param.split(',');
+             var regex = newparam.map(function (e) { return new RegExp(e, "i"); });
+             query[queryname]={$in: regex};
+        }
+    }
+
+    if(req.query.hasOwnProperty('cat') && req.query['cat']!=='All'){
+        query['cat']={'$regex': req.query.cat,$options:'i'};
+    }
+    
+    if(req.query.hasOwnProperty('q')){
+        query['$text']={$search: req.query.q};
+    }
+
+    if(req.query.hasOwnProperty('page')){
+        page= req.query.page
+    }
+
+    query['dept'] = {'$regex': req.params.dept,$options:'i'};
+    query['cat'] = {'$regex': req.params.cat,$options:'i'};
+
+    var productData = {};
+    Products.find(query)
+        .skip(parseInt(page)).limit(5)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+                             promises.push(
+                                Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[{'listPrice':{"$ne":""}},{'':{"$ne":"listPrice"}}]
+                                            }
+                                         }, 
+                                        { "$group": { 
+                                            "_id": null,
+                                            "max": { "$max": "$listPrice" }, 
+                                            "min": { "$min": "$listPrice" } 
+                                            
+                                        }
+                                    })
+                                    .exec()
+                                    .then(handleEntityNotFound(res))
+                                    .then(function(resPrice){               
+                                      filters.push({label:'Price',filterOption:'listPrice',filters:resPrice, type:'range'});
+                                  })
+                            );
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+
+// search Products from the DB
+exports.searchProductsByParamsDeptNCatNScat = function(req, res) {
+    var query={}, page=0;
+    for(var queryname in req.query){
+        if(queryname!=='cat' && queryname !== 'q' && queryname !== 'page'){            
+            var param = req.query[queryname].toString();
+            var newparam = param.split(',');
+             var regex = newparam.map(function (e) { return new RegExp(e, "i"); });
+             query[queryname]={$in: regex};
+        }
+    }
+
+    if(req.query.hasOwnProperty('cat') && req.query['cat']!=='All'){
+        query['cat']={'$regex': req.query.cat,$options:'i'};
+    }
+    
+    if(req.query.hasOwnProperty('q')){
+        query['$text']={$search: req.query.q};
+    }
+
+    if(req.query.hasOwnProperty('page')){
+        page= req.query.page
+    }
+
+    query['dept'] = {'$regex': req.params.dept,$options:'i'};
+    query['cat'] = {'$regex': req.params.cat,$options:'i'};
+    query['subCat'] = {'$regex': req.params.subcat,$options:'i'};
+
+    var productData = {};
+    Products.find(query)
+        .skip(parseInt(page)).limit(5)
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+                             promises.push(
+                                Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[{'listPrice':{"$ne":""}},{'':{"$ne":"listPrice"}}]
+                                            }
+                                         }, 
+                                        { "$group": { 
+                                            "_id": null,
+                                            "max": { "$max": "$listPrice" }, 
+                                            "min": { "$min": "$listPrice" } 
+                                            
+                                        }
+                                    })
+                                    .exec()
+                                    .then(handleEntityNotFound(res))
+                                    .then(function(resPrice){               
+                                      filters.push({label:'Price',filterOption:'listPrice',filters:resPrice, type:'range'});
+                                  })
+                            );
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
+                                      })          
+                               );
+                            }); 
+
+                            Promise.all(promises)
+                            .then(function() { 
+                                productData.filters = filters;
+                                return res.json(productData); })
+                            .error(console.error);
+                        })
+                        .catch(handleError(res));
+                });
+        })
+        .catch(handleError(res));
+};
+
+
+// search Products from the DB
+exports.searchProductsByParamsDeptNCatNScatNTerm = function(req, res) {
+    //console.log(req.query);
+    var productData = {};
+    Products.find({
+            'dept': {'$regex': req.params.dept,$options:'i'},
+            'cat': {'$regex': req.params.cat,$options:'i'},
+            'subCat': {'$regex': req.params.subcat,$options:'i'},
+            $text: {
+                $search: req.params.term              
+            }
+        })
+        .exec()
+        .then(handleEntityNotFound(res))
+        .then(function(res1){
+           productData.products= res1;
+            var catArray = _.pluck(res1,'cat'); //create an array of tag values from the object array
+            var mostCommonCat = _.chain(catArray).countBy().pairs().max(_.last).head().value();
+            Category.find({name:mostCommonCat})
+                .select({_id:1})
+                .exec()
+                .then(function(cat){
+                        console.log(cat);
+                    var filters=[];
+                      ProductFilter.find({categoryID:cat[0]._id})
+                        .exec()
+                        .then(handleEntityNotFound(res))
+                        .then(function(res2){
+                     
+                            var promises = [];
+
+                            res2.forEach(function(field) {
+
+                                var name = '$'+field.filterOption;
+                                var condition1 = {}, condition2 = {}, f1= field.filterOption, selectedFilters={};
+                                var query = {};
+                                condition1[f1]={"$ne":""};
+                                condition2[f1]={"$ne":null};
+                                if(req.query[field.filterOption]){                                    
+                                    selectedFilters[field.filterOption]=req.query[field.filterOption];
+                                }
+
+                                query[field.filterOption] = '$_id';
+                                query['ItemCount'] = '$ItemCount';
+                                console.log(name);
+                                promises.push(
+                                    Products.aggregate({
+                                         $match: {
+                                            cat:mostCommonCat,
+                                            "$and":[condition1,condition2]
+                                            }
+                                         },{$group:{
+                                            "_id":{$toLower:name},
+                                            "ItemCount":{'$sum':1}
+                                        }},
+                                        {$group:{
+                                            "_id":query
+                                        }
+                                    })
+                                      .exec()
+                                      .then(handleEntityNotFound(res))
+                                      .then(function(res3){               
+                                        filters.push({label:field.label,filterOption:field.filterOption,filters:res3, type:field.type, selectedFilters: selectedFilters});
                                       })          
                                );
                             }); 

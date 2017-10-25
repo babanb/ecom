@@ -41,6 +41,7 @@
     "sequelize": "^3.5.1",
     "serve-favicon": "^2.3.0",
     "sqlite3": "^3.1.8",
+    "swagger-jsdoc": "^1.9.7",
     "swagger-node-express": "~2.0",
     "valid-url": "^1.0.9",
     "xlsx": "^0.8.0",

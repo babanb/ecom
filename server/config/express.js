@@ -9,6 +9,7 @@ import favicon from 'serve-favicon';
 import morgan from 'morgan';
 import minimist from 'minimist';
 import swagger from 'swagger-node-express';
+import swaggerJSDoc from 'swagger-jsdoc';
 import compression from 'compression';
 import bodyParser from 'body-parser';
 import methodOverride from 'method-override';
@@ -67,6 +68,29 @@ module.exports = function(app) {
     }));
   }
 
+const spec = swaggerJSDoc({
+  swaggerDefinition: {
+    info: {
+      title: 'Project title',
+      version: '1.0.0'
+    },
+    produces: ['application/json'],
+    consumes: ['application/json'],
+    securityDefinitions: {
+      jwt: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header'
+      }
+    },
+    security: [
+      { jwt: [] }
+    ]
+  },
+  apis: [
+    './server/api/**/index.js'
+  ]
+});
 
 var subpath = express();
 app.use(bodyParser());
@@ -82,6 +106,11 @@ swagger.setApiInfo({
     contact: "yourname@something.com",
     license: "",
     licenseUrl: ""
+});
+
+app.use('/api-docs.json', (req, res) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(spec);
 });
 
 subpath.get('/', function (req, res) {
